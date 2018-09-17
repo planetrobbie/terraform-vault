@@ -3,10 +3,9 @@ data "vault_generic_secret" "app_secret" {
 }
 
 data "template_file" "credentials" {
-  template = "username: $${username}}\npassword: $${{password}}"
+  template = "username: $${creds["username"]}}\npassword: $${{creds["password"]}}"
 
   vars {
-    username  = "${data.vault_generic_secret.app_secret.data["username"]}"
-    password  = "${data.vault_generic_secret.app_secret.data["password"]}"
+    creds  = "${data.vault_generic_secret.app_secret.data}"
   }
 }
