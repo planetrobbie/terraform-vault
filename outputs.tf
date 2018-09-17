@@ -3,7 +3,7 @@ output "app_secret" {
   value = "${data.vault_generic_secret.app_secret.data["username"]}"
 }
 
-output "config_file {
+output "config_file" {
   description = "rendered template which consume Vault secrets"
   value = "${data.template_file.credentials.rendered}"
-}`  
+}
