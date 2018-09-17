@@ -6,6 +6,6 @@ data "template_file" "credentials" {
   template = "username: $${creds["username"]}}\npassword: $${{creds["password"]}}"
 
   vars {
-    creds  = "${data.vault_generic_secret.app_secret.data}"
+    creds  = ${data.vault_generic_secret.app_secret.data}
   }
 }
