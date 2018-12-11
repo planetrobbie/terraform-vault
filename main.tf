@@ -1,4 +1,5 @@
 provider "vault" {
+  address = "https://vault-gcp.yet.org"
 }
 
 data "vault_generic_secret" "app_secret" {
