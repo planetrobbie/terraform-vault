@@ -10,6 +10,7 @@ resource "google_sql_database_instance" "master" {
       zone = "${var.region_zone}"
     }
   }
+  depends_on = ["google_project_services.project"]
 }
 
 resource "google_sql_database" "users" {
