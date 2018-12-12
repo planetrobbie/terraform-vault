@@ -5,7 +5,7 @@ resource "random_id" "name" {
 }
 
 resource "google_sql_database_instance" "master" {
-  name = "${var.db_instance_name}-${random_id.name.hex}"
+  name = "${var.db_instance_name}-f39e"
   database_version = "MYSQL_5_7"
   settings {
     # db-f1-micro tier is the smallest Cloud SQL Tier: 128 MiB RAM / 256 GiB Disk
