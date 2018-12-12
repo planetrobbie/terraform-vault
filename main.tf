@@ -7,6 +7,12 @@ provider "google" {
   project     = "${var.project_name}"
 }
 
+# Enable Google Cloud API - required for `vault-db` database creation.
+resource "google_project_services" "project" {
+  project = "${var.project_name}"
+  services   = ["sql-component.googleapis.com"]
+}
+
 data "vault_generic_secret" "app_secret" {
   path = "kv/app_secret"
 }
