@@ -15,12 +15,12 @@ resource "google_sql_database_instance" "master" {
     location_preference {
       zone = "${var.region_zone}"
     }
-    ip_configuration {
+    ip_configuration = [{
       authorized_networks = [
-        "${data.dns_a_record_set.v1.addrs}",
-        "${data.dns_a_record_set.v2.addrs}",
+        {value = "${data.dns_a_record_set.v1.addrs}"},
+        {value = "${data.dns_a_record_set.v2.addrs}"},
       ]
-    }
+    }]
   }
 }
 
