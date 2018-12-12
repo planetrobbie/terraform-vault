@@ -11,6 +11,6 @@ output "v2_addrs" {
   value = "${data.dns_a_record_set.v2.addrs}"
 }
 
-#output "mysql_ip" {
-#  value = "mysql://${var.db_user}:${var.db_password}@${google_sql_database_instance.master.ip_address.0.ip_address}:3306/${var.db_name}"
-#}
+output "mysql_ip" {
+  value = "mysql://${var.db_user}:${var.db_password}@${google_sql_database_instance.master.ip_address.0.ip_address}:3306/${var.db_name}"
+}
