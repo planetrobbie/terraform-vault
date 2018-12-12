@@ -7,16 +7,31 @@ provider "google" {
   project     = "${var.project_name}"
 }
 
-# Enable Google Cloud API - required for `vault-db` database creation.
-resource "google_project_service" "sql-component" {
+# Enable required Google Cloud API
+resource "google_project_services" "project" {
   project = "${var.project_name}"
-  service = "sql-component.googleapis.com"
-}
-
-# Enable Google Cloud Admin API - also required for `vault-db` database creation.
-resource "google_project_service" "sql-admin" {
-  project = "${var.project_name}"
-  service = "sqladmin.googleapis.com"
+  services = [
+    "cloudapis.googleapis.com",
+    "cloudkms.googleapis.com",
+    "cloudresourcemanager.googleapis.com",
+    "compute.googleapis.com",
+    "datastore.googleapis.com",
+    "dns.googleapis.com",
+    "iam.googleapis.com",
+    "iamcredentials.googleapis.com",
+    "logging.googleapis.com",
+    "monitoring.googleapis.com",
+    "oslogin.googleapis.com",
+    "servicemanagement.googleapis.com",
+    "serviceusage.googleapis.com",
+    "storage-api.googleapis.com",
+    "storage-component.googleapis.com",
+    "sqladmin.googleapis.com",
+    "sql-component.googleapis.com",
+    "clouddebugger.googleapis.com",
+    "cloudtrace.googleapis.com",
+    "bigquery-json.googleapis.com",
+  ]
 }
 
 data "vault_generic_secret" "app_secret" {
