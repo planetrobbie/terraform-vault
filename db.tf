@@ -15,6 +15,12 @@ resource "google_sql_database_instance" "master" {
     location_preference {
       zone = "${var.region_zone}"
     }
+    ip_configuration {
+      authorized_networks = [
+        "${data.dns_a_record_set.v1.addrs}",
+        "${data.dns_a_record_set.v2.addrs}",
+      ]
+    }
   }
 }
 
@@ -43,6 +49,6 @@ resource "vault_database_secret_backend_connection" "mysql" {
   allowed_roles = ["ops", "dev"]
 
   mysql {
-    connection_url = "mysql://${var.db_user}:${var.db_password}@${google_sql_database_instance.master.ip_address.0.ip_address}:3306/${var.db_name}"
+    connection_url = "${var.db_user}:${var.db_password}@tcp(${google_sql_database_instance.master.ip_address.0.ip_address}:3306)/"
   }
 }
