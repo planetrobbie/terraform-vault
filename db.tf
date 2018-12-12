@@ -16,10 +16,12 @@ resource "google_sql_database_instance" "master" {
 resource "google_sql_database" "users" {
   name      = "${var.db_name}"
   instance  = "${google_sql_database_instance.master.name}"
+  depends_on = ["google_project_services.project"]
 }
 
 resource "google_sql_user" "users" {
   name     = "${var.db_user}"
   instance = "${google_sql_database_instance.master.name}"
   password = "${var.db_password}"
+  depends_on = ["google_project_services.project"]
 }
