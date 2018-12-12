@@ -12,9 +12,7 @@ resource "google_sql_database_instance" "master" {
     # Second-generation instance tiers are based on the machine
     # to list all available ones: gcloud sql tiers list
     tier = "db-f1-micro"
-    location_preference {
-      zone = "${var.region_zone}"
-    }
+    
     ip_configuration = [{
       authorized_networks = [
         {value = "${data.dns_a_record_set.v1.addrs.0}"},
