@@ -7,6 +7,10 @@ provider "google" {
   project     = "${var.project_name}"
 }
 
+provider "dns" {
+  server      = "8.8.8.8"
+}
+
 # COMMENTED OUT - as of TF 0.11.10 and Google provider 1.19.1 services are enabled asynchrously which cause issues
 # TF wait wait while API are correctly enabled = bad detection it seems !!!
 # So until it is fixed read our [GCP Getting Started Guide](https://github.com/planetrobbie/terraform-gcp-hashistack/blob/master/GCP.md) to see how to enable GCP APIs.
