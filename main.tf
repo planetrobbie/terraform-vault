@@ -1,5 +1,10 @@
 provider "vault" {
-  address = "https://vault-gcp.yet.org"
+  address = "${var.vault_addr}"
+}
+
+provider "google" {
+  region      = "${var.region}"
+  project     = "${var.project_name}"
 }
 
 data "vault_generic_secret" "app_secret" {
