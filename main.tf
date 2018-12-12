@@ -13,6 +13,12 @@ resource "google_project_service" "project" {
   service = "sql-component.googleapis.com"
 }
 
+# Enable Google Cloud Admin API - also required for `vault-db` database creation.
+resource "google_project_service" "project" {
+  project = "${var.project_name}"
+  service = "sqladmin.googleapis.com"
+}
+
 data "vault_generic_secret" "app_secret" {
   path = "kv/app_secret"
 }
