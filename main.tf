@@ -8,7 +8,6 @@ provider "google" {
 }
 
 provider "dns" {
-  server      = "8.8.8.8"
 }
 
 # COMMENTED OUT - as of TF 0.11.10 and Google provider 1.19.1 services are enabled asynchrously which cause issues
