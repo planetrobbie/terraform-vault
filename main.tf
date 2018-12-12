@@ -28,23 +28,9 @@ resource "google_project_services" "project" {
     "storage-component.googleapis.com",
     "sqladmin.googleapis.com",
     "sql-component.googleapis.com",
-    "clouddebugger.googleapis.com",
-    "cloudtrace.googleapis.com",
-    "bigquery-json.googleapis.com",
   ]
 }
 
 data "vault_generic_secret" "app_secret" {
   path = "kv/app_secret"
-}
-
-# Adding a policy
-resource "vault_policy" "policy_from_terraform_provider" {
-  name = "policy_from_terraform_provider"
-
-  policy = <<EOF
-path "kv/*" {
-        policy = "read"
-}
-EOF
 }
