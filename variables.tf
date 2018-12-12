@@ -20,17 +20,17 @@ variable "vault_addr" {
 
 variable "db_instance_name" {
   description = "MySQL Database Instance Name"
-  default = "vault_mysql_instance"
+  default = "vault-mysql-instance"
 }
 
 variable "db_name" {
   description = "MySQL Database Instance Name"
-  default = "vault_db"
+  default = "vault-db"
 }
 
 variable "db_user" {
   description = "MySQL Database Username"
-  default = "vault_user"
+  default = "vault-user"
 }
 
 variable "db_password" {
