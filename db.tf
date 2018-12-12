@@ -1,6 +1,7 @@
 resource "google_sql_database_instance" "master" {
-  name = "vault-instance"
+  name = "${var.db_instance_name}"
   database_version = "MYSQL_5_7"
+  zone = "${var.region_zone}"
   settings {
     # db-f1-micro tier is the smallest Cloud SQL Tier: 128 MiB RAM / 256 GiB Disk
     # Second-generation instance tiers are based on the machine
@@ -10,12 +11,12 @@ resource "google_sql_database_instance" "master" {
 }
 
 resource "google_sql_database" "users" {
-  name      = "vault-db"
+  name      = "${var.db_name}"
   instance  = "${google_sql_database_instance.master.name}"
 }
 
 resource "google_sql_user" "users" {
-  name     = "vault-user"
+  name     = "${var.db_user}"
   instance = "${google_sql_database_instance.master.name}"
-  password = "vpass"
+  password = "${var.db_password}"
 }
