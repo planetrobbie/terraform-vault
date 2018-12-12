@@ -41,6 +41,6 @@ variable "db_password" {
 ### DNS 
 
 # Google Cloud DNS Domain
-variable "gcp_dns_domain" {
+variable "dns_domain" {
   description = "DNS Domain where to find Vault and Consul servers"
 }
