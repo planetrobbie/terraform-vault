@@ -37,3 +37,10 @@ variable "db_password" {
   description = "MySQL Database Password"
   default = "vpass"
 }
+
+### DNS 
+
+# Google Cloud DNS Domain
+variable "gcp_dns_domain" {
+  description = "DNS Domain where to find Vault and Consul servers"
+}
