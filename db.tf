@@ -5,7 +5,7 @@ resource "random_id" "name" {
 }
 
 resource "google_sql_database_instance" "master" {
-  name = "${var.db_instance_name}-f39e"
+  name = "${var.db_instance_name}-${random_id.name.hex}"
   database_version = "MYSQL_5_7"
   settings {
     # db-f1-micro tier is the smallest Cloud SQL Tier: 128 MiB RAM / 256 GiB Disk
@@ -17,8 +17,8 @@ resource "google_sql_database_instance" "master" {
     }
     ip_configuration = [{
       authorized_networks = [
-        {value = "${data.dns_a_record_set.v1.addrs.value}"},
-        {value = "${data.dns_a_record_set.v2.addrs.value}"},
+        {value = "${data.dns_a_record_set.v1.addrs.0}"},
+        {value = "${data.dns_a_record_set.v2.addrs.0}"},
       ]
     }]
   }
