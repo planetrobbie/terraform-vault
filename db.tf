@@ -1,7 +1,7 @@
 # It's not possible to reuse an instance name for up to a week after deletion.
 # so we randomize the db name to avoid conflicting names.
 resource "random_id" "name" {
-  byte_length = 2
+  byte_length = 3
 }
 
 resource "google_sql_database_instance" "master" {
@@ -12,7 +12,7 @@ resource "google_sql_database_instance" "master" {
     # Second-generation instance tiers are based on the machine
     # to list all available ones: gcloud sql tiers list
     tier = "db-f1-micro"
-    
+
     ip_configuration = [{
       authorized_networks = [
         {value = "${data.dns_a_record_set.v1.addrs.0}"},
