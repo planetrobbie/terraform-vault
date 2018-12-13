@@ -12,7 +12,7 @@ resource "vault_generic_secret" "bookshelf" {
 
   data_json = <<EOT
 {
-  "project_id": "${project_name}",
+  "project_id": "${var.project_name}",
   "host": "${google_sql_database_instance.master.ip_address.0.ip_address}",
   "database":   "bookshelf",  
   "username": "sebbraun",
