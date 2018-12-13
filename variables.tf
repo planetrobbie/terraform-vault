@@ -63,6 +63,12 @@ variable vault_kv_options {
   }
 }
 
+### Transit Secret Engine
+variable "enable_secret_engine_transit" {
+  description = "set to false to disable Transit Secret Engine use case"
+  default = true
+}
+
 ### Bookshelf App
 
 variable "db_bookshelf_password" {
