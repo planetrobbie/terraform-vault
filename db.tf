@@ -1,10 +1,12 @@
 # It's not possible to reuse an instance name for up to a week after deletion.
 # so we randomize the db name to avoid conflicting names.
 resource "random_id" "name" {
+  count = "${var.enable_secret_engine_db}"
   byte_length = 3
 }
 
 resource "google_sql_database_instance" "master" {
+  count = "${var.enable_secret_engine_db}"
   name = "${var.db_instance_name}-${random_id.name.hex}"
   database_version = "MYSQL_5_7"
   
@@ -27,17 +29,20 @@ resource "google_sql_database_instance" "master" {
 }
 
 resource "google_sql_database" "vault-db" {
+  count = "${var.enable_secret_engine_db}"
   name      = "${var.db_name}"
   instance  = "${google_sql_database_instance.master.name}"
 }
 
 resource "google_sql_user" "user" {
+  count = "${var.enable_secret_engine_db}"
   name     = "${var.db_user}"
   instance = "${google_sql_database_instance.master.name}"
   password = "${var.db_password}"
 }
 
 resource "vault_mount" "database" {
+  count = "${var.enable_secret_engine_db}"
   path        = "db"
   type        = "database"
   description = "A database secret engine"
@@ -46,6 +51,7 @@ resource "vault_mount" "database" {
 }
 
 resource "vault_database_secret_backend_connection" "mysql" {
+  count = "${var.enable_secret_engine_db}"
   backend       = "${vault_mount.database.path}"
   name          = "mysql"
   allowed_roles = ["ops", "dev"]
@@ -57,6 +63,7 @@ resource "vault_database_secret_backend_connection" "mysql" {
 }
 
 resource "vault_database_secret_backend_role" "ops" {
+  count = "${var.enable_secret_engine_db}"
   backend             = "${vault_mount.database.path}"
   name                = "ops"
   db_name             = "${vault_database_secret_backend_connection.mysql.name}"

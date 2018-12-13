@@ -16,7 +16,12 @@ variable "vault_addr" {
   description = "Vault API Address"
 }
 
-### MySQL Database
+### MySQL Secret Engine
+
+variable "enable_secret_engine_db" {
+  description = "false to disable MySQL Secret Engine use case"
+  default = true
+}
 
 variable "db_instance_name" {
   description = "MySQL Database Instance Name"
