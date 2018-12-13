@@ -10,7 +10,6 @@ resource "null_resource" "remote-exec" {
     host = "${data.dns_a_record_set.v1.addrs.0}"
     user = "${var.ssh_user}"
     private_key = "${var.priv_key}"
-    agent = true
   }
 
   // copy our example script to the server
