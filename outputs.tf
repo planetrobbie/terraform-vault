@@ -1,7 +1,7 @@
-output "app_secret" {
-  description = "secret out of our Vault"
-  value = "${data.vault_generic_secret.app_secret.data["username"]}"
-}
+#output "bookshelf" {
+#  description = "secret out of our Vault"
+#  value = "${data.vault_generic_secret.bookshelf.data["username"]}"
+#}
 
 output "v1_addrs" {
   value = "${data.dns_a_record_set.v1.addrs}"
