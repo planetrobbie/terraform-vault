@@ -19,7 +19,7 @@ variable "vault_addr" {
 ### MySQL Secret Engine
 
 variable "enable_secret_engine_db" {
-  description = "false to disable MySQL Secret Engine use case"
+  description = "set to false to disable MySQL Secret Engine use case"
   default = true
 }
 

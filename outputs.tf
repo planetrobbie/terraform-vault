@@ -12,5 +12,5 @@ output "v2_addrs" {
 }
 
 output "mysql_connection_string" {
-  value = "${var.enable_secret_engine_db != 0 ? "mysql://var.db_user:var.db_password@google_sql_database_instance.master.ip_address.0.ip_address:3306/var.db_name" : "Database secret engine not enabled"}"
+  value = "${var.enable_secret_engine_db != 0 ? format("mysql://%s:%s@%s:3306/%s", var.db_user, var.db_password, google_sql_database_instance.master.ip_address.0.ip_address, var.db_name) : "Database secret engine not enabled"}"
 }
