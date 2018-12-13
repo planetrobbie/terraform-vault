@@ -63,6 +63,13 @@ variable vault_kv_options {
   }
 }
 
+### Bookshelf App
+
+variable "db_bookshelf_password" {
+  description = "password to access bookshelf db"
+  default = ""
+}
+
 ### DNS 
 
 # Google Cloud DNS Domain
