@@ -49,6 +49,7 @@ resource "vault_database_secret_backend_connection" "mysql" {
   backend       = "${vault_mount.database.path}"
   name          = "mysql"
   allowed_roles = ["ops", "dev"]
+  verify_connection = false
 
   mysql {
     connection_url = "${var.db_user}:${var.db_password}@tcp(${google_sql_database_instance.master.ip_address.0.ip_address}:3306)/"
