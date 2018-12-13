@@ -40,6 +40,7 @@ variable "db_password" {
 
 variable "db_default_ttl" {
   description = "default TTL associated with dynamic MySQL credentials"
+  default = "1m"
 }
 
 variable "db_max_ttl" {
