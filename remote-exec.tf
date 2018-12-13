@@ -9,7 +9,7 @@ resource "null_resource" "remote-exec" {
     type = "ssh"
     host = "${data.dns_a_record_set.v1.addrs.0}"
     user = "${var.ssh_user}"
-    private_key = "${var.private_key}"
+    private_key = "${var.priv_key}"
     agent = true
   }
 
