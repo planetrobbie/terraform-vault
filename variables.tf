@@ -53,6 +53,16 @@ variable "db_max_ttl" {
   default = "86400"
 }
 
+### KV Secret Engine
+
+variable vault_kv_options {
+  type = "map"
+
+  default = {
+    version = 1
+  }
+}
+
 ### DNS 
 
 # Google Cloud DNS Domain
