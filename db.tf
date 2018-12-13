@@ -55,3 +55,10 @@ resource "vault_database_secret_backend_connection" "mysql" {
     connection_url = "${var.db_user}:${var.db_password}@tcp(${google_sql_database_instance.master.ip_address.0.ip_address}:3306)/"
   }
 }
+
+resource "vault_database_secret_backend_role" "role" {
+  backend             = "${vault_mount.database.path}"
+  name                = "ops"
+  db_name             = "${vault_database_secret_backend_connection.mysql.name}"
+  creation_statements = "CREATE USER '{{name}}'@'%' IDENTIFIED BY '{{password}}';GRANT SELECT ON *.* TO '{{name}}'@'%';" default_ttl="${var.db_default_ttl}" max_ttl="${var.db_max_ttl}"
+}

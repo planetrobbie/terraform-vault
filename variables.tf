@@ -38,6 +38,15 @@ variable "db_password" {
   default = "vpass"
 }
 
+variable "db_default_ttl" {
+  description = "default TTL associated with dynamic MySQL credentials"
+}
+
+variable "db_max_ttl" {
+  description = "max TTL associated with dynamic MySQL credentials"
+  default = "24h"
+}
+
 ### DNS 
 
 # Google Cloud DNS Domain
