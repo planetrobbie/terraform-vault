@@ -16,7 +16,7 @@ resource "vault_generic_secret" "bookshelf" {
   "host": "${google_sql_database_instance.master.ip_address.0.ip_address}",
   "database":   "bookshelf",  
   "username": "sebbraun",
-  "password": ${db_bookshelf_password}"
+  "password": ${var.db_bookshelf_password}"
 }
 EOT
 }
