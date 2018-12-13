@@ -39,13 +39,13 @@ variable "db_password" {
 }
 
 variable "db_default_ttl" {
-  description = "default TTL associated with dynamic MySQL credentials"
-  default = "1m"
+  description = "default TTL associated with dynamic MySQL credentials (seconds)"
+  default = "60"
 }
 
 variable "db_max_ttl" {
-  description = "max TTL associated with dynamic MySQL credentials"
-  default = "24h"
+  description = "max TTL associated with dynamic MySQL credentials (seconds)"
+  default = "86400"
 }
 
 ### DNS 
