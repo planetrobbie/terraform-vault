@@ -82,3 +82,14 @@ variable "db_bookshelf_password" {
 variable "dns_domain" {
   description = "DNS Domain where to find Vault and Consul servers"
 }
+
+### Remote-exec [SSH]
+
+variable ssh_user {
+  description = "users to connect to instances thru SSH"
+  default = "sebastien"
+}
+
+variable priv_key {
+  description = "private key to connect to Vault Instances."
+}
