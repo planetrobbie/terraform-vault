@@ -37,7 +37,3 @@ provider "dns" {
 #    "sql-component.googleapis.com",
 #  ]
 #}
-
-data "vault_generic_secret" "bookshelf" {
-  path = "kv/bookshelf"
-}
