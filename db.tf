@@ -28,6 +28,12 @@ resource "google_sql_database_instance" "master" {
   }
 }
 
+resource "google_sql_database" "bookshelf" {
+  count = "${var.enable_secret_engine_db}"
+  name      = "bookshelf"
+  instance  = "${google_sql_database_instance.master.name}"
+}
+
 resource "google_sql_database" "vault-db" {
   count = "${var.enable_secret_engine_db}"
   name      = "${var.db_name}"
