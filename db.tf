@@ -7,8 +7,10 @@ resource "random_id" "name" {
 resource "google_sql_database_instance" "master" {
   name = "${var.db_instance_name}-${random_id.name.hex}"
   database_version = "MYSQL_5_7"
-  region = "europe-west1"
   
+  # This attribute is really important to avoid resource force new at each apply
+  region = "${var.region}"
+
   settings {
     # db-f1-micro tier is the smallest Cloud SQL Tier: 128 MiB RAM / 256 GiB Disk
     # Second-generation instance tiers are based on the machine
