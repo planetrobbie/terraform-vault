@@ -14,7 +14,7 @@ resource "null_resource" "remote-exec" {
 
   // copy our example script to the server
   provisioner "file" {
-    source      = "files/script.sh"
+    source      = "./files/script.sh"
     destination = "/tmp/scriptp.sh"
   }
 
