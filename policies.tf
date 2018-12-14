@@ -21,7 +21,7 @@ EOF
 }
 
 # allow read only access to key/value secret engine mounted at kv/
-# restrict access to kv/priv/*
+# restrict access to kv/priv
 resource "vault_policy" "dev" {
   name = "dev"
 
@@ -34,14 +34,14 @@ path "kv/*" {
   capabilities = ["read", "list"]
 }
 
-path "kv/priv/*" {
+path "kv/priv" {
   capabilities = ["deny"]
 }
 EOF
 }
 
 # allow all operations on kv/
-# restrict access to kv/priv/*
+# restrict access to kv/priv
 resource "vault_policy" "ops" {
   name = "ops"
 
@@ -54,7 +54,7 @@ path "kv/*" {
   capabilities = ["create", "read", "update", "delete", "list"]
 }
 
-path "kv/priv/*" {
+path "kv/priv" {
   capabilities = ["deny"]
 }
 EOF
