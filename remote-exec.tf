@@ -1,4 +1,5 @@
 # remote-exec used to overcome lack of support for certain Vault Operations
+# will convert them over to native HCL when the provider will support the corresponding operations.
 
 data "template_file" "script" {
   template = "${file("./files/script.tpl")}"
@@ -11,7 +12,7 @@ data "template_file" "script" {
 resource "null_resource" "remote-exec" {
   triggers {
 #    public_ip = "${data.dns_a_record_set.v1.addrs.0}"
-    version = 1
+    version = 2
   }
 
   connection {

@@ -3,4 +3,5 @@
 export VAULT_ADDR='${vault_address}'
 export VAULT_CACERT=/etc/vault/tls/ca.crt
 
-/usr/local/bin/vault status
+# Create Ops user
+/usr/local/bin/vault write auth/userpass/users/ops password=ops
