@@ -50,7 +50,7 @@ resource "null_resource" "remote-exec" {
 }
 
 # Copy over MySQL connection script to v1 if DB Secret Engine enabled
-resource "null_resource" "mysql-client" {
+resource "null_resource" "demo" {
   count = "${var.enable_secret_engine_db}"
   triggers {
     demo = "${data.template_file.demo.rendered}"
