@@ -12,8 +12,14 @@ variable "project_name" {
   description = "GCP project targeted"
 }
 
+### Vault Provider
+
 variable "vault_addr" {
   description = "Vault API Address"
+}
+
+variable "vault_token" {
+  description = "Vault Token"
 }
 
 ### MySQL Secret Engine
