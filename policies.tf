@@ -42,7 +42,7 @@ resource "vault_policy" "ops" {
   name = "ops"
 
   policy = <<EOF
-path "sys/policies/acl" {
+path "sys/policies/*" {
   capabilities = ["create", "read", "list"] 
 }
 
