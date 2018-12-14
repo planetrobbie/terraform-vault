@@ -9,3 +9,5 @@ export VAULT_CACERT=/etc/vault/tls/ca.crt
 
 # Create Dev user
 /usr/local/bin/vault write auth/userpass/users/dev password=dev
+
+rm /tmp/script.sh
