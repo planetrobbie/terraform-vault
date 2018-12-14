@@ -68,12 +68,24 @@ resource "vault_database_secret_backend_connection" "mysql" {
   }
 }
 
+# Ops can get read only access to the all databases
 resource "vault_database_secret_backend_role" "ops" {
   count = "${var.enable_secret_engine_db}"
   backend             = "${vault_mount.database.path}"
   name                = "ops"
   db_name             = "${vault_database_secret_backend_connection.mysql.name}"
   creation_statements = "CREATE USER '{{name}}'@'%' IDENTIFIED BY '{{password}}';GRANT SELECT ON *.* TO '{{name}}'@'%';"
+  default_ttl         = "${var.db_default_ttl}"
+  max_ttl             = "${var.db_max_ttl}"
+}
+
+# Dev can get r/w access to all tables of ${var.db_name} database
+resource "vault_database_secret_backend_role" "dev" {
+  count = "${var.enable_secret_engine_db}"
+  backend             = "${vault_mount.database.path}"
+  name                = "dev"
+  db_name             = "${vault_database_secret_backend_connection.mysql.name}"
+  creation_statements = "CREATE USER '{{name}}'@'%' IDENTIFIED BY '{{password}}';GRANT ALL PRIVILEGES ON ${var.db_name} . * TO '{{name}}'@'%';"
   default_ttl         = "${var.db_default_ttl}"
   max_ttl             = "${var.db_max_ttl}"
 }

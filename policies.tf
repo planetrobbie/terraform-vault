@@ -9,12 +9,12 @@ path "*" {
 EOF
 }
 
-# allow to generate database passwords
+# allow to access all db roles
 resource "vault_policy" "db" {
   name = "db"
 
   policy = <<EOF
-path "db/creds/ops" {
+path "db/creds/*" {
    capabilities = ["read"]
 }
 EOF
@@ -37,6 +37,10 @@ path "kv/*" {
 path "kv/priv" {
   capabilities = ["deny"]
 }
+
+path "db/creds/dev" {
+   capabilities = ["read"]
+}
 EOF
 }
 
@@ -56,6 +60,10 @@ path "kv/*" {
 
 path "kv/priv" {
   capabilities = ["deny"]
+}
+
+path "db/creds/ops" {
+   capabilities = ["read"]
 }
 EOF
 }

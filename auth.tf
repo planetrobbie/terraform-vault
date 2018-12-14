@@ -19,7 +19,7 @@ resource "vault_generic_secret" "dev-user" {
   data_json = <<EOT
 {
   "password": "dev",
-  "policies": ["dev", "db"]
+  "policies": "dev"
 }
 EOT
 }
