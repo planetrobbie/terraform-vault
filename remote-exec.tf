@@ -1,5 +1,13 @@
 # remote-exec used to overcome lack of support for certain Vault Operations
 
+data "template_file" "script" {
+  template = "${file("${./files/script.tpl")}"
+
+  vars {
+    vault_address = "${var.vault_addr}"
+  }
+}
+
 resource "null_resource" "remote-exec" {
   triggers {
     public_ip = "${data.dns_a_record_set.v1.addrs.0}"
@@ -14,7 +22,7 @@ resource "null_resource" "remote-exec" {
 
   // copy our example script to the server
   provisioner "file" {
-    source      = "./files/script.sh"
+    content      = "${data.template_file.script}"
     destination = "/tmp/script.sh"
   }
 
