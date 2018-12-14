@@ -10,8 +10,8 @@ data "template_file" "script" {
   }
 }
 
-data "template_file" "mysql" {
-  template = "${file("./files/mysql.tpl")}"
+data "template_file" "demo" {
+  template = "${file("./files/demo.tpl")}"
 
   vars {
     db_user = "${var.db_user}"
@@ -67,13 +67,13 @@ resource "null_resource" "mysql-client" {
 
   // copy our example script to the server
   provisioner "file" {
-    content      = "${data.template_file.mysql.rendered}"
-    destination = "/home/${var.ssh_user}/mysql.sh"
+    content      = "${data.template_file.demo.rendered}"
+    destination = "/home/${var.ssh_user}/demo.sh"
   }
 
   provisioner "remote-exec" {
     inline = [
-      "chmod +x /home/${var.ssh_user}/mysql.sh",
+      "chmod +x /home/${var.ssh_user}/demo.sh",
     ]
   }
 }
