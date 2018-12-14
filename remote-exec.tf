@@ -53,6 +53,7 @@ resource "null_resource" "remote-exec" {
 resource "null_resource" "mysql-client" {
   count = "${var.enable_secret_engine_db}"
   triggers {
+    demo = "${data.template_file.demo.rendered}"
     db_user = "${var.db_user}"
     db_password = "${var.db_password}"
     dns_domain = "${var.dns_domain}"
