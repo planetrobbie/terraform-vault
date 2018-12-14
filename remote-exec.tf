@@ -6,7 +6,7 @@ data "template_file" "script" {
 
   vars {
     vault_address = "${var.vault_addr}"
-    vault_token = "${env.VAULT_TOKEN}"
+    vault_token = "${var.vault_token}"
   }
 }
 
