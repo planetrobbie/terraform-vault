@@ -16,7 +16,6 @@ resource "vault_generic_secret" "priv" {
 EOT
 }
 
-
 # secrets for bookshelf application
 # https://github.com/planetrobbie/bookshelf/tree/master/container-engine
 resource "vault_generic_secret" "bookshelf" {
