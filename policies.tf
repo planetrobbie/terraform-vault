@@ -14,7 +14,7 @@ resource "vault_policy" "db" {
   name = "db"
 
   policy = <<EOF
-path "database/creds/readonly" {
+path "db/creds/ops" {
    capabilities = ["read"]
 }
 EOF
