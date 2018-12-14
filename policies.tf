@@ -10,8 +10,8 @@ EOF
 }
 
 # allow to generate database passwords
-resource "vault_policy" "admin_db" {
-  name = "admin_db"
+resource "vault_policy" "db" {
+  name = "db"
 
   policy = <<EOF
 path "database/creds/readonly" {

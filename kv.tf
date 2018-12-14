@@ -5,6 +5,18 @@ resource "vault_mount" "kv" {
   options     = "${var.vault_kv_options}"
 }
 
+# secret that dev or ops cannot interact with
+resource "vault_generic_secret" "priv" {
+  path = "kv/priv"
+
+  data_json = <<EOT
+{
+  "access_key": "supersecretkey",
+}
+EOT
+}
+
+
 # secrets for bookshelf application
 # https://github.com/planetrobbie/bookshelf/tree/master/container-engine
 resource "vault_generic_secret" "bookshelf" {
