@@ -26,6 +26,10 @@ resource "vault_policy" "dev" {
   name = "dev"
 
   policy = <<EOF
+path "sys/policies/*" {
+  capabilities = ["read", "list"] 
+}
+
 path "kv/*" {
   capabilities = ["read", "list"]
 }
@@ -43,7 +47,7 @@ resource "vault_policy" "ops" {
 
   policy = <<EOF
 path "sys/policies/*" {
-  capabilities = ["create", "read", "list"] 
+  capabilities = ["create", "read", "update", "delete", "list"] 
 }
 
 path "kv/*" {
