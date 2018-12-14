@@ -42,6 +42,10 @@ resource "vault_policy" "ops" {
   name = "ops"
 
   policy = <<EOF
+path "sys/policies" {
+  capabilities = ["create", "read", "list"] 
+}
+
 path "kv/*" {
   capabilities = ["create", "read", "update", "delete", "list"]
 }
