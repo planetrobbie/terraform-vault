@@ -84,9 +84,20 @@ variable "db_bookshelf_password" {
 
 ### DNS 
 
+# Google Cloud DNS Zone
+variable "dns_zone" {
+  description = "Google Cloud zone name to create"  
+}
+
 # Google Cloud DNS Domain
 variable "dns_domain" {
   description = "DNS Domain where to find Vault and Consul servers"
+}
+
+# DNS TTL
+variable "ttl" {
+  description = "DNS ttl of entry"
+  default = "300"
 }
 
 ### Remote-exec [SSH]

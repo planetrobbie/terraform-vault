@@ -5,3 +5,13 @@ data "dns_a_record_set" "v1" {
 data "dns_a_record_set" "v2" {
   host = "v2.${var.dns_domain}"
 }
+
+resource "google_dns_record_set" "db" {
+  name = "db.${var.dns_domain}"
+  type = "A"
+  ttl  = "${var.ttl}"
+
+  managed_zone = "${var.dns_zone}"
+
+  rrdatas = ["${google_sql_database_instance.master.ip_address.0.ip_address}"]
+}
