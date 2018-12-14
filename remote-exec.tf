@@ -10,6 +10,17 @@ data "template_file" "script" {
   }
 }
 
+data "template_file" "mysql" {
+  template = "${file("./files/mysql.tpl")}"
+
+  vars {
+    db_user = "${var.db_user}"
+    db_password = "${var.db_password}"
+    dns_domain = "${var.dns_domain}"
+  }
+}
+
+# Do out of band operation on Vault Server v1
 resource "null_resource" "remote-exec" {
   triggers {
 #    public_ip = "${data.dns_a_record_set.v1.addrs.0}"
@@ -35,5 +46,26 @@ resource "null_resource" "remote-exec" {
       "chmod +x /tmp/script.sh",
       "/tmp/script.sh > /tmp/script",
     ]
+  }
+}
+
+# Copy over MySQL connection script to v1 if DB Secret Engine enabled
+resource "null_resource" "mysql-client" {
+  count = "${var.enable_secret_engine_db}"
+  triggers {
+    version = 1
+  }
+
+  connection {
+    type = "ssh"
+    host = "${data.dns_a_record_set.v1.addrs.0}"
+    user = "${var.ssh_user}"
+    private_key = "${var.priv_key}"
+  }
+
+  // copy our example script to the server
+  provisioner "file" {
+    content      = "${data.template_file.mysql.rendered}"
+    destination = "/home/${var.ssh_user}/mysql.sh"
   }
 }
