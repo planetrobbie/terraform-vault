@@ -11,7 +11,7 @@ resource "vault_generic_secret" "priv" {
 
   data_json = <<EOT
 {
-  "access_key": "supersecretkey",
+  "access_key": "supersecretkey"
 }
 EOT
 }
