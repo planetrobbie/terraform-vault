@@ -1,6 +1,6 @@
 # sudo policy
-resource "vault_policy" "admin_vault" {
-  name = "admin_vault"
+resource "vault_policy" "admin" {
+  name = "admin"
 
   policy = <<EOF
 path "*" {
