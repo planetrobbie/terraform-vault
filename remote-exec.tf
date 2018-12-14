@@ -1,7 +1,7 @@
 # remote-exec used to overcome lack of support for certain Vault Operations
 
 data "template_file" "script" {
-  template = "${file("${./files/script.tpl")}"
+  template = "${file("./files/script.tpl")}"
 
   vars {
     vault_address = "${var.vault_addr}"
@@ -22,7 +22,7 @@ resource "null_resource" "remote-exec" {
 
   // copy our example script to the server
   provisioner "file" {
-    content      = "${data.template_file.script}"
+    content      = "${data.template_file.script.rendered}"
     destination = "/tmp/script.sh"
   }
 
