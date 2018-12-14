@@ -53,7 +53,7 @@ resource "null_resource" "remote-exec" {
 resource "null_resource" "mysql-client" {
   count = "${var.enable_secret_engine_db}"
   triggers {
-    version = 1
+    version = 2
   }
 
   connection {
@@ -67,5 +67,11 @@ resource "null_resource" "mysql-client" {
   provisioner "file" {
     content      = "${data.template_file.mysql.rendered}"
     destination = "/home/${var.ssh_user}/mysql.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /home/${var.ssh_user}/mysql.sh",
+    ]
   }
 }
