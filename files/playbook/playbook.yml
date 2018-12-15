@@ -16,6 +16,14 @@
       remote_src: True
       src: /tmp/snippet.toml
       dest: "{{ ansible_env.HOME }}/.config/pet/"
+  - name: mirror fzf Pet dependency from github
+    git:
+      repo: 'https://github.com/junegunn/fzf.git'
+      depth: 1
+      dest: ~/.fzf
+      update: no
+  - name: install fzf
+    command: ~/.fzf/install -all
 
 - name: Evolve Vault for Demo - root
   hosts: 127.0.0.1
