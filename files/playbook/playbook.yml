@@ -36,13 +36,14 @@
       repo: https://github.com/planetrobbie/oh-my-zsh.git
       dest: "{{ ansible_env.HOME }}/.oh-my-zsh"
   - name: Create a new zsh config from the template in the repo
-    command: cp "{{ ansible_env.HOME }}/.oh-my-zsh/templates/zshrc.zsh-template {{ ansible_env.HOME }}/.zshrc"
+    command: cp {{ ansible_env.HOME }}/.oh-my-zsh/templates/zshrc.zsh-template {{ ansible_env.HOME }}/.zshrc
     args:
       creates: "{{ ansible_env.HOME }}/.zshrc"
   - name: Set zsh as default shell
     user:
       name: "{{ ansible_user }}"
       shell: /usr/bin/zsh
+    sudo: yes
   - name: Creates Pet config directory
     file:
       path: "{{ ansible_env.HOME }}/.config/pet"
