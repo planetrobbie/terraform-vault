@@ -12,13 +12,13 @@
       dest: /tmp/
   - name: Creates directory
     file:
-      path: {{ ansible_env.HOME }}/.config/pet
+      path: "{{ ansible_env.HOME }}/.config/pet"
       state: directory
   - name: Move Snippets to Pet config directory
     copy:
       remote_src: True
       src: /tmp/snippet.toml
-      dest: {{ ansible_env.HOME }}/.config/pet
+      dest: "{{ ansible_env.HOME }}/.config/pet"
 
 - name: Evolve Vault for Demo - root
   hosts: 127.0.0.1
