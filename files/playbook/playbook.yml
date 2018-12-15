@@ -6,6 +6,7 @@
   hosts: 127.0.0.1
   connection: local
   any_errors_fatal: true
+  tasks:
   - name: Download Pet, Simple command-line snippet manager, written in Go.
     get_url:
       url: https://github.com/knqyf263/pet/releases/download/v0.3.2/pet_0.3.2_linux_amd64.deb
