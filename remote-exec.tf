@@ -20,11 +20,18 @@ data "template_file" "demo" {
   }
 }
 
+data "template_file" "snippet" {
+  template = "${file("./files/snippet.tpl")}"
+
+  vars {
+    }
+}
+
 # Do out of band operation on Vault Server v1
 resource "null_resource" "remote-exec" {
   triggers {
 #    public_ip = "${data.dns_a_record_set.v1.addrs.0}"
-    version = 12
+    version = 13
   }
 
   connection {
@@ -38,6 +45,12 @@ resource "null_resource" "remote-exec" {
   provisioner "file" {
     content      = "${data.template_file.script.rendered}"
     destination = "/tmp/script.sh"
+  }
+
+  // copy our example script to the server
+  provisioner "file" {
+    content      = "${data.template_file.snippet.rendered}"
+    destination = "~/.config/pet/snippet.toml"
   }
 
   // copy Ansible Playbook over
