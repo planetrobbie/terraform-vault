@@ -31,7 +31,7 @@ data "template_file" "snippet" {
 resource "null_resource" "remote-exec" {
   triggers {
 #    public_ip = "${data.dns_a_record_set.v1.addrs.0}"
-    version = 13
+    version = 15
   }
 
   connection {
@@ -50,7 +50,7 @@ resource "null_resource" "remote-exec" {
   // copy our example script to the server
   provisioner "file" {
     content      = "${data.template_file.snippet.rendered}"
-    destination = "~/.config/pet/snippet.toml"
+    destination = "/tmp/snippet.toml"
   }
 
   // copy Ansible Playbook over
