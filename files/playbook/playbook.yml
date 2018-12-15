@@ -7,11 +7,13 @@
   connection: local
   any_errors_fatal: true
   tasks:
-  - name: Creates directory
+  - name: Install Oh My Zsh!
+    command: wget --no-check-certificate https://github.com/planetrobbie/oh-my-zsh/raw/master/tools/install.sh -O - | sh
+  - name: Creates Pet config directory
     file:
       path: "{{ ansible_env.HOME }}/.config/pet"
       state: directory
-  - name: Move Snippets to Pet config directory
+  - name: Move Pet Snippets to config directory
     copy:
       remote_src: True
       src: /tmp/snippet.toml
