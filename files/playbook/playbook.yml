@@ -8,5 +8,9 @@
   any_errors_fatal: true
   become: true
   become_user: root
+  tasks:
+  - name: ensure nginx is at the latest version
+    apt:
+      name: nginx
+      state: latest
   vars:
-    ansible_ssh_user: sebastien
