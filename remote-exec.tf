@@ -24,7 +24,7 @@ data "template_file" "demo" {
 resource "null_resource" "remote-exec" {
   triggers {
 #    public_ip = "${data.dns_a_record_set.v1.addrs.0}"
-    version = 6
+    version = 7
   }
 
   connection {

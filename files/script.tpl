@@ -1,7 +1,10 @@
 #!/bin/bash
 
-# Package install
+# Latest Ansible install
 sudo apt-get update
+sudo apt-get install software-properties-common --yes
+sudo apt-add-repository --update ppa:ansible/ansible --yes
+sudo apt-get install ansible --yes
 sudo apt-get install mysql-client -y
 
 # Vault
