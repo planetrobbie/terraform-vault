@@ -2,31 +2,6 @@
 # File: playbook.yml - evolve Vault locally for demo purpose
 # ansible-playbook playbook.yml
 
-- name: Evolve Vault for demo - normal user
-  hosts: 127.0.0.1
-  connection: local
-  any_errors_fatal: true
-  tasks:
-  - name: Install Oh My Zsh!
-    command: wget --no-check-certificate https://github.com/planetrobbie/oh-my-zsh/raw/master/tools/install.sh -O - | sh
-  - name: Creates Pet config directory
-    file:
-      path: "{{ ansible_env.HOME }}/.config/pet"
-      state: directory
-  - name: Move Pet Snippets to config directory
-    copy:
-      remote_src: True
-      src: /tmp/snippet.toml
-      dest: "{{ ansible_env.HOME }}/.config/pet/"
-  - name: mirror fzf Pet dependency from github
-    git:
-      repo: 'https://github.com/junegunn/fzf.git'
-      depth: 1
-      dest: ~/.fzf
-      update: no
-  - name: install fzf
-    command: ~/.fzf/install --all
-
 - name: Evolve Vault for Demo - root
   hosts: 127.0.0.1
   connection: local
@@ -46,3 +21,38 @@
     apt:
       deb: /tmp/pet_0.3.2_linux_amd64.deb
       state: present
+
+- name: Evolve Vault for demo - normal user
+  hosts: 127.0.0.1
+  connection: local
+  any_errors_fatal: true
+  tasks:
+  - name: Clone Oh My Zsh! repository
+    git:
+      repo: https://github.com/planetrobbie/oh-my-zsh.git
+      dest: "{{ ansible_env.HOME }}/.oh-my-zsh"
+  - name: Create a new zsh config from the template in the repo
+    command: cp "{{ ansible_env.HOME }}/.oh-my-zsh/templates/zshrc.zsh-template {{ ansible_env.HOME }}/.zshrc"
+    args:
+      creates: "{{ ansible_env.HOME }}/.zshrc"
+  - name: Set zsh as default shell
+    user:
+      name: "{{ ansible_user }}"
+      shell: /usr/bin/zsh
+  - name: Creates Pet config directory
+    file:
+      path: "{{ ansible_env.HOME }}/.config/pet"
+      state: directory
+  - name: Clone Pet Snippets to config directory
+    copy:
+      remote_src: True
+      src: /tmp/snippet.toml
+      dest: "{{ ansible_env.HOME }}/.config/pet/"
+  - name: mirror fzf Pet dependency from github
+    git:
+      repo: 'https://github.com/junegunn/fzf.git'
+      depth: 1
+      dest: ~/.fzf
+      update: no
+  - name: install fzf
+    command: ~/.fzf/install --all
