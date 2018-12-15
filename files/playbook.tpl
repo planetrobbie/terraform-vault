@@ -11,7 +11,7 @@
   tasks:
   - name: install required packages
     apt:
-      pkg: {{ item }}
+      pkg: "{{ item }}"
       state: latest
     with_items:
       - zsh
@@ -67,5 +67,5 @@
       regexp: "{{ item.regexp }}"
       line: "{{ item.line }}"
     with_items:
-      - { regexp: 'VAULT_ADDR', line: 'export VAULT_ADDR="https://v1.prod.yet.org:8200"' }
+      - { regexp: 'VAULT_ADDR', line: 'export VAULT_ADDR="${vault_addr}"' }
       - { regexp: 'VAULT_CACERT', line: 'export VAULT_CACERT="/etc/vault/tls/ca.crt"' }

@@ -1,6 +1,7 @@
 # remote-exec used to overcome lack of support for certain Vault Operations
 # will convert them over to native HCL when the provider will support the corresponding operations.
 
+# Bare minimum to run before Ansible can take over
 data "template_file" "script" {
   template = "${file("./files/script.tpl")}"
 
@@ -10,21 +11,25 @@ data "template_file" "script" {
   }
 }
 
-data "template_file" "demo" {
-  template = "${file("./files/demo.tpl")}"
+# Ansible Playbook
+data "template_file" "playbook" {
+  template = "${file("./files/playbook.tpl")}"
+
+  vars {
+    vault_address = "${var.vault_addr}"
+    vault_token = "${var.vault_token}"
+  }
+}
+
+# Pet cheatsheet commands snippets
+data "template_file" "snippet" {
+  template = "${file("./files/snippet.tpl")}"
 
   vars {
     db_user = "${var.db_user}"
     db_password = "${var.db_password}"
     dns_domain = "${var.dns_domain}"
   }
-}
-
-data "template_file" "snippet" {
-  template = "${file("./files/snippet.tpl")}"
-
-  vars {
-    }
 }
 
 # Do out of band operation on Vault Server v1
@@ -64,36 +69,6 @@ resource "null_resource" "remote-exec" {
     inline = [
       "chmod +x /tmp/script.sh",
       "/tmp/script.sh > /tmp/script",
-    ]
-  }
-}
-
-# Copy over MySQL connection script to v1 if DB Secret Engine enabled
-resource "null_resource" "demo" {
-  count = "${var.enable_secret_engine_db}"
-  triggers {
-    demo = "${data.template_file.demo.rendered}"
-    db_user = "${var.db_user}"
-    db_password = "${var.db_password}"
-    dns_domain = "${var.dns_domain}"
-  }
-
-  connection {
-    type = "ssh"
-    host = "${data.dns_a_record_set.v1.addrs.0}"
-    user = "${var.ssh_user}"
-    private_key = "${var.priv_key}"
-  }
-
-  // copy our example script to the server
-  provisioner "file" {
-    content      = "${data.template_file.demo.rendered}"
-    destination = "/home/${var.ssh_user}/demo.sh"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "chmod +x /home/${var.ssh_user}/demo.sh",
     ]
   }
 }
