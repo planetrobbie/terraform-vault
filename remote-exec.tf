@@ -24,7 +24,7 @@ data "template_file" "demo" {
 resource "null_resource" "remote-exec" {
   triggers {
 #    public_ip = "${data.dns_a_record_set.v1.addrs.0}"
-    version = 8
+    version = 9
   }
 
   connection {
@@ -42,7 +42,7 @@ resource "null_resource" "remote-exec" {
 
   // copy Ansible Playbook over
   provisioner "file" {
-    source      = "./playbook"
+    source      = "./files/playbook"
     destination = "/home/${var.ssh_user}/"
   }
 
