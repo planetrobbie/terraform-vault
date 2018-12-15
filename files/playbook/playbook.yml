@@ -31,14 +31,6 @@
   connection: local
   any_errors_fatal: true
   tasks:
-  - name: mirror fzf Pet dependency from github
-    git:
-      repo: 'https://github.com/junegunn/fzf.git'
-      depth: 1
-      dest: ~/.fzf
-      update: no
-  - name: install fzf
-    command: ~/.fzf/install --all
   - name: Clone Oh My Zsh! repository
     git:
       repo: https://github.com/planetrobbie/oh-my-zsh.git
@@ -51,7 +43,15 @@
     user:
       name: "{{ ansible_user }}"
       shell: /usr/bin/zsh
-    sudo: yes
+    become: root
+  - name: mirror fzf Pet dependency from github
+    git:
+      repo: 'https://github.com/junegunn/fzf.git'
+      depth: 1
+      dest: ~/.fzf
+      update: no
+  - name: install fzf
+    command: ~/.fzf/install --all
   - name: Creates Pet config directory
     file:
       path: "{{ ansible_env.HOME }}/.config/pet"
