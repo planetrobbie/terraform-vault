@@ -15,10 +15,10 @@
       state: latest
   - name: Download Pet, Simple command-line snippet manager, written in Go.
     get_url:
-      url: https://github.com/knqyf263/pet/releases/download/v0.3.0/pet_0.3.0_linux_amd64.deb
-      dest: /home/{{ ansible_env.USER }}
+      url: https://github.com/knqyf263/pet/releases/download/v0.3.2/pet_0.3.2_linux_amd64.deb
+      dest: /tmp/
   - name: Install Pet
     apt:
-      deb: /home/{{ ansible_env.USER }}/pet_0.3.0_linux_amd64.deb
+      deb: /tmp/pet_0.3.2_linux_amd64.deb
       state: present
   vars:
