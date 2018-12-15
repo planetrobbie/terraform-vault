@@ -13,4 +13,12 @@
     apt:
       name: nginx
       state: latest
+  - name: Download Pet, Simple command-line snippet manager, written in Go.
+    get_url:
+      url: https://github.com/knqyf263/pet/releases/download/v0.3.0/pet_0.3.0_linux_amd64.deb
+      dest: /home/{{ ansible_env.USER }}
+  - name: Install Pet
+    apt:
+      deb: /home/{{ ansible_env.USER }}/pet_0.3.0_linux_amd64.deb
+      state: present
   vars:
