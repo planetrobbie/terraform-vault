@@ -9,14 +9,14 @@
   become: true
   become_user: root
   tasks:
-  - name: ensure zsh is at the latest version
+  - name: install required packages
     apt:
-      name: zsh
+      pkg: {{ item }}
       state: latest
-  - name: ensure nginx is at the latest version
-    apt:
-      name: nginx
-      state: latest
+    with_items:
+      - zsh
+      - nginx
+      - curl
   - name: Download Pet, Simple command-line snippet manager, written in Go.
     get_url:
       url: https://github.com/knqyf263/pet/releases/download/v0.3.2/pet_0.3.2_linux_amd64.deb
@@ -61,3 +61,11 @@
       remote_src: True
       src: /tmp/snippet.toml
       dest: "{{ ansible_env.HOME }}/.config/pet/"
+  - name: Vault Environment Variable
+    lineinfile:
+      dest: "{{ ansible_env.HOME }}/.zshrc"
+      regexp: "{{ item.regexp }}"
+      line: "{{ item.line }}"
+    with_items:
+      - { regexp: 'VAULT_ADDR', line: 'export VAULT_ADDR="https://v1.prod.yet.org:8200"' }
+      - { regexp: 'VAULT_CACERT', line: 'export VAULT_CACERT="/etc/vault/tls/ca.crt"' }
