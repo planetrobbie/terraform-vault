@@ -13,10 +13,12 @@
     apt:
       pkg: ['zsh', 'nginx']
       state: latest
+
   - name: Download Pet, Simple command-line snippet manager, written in Go.
     get_url:
       url: https://github.com/knqyf263/pet/releases/download/v0.3.2/pet_0.3.2_linux_amd64.deb
       dest: /tmp/
+      
   - name: Install Pet
     apt:
       deb: /tmp/pet_0.3.2_linux_amd64.deb
@@ -26,37 +28,45 @@
   hosts: 127.0.0.1
   connection: local
   any_errors_fatal: true
+
   tasks:
   - name: Clone Oh My Zsh! repository
     git:
-      repo: https://github.com/planetrobbie/oh-my-zsh.git
+      repo: https://github.com/robbyrussell/oh-my-zsh.git
       dest: "{{ ansible_env.HOME }}/.oh-my-zsh"
+
   - name: Create a new zsh config from the template in the repo
     command: cp {{ ansible_env.HOME }}/.oh-my-zsh/templates/zshrc.zsh-template {{ ansible_env.HOME }}/.zshrc
     args:
       creates: "{{ ansible_env.HOME }}/.zshrc"
+
   - name: Set zsh as default shell
     user:
       name: "{{ ansible_user }}"
       shell: /usr/bin/zsh
     become: root
+
   - name: mirror fzf Pet dependency from github
     git:
       repo: 'https://github.com/junegunn/fzf.git'
       depth: 1
       dest: ~/.fzf
       update: no
+
   - name: install fzf
     command: ~/.fzf/install --all
+
   - name: Creates Pet config directory
     file:
       path: "{{ ansible_env.HOME }}/.config/pet"
       state: directory
+
   - name: Clone Pet Snippets to config directory
     copy:
       remote_src: True
       src: /tmp/snippet.toml
       dest: "{{ ansible_env.HOME }}/.config/pet/"
+
   - name: Vault Environment Variable
     lineinfile:
       dest: "{{ ansible_env.HOME }}/.zshrc"

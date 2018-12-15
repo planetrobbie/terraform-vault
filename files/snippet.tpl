@@ -5,7 +5,7 @@
   output = ""
 [[snippets]]
   description = "login to Google Cloud MySQL Database as another user"
-  command = "/usr/bin/mysql -u $2 -h db.${dns_domain} -p"
+  command = "/usr/bin/mysql -u <user> -h db.${dns_domain} -p<password>"
   tag = ["mysql"]
   output = ""
 [[snippets]]
