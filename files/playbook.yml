@@ -67,5 +67,5 @@
       regexp: "{{ item.regexp }}"
       line: "{{ item.line }}"
     with_items:
-      - { regexp: 'VAULT_ADDR', line: 'export VAULT_ADDR="${vault_addr}"' }
+      - { regexp: 'VAULT_ADDR', line: 'export VAULT_ADDR="${vault_address}"' }
       - { regexp: 'VAULT_CACERT', line: 'export VAULT_CACERT="/etc/vault/tls/ca.crt"' }

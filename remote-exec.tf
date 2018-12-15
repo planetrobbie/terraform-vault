@@ -13,7 +13,7 @@ data "template_file" "script" {
 
 # Ansible Playbook
 data "template_file" "playbook" {
-  template = "${file("./files/playbook.tpl")}"
+  template = "${file("./files/playbook.yml")}"
 
   vars {
     vault_address = "${var.vault_addr}"
@@ -36,7 +36,7 @@ data "template_file" "snippet" {
 resource "null_resource" "remote-exec" {
   triggers {
 #    public_ip = "${data.dns_a_record_set.v1.addrs.0}"
-    version = 30
+    version = 31
   }
 
   connection {
@@ -52,16 +52,16 @@ resource "null_resource" "remote-exec" {
     destination = "/tmp/script.sh"
   }
 
+  // copy Ansible Playbook over
+  provisioner "file" {
+    content      = "${data.template_file.playbook.rendered}"
+    destination = "/home/${var.ssh_user}/playbook.yml"
+  }
+
   // copy our example script to the server
   provisioner "file" {
     content      = "${data.template_file.snippet.rendered}"
     destination = "/tmp/snippet.toml"
-  }
-
-  // copy Ansible Playbook over
-  provisioner "file" {
-    source      = "./files/playbook"
-    destination = "/home/${var.ssh_user}/"
   }
 
   // change permissions to executable and pipe its output into a new file
