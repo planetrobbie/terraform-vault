@@ -9,6 +9,10 @@
   become: true
   become_user: root
   tasks:
+  - name: ensure zsh is at the latest version
+    apt:
+      name: zsh
+      state: latest
   - name: ensure nginx is at the latest version
     apt:
       name: nginx
