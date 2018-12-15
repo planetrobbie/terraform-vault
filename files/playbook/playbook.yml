@@ -15,7 +15,7 @@
     copy:
       remote_src: True
       src: /tmp/snippet.toml
-      dest: "{{ ansible_env.HOME }}/.config/pet"
+      dest: "{{ ansible_env.HOME }}/.config/pet/"
 
 - name: Evolve Vault for Demo - root
   hosts: 127.0.0.1
