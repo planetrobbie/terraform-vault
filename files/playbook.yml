@@ -18,7 +18,7 @@
     get_url:
       url: https://github.com/knqyf263/pet/releases/download/v0.3.2/pet_0.3.2_linux_amd64.deb
       dest: /tmp/
-      
+
   - name: Install Pet
     apt:
       deb: /tmp/pet_0.3.2_linux_amd64.deb
@@ -32,7 +32,7 @@
   tasks:
   - name: Clone Oh My Zsh! repository
     git:
-      repo: https://github.com/robbyrussell/oh-my-zsh.git
+      repo: https://github.com/planetrobbie/oh-my-zsh.git
       dest: "{{ ansible_env.HOME }}/.oh-my-zsh"
 
   - name: Create a new zsh config from the template in the repo
