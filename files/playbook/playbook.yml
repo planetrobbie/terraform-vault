@@ -23,7 +23,7 @@
       dest: ~/.fzf
       update: no
   - name: install fzf
-    command: ~/.fzf/install -all
+    command: ~/.fzf/install --all
 
 - name: Evolve Vault for Demo - root
   hosts: 127.0.0.1
