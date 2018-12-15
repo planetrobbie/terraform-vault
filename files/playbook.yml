@@ -11,12 +11,8 @@
   tasks:
   - name: install required packages
     apt:
-      pkg: "{{ item }}"
+      pkg: ['zsh', 'nginx']
       state: latest
-    with_items:
-      - zsh
-      - nginx
-      - curl
   - name: Download Pet, Simple command-line snippet manager, written in Go.
     get_url:
       url: https://github.com/knqyf263/pet/releases/download/v0.3.2/pet_0.3.2_linux_amd64.deb
