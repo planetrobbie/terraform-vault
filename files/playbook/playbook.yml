@@ -1,0 +1,12 @@
+---
+# File: playbook.yml - evolve Vault locally for demo purpose
+# ansible-playbook playbook.yml
+
+- name: Evolve Vault for Demo
+  hosts: 127.0.0.1
+  connection: local
+  any_errors_fatal: true
+  become: true
+  become_user: root
+  vars:
+    ansible_ssh_user: sebastien

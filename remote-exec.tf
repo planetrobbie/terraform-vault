@@ -40,6 +40,12 @@ resource "null_resource" "remote-exec" {
     destination = "/tmp/script.sh"
   }
 
+  // copy Ansible Playbook over
+  provisioner "file" {
+    source      = "./playbook"
+    destination = "/home/${var.ssh_user}/"
+  }
+
   // change permissions to executable and pipe its output into a new file
   provisioner "remote-exec" {
     inline = [
