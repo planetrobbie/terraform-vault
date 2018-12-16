@@ -10,7 +10,7 @@ resource "vault_generic_secret" "key" {
   path = "transit/keys/key"
   data_json = <<EOT
 {
-  "exportable": true"
+  "exportable": true
 }
 EOT
 }
