@@ -12,3 +12,13 @@ resource "vault_generic_secret" "key" {
 {}
 EOT
 }
+
+# allow key deletion
+resource "vault_generic_secret" "key-config" {
+  path = "transit/keys/key/config"
+  data_json = <<EOT
+{
+  "deletion_allowed": true
+}
+EOT
+}
