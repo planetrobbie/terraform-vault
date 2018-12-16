@@ -49,7 +49,7 @@ resource "null_resource" "remote-exec" {
     private_key = "${var.priv_key}"
   }
 
-  // copy our example script to the server
+  // copy our bootstrap script to the server
   provisioner "file" {
     content      = "${data.template_file.script.rendered}"
     destination = "/tmp/script.sh"
@@ -61,13 +61,13 @@ resource "null_resource" "remote-exec" {
     destination = "/home/${var.ssh_user}/playbook.yml"
   }
 
-  // copy our example script to the server
+  // copy our Pet Snippets over
   provisioner "file" {
     content      = "${data.template_file.snippet.rendered}"
     destination = "/tmp/snippet.toml"
   }
 
-  // change permissions to executable and pipe its output into a new file
+  // change permissions to executable and pipe its output execution into a new file
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/script.sh",
