@@ -4,3 +4,8 @@ resource "vault_mount" "transit" {
   type        = "transit"
   description = "Encryption as a Service engine"
 }
+
+# create a transit key
+resource "vault_generic_secret" "key" {
+  path = "transit/keys/key"
+}
