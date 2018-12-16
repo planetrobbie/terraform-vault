@@ -4,12 +4,12 @@
   tag = ["vault"]
   output = ""
 [[snippets]]
-  description = "target Vault API"
+  description = "Vault API"
   command = "curl -sS -X <VERB> -H \"X-Vault-Token: <token>\" http://127.0.0.1:8200/v1/<PATH> | jq"
   tag = ["vault"]
   output = ""
 [[snippets]]
-  description = "target Vault API with payload"
+  description = "Vault API with payload"
   command = "curl -sS -X <VERB> -H \"X-Vault-Token: <token>\" -d @<PAYLOAD> http://127.0.0.1:8200/v1/<PATH> | jq"
   tag = ["vault"]
   output = ""
@@ -29,13 +29,8 @@
   tag = ["vault"]
   output = ""
 [[snippets]]
-  description = "Vault read db"
+  description = "Vault read db creds"
   command = "vault read db/creds/<role>"
-  tag = ["vault"]
-  output = ""
-[[snippets]]
-  description = "Vault read GCP key"
-  command = "vault read gcp/key/<role>"
   tag = ["vault"]
   output = ""
 [[snippets]]
@@ -99,17 +94,17 @@
   tag = ["vault"]
   output = ""
 [[snippets]]
-  description = "login to Google Cloud MySQL Database as ${db_user}"
+  description = "MySQL login to Google Cloud Database as ${db_user}"
   command = "/usr/bin/mysql -u ${db_user} -h db.${dns_domain} -p${db_password} 2>/dev/null"
   tag = ["mysql"]
   output = ""
 [[snippets]]
-  description = "login to Google Cloud MySQL Database as another user"
+  description = "MySQL login to Google Cloud Database as another user"
   command = "/usr/bin/mysql -u <user> -h db.${dns_domain} -p<password>"
   tag = ["mysql"]
   output = ""
 [[snippets]]
-  description = "watch MySQL users being created by Vault"
+  description = "MySQL watch users being created by Vault"
   command = "watch '/usr/bin/mysql -u ${db_user} -h db.${dns_domain} -p${db_password} mysql -e \"select user from user;\" 2>/dev/null | grep --invert-match sys | grep -v ^user | grep -v vault-user'"
   tag = ["mysql"]
   output = ""
@@ -122,18 +117,23 @@
   tag = ["gcp"]
   output = ""
 [[snippets]]
-  description = "Vault login thru GCE role"
+  description = "GCP Vault login thru GCE role"
   command = "vault write auth/gcp/login role=\"gce-role\" jwt=\"$TOKEN\""
   tag = ["gcp"]
   output = ""
 [[snippets]]
-  description = "Vault read GCP role"
+  description = "GCP Vault read role"
   command = "vault read auth/gcp/role/<role>"
   tag = ["gcp"]
   output = ""
 [[snippets]]
+  description = "GCP Vault get key"
+  command = "vault read gcp/key/<role>"
+  tag = ["gcp"]
+  output = ""
+[[snippets]]
   description = "GCP Auth - XXX remove credentials after allowing API access from Instance"
-  command = "vault login -method=gcp role="iam-role" jwt_exp="15m"     credentials=@/home/${ssh_user}/vault-kms.json  project=\"${project_name}\" ttl=\"30m\" max_ttl=\"24h\" service_account=\"vault-kms@${project_name}.iam.gserviceaccount.com\""
+  command = "vault login -method=gcp role=\"iam-role\" jwt_exp=\"15m\"     credentials=@/home/${ssh_user}/vault-kms.json  project=\"${project_name}\" ttl=\"30m\" max_ttl=\"24h\" service_account=\"vault-kms@${project_name}.iam.gserviceaccount.com\""
   tag = ["gcp"]
   output = ""
 [[snippets]]
