@@ -6,29 +6,29 @@ resource "vault_mount" "transit" {
 }
 
 # create a transit key
-resource "vault_generic_secret" "my-key" {
-  path = "transit/keys/my-key"
+resource "vault_generic_secret" "key" {
+  path = "transit/keys/key"
 
   data_json = <<EOT
 {
-  "type": "aes256-gcm96",
-  "deletion_allowed": true
 }
 EOT
 }
 
+#  "type": "aes256-gcm96",
+#  "deletion_allowed": true
 #  "exportable": true,
-#  
 #  "allow_plaintext_backup": true,
-#  
 #  "derived": true,
 #  "exportable": true,
 #  "supports_decryption": true,
 #  "supports_derivation": true,
 #  "supports_encryption": true,
 #  "supports_signing": true,
+#
+#
 # allow key deletion
-# following operation happens but 
+# following operation happens but errors occurs.
 #resource "vault_generic_secret" "key-config" {
 #  path = "transit/keys/key/config"
 #  data_json = <<EOT
