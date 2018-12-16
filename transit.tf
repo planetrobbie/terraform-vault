@@ -11,7 +11,7 @@ resource "vault_generic_secret" "key" {
 
   data_json = <<EOT
 {
-  "type": aes256-gcm96
+  "type": "aes256-gcm96"
 }
 EOT
 }
