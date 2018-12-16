@@ -11,22 +11,19 @@ resource "vault_generic_secret" "key" {
   data_json = <<EOT
 {
   "exportable": true,
-  "allow_plaintext_backup": true,
-  "deletion_allowed": true,
-  "derived": true,
-  "exportable": true,
-  "min_available_version": 0,
-  "min_decryption_version": 1,
-  "min_encryption_version": 0,
-  "supports_decryption": true,
-  "supports_derivation": true,
-  "supports_encryption": true,
-  "supports_signing": true,
   "type": aes256-gcm96
 }
 EOT
 }
 
+#  "allow_plaintext_backup": true,
+#  "deletion_allowed": true,
+#  "derived": true,
+#  "exportable": true,
+#  "supports_decryption": true,
+#  "supports_derivation": true,
+#  "supports_encryption": true,
+#  "supports_signing": true,
 # allow key deletion
 # following operation happens but 
 #resource "vault_generic_secret" "key-config" {
