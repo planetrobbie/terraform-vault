@@ -9,11 +9,14 @@ resource "vault_mount" "transit" {
 resource "vault_generic_secret" "key" {
   path = "transit/keys/key"
   data_json = <<EOT
-{}
+{
+  "exportable": true"
+}
 EOT
 }
 
 # allow key deletion
+# following operation happens but 
 resource "vault_generic_secret" "key-config" {
   path = "transit/keys/key/config"
   data_json = <<EOT
