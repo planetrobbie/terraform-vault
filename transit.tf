@@ -8,4 +8,7 @@ resource "vault_mount" "transit" {
 # create a transit key
 resource "vault_generic_secret" "key" {
   path = "transit/keys/key"
+  data_json = <<EOT
+{}
+EOT
 }
