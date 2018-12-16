@@ -26,6 +26,9 @@ data "template_file" "snippet" {
   template = "${file("./files/snippet.tpl")}"
 
   vars {
+    vault_address = "${var.vault_addr}"
+    project_name = "${var.project_name}"
+    ssh_user = "${var.ssh_user}"
     db_user = "${var.db_user}"
     db_password = "${var.db_password}"
     dns_domain = "${var.dns_domain}"
@@ -36,7 +39,7 @@ data "template_file" "snippet" {
 resource "null_resource" "remote-exec" {
   triggers {
 #    public_ip = "${data.dns_a_record_set.v1.addrs.0}"
-    version = 36
+    version = 38
   }
 
   connection {
