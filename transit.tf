@@ -11,7 +11,8 @@ resource "vault_generic_secret" "key" {
 
   data_json = <<EOT
 {
-  "type": "aes256-gcm96"
+  "type": "aes256-gcm96",
+  "deletion_allowed": true
 }
 EOT
 }
@@ -19,7 +20,7 @@ EOT
 #  "exportable": true,
 #  
 #  "allow_plaintext_backup": true,
-#  "deletion_allowed": true,
+#  
 #  "derived": true,
 #  "exportable": true,
 #  "supports_decryption": true,
