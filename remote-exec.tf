@@ -8,7 +8,7 @@ data "template_file" "script" {
   vars {
     vault_address = "${var.vault_addr}"
     vault_token = "${var.vault_token}"
-    dns_domain = "${replace(substr(var.dns_domain, 0, -2), ".", "-")}"
+    dns_domain = "${replace(substr(var.dns_domain, 0, length(var.dns_domain) - 1), ".", "-")}"
   }
 }
 
