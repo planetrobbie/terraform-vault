@@ -4,14 +4,34 @@
   tag = ["vault", "help"]
   output = ""
 [[snippets]]
+  description = "Vault API export token to envt variable"
+  command = "export TOKEN=`cat ~/.vault-token`"
+  tag = ["vault", "api", "token"]
+  output = ""
+[[snippets]]
   description = "Vault API"
-  command = "curl -sS -X <VERB> -H \"X-Vault-Token: <token>\" http://127.0.0.1:8200/v1/<PATH> | jq"
+  command = "curl -sS -X <VERB> -H \"X-Vault-Token: $TOKEN\" ${vault_address}/v1/<PATH> | jq"
   tag = ["vault", "api"]
   output = ""
 [[snippets]]
   description = "Vault API with payload"
-  command = "curl -sS -X <VERB> -H \"X-Vault-Token: <token>\" -d @<PAYLOAD> http://127.0.0.1:8200/v1/<PATH> | jq"
+  command = "curl -sS -X <VERB> -H \"X-Vault-Token: $TOKEN\" -d @<PAYLOAD> ${vault_address}/v1/<PATH> | jq"
   tag = ["vault", "api"]
+  output = 
+[[snippets]]
+  description = "Vault API self renew token"
+  command = "curl -H "X-Vault-Token: $TOKEN" -X POST ${vault_address}/v1/auth/token/renew-self | jq"
+  tag = ["vault", "api", "token"]
+  output = ""
+[[snippets]]
+  description = "Vault API DB read creds"
+  command = "curl -H \"X-Vault-Token: $TOKEN\" -X GET ${vault_address}/v1/db/creds/<role> | jq ."
+  tag = ["vault", "api"]
+  output = ""
+[[snippets]]
+  description = "Vault API DB read creds"
+  command = "curl -H "X-Vault-Token: $TOKEN" -X POST --data '{ "lease_id": "database/creds/my-role/<lease_id>", "increment": 3600}' ${vault_address}/v1/sys/leases/renew | jq ."
+  tag = ["vault", "api", "db", "lease"]
   output = ""
 [[snippets]]
   description = "Vault AUTH login userpass"
@@ -32,6 +52,21 @@
   description = "Vault DB read creds"
   command = "vault read db/creds/<role>"
   tag = ["vault", "mysql"]
+  output = ""
+[[snippets]]
+  description = "Vault DB show lease list"
+  command = "vault list /sys/leases/lookup/db/creds/<role>/"
+  tag = ["vault", "mysql", "lease"]
+  output = ""
+[[snippets]]
+  description = "Vault DB revoke a specific lease from role"
+  command = "vault lease revoke db/creds/<role>/<lease_id>"
+  tag = ["mysql","lease"]
+  output = ""
+[[snippets]]
+  description = "Vault DB revoke lease from role by prefix"
+  command = "vault lease revoke -prefix db/creds/<role>"
+  tag = ["mysql","lease"]
   output = ""
 [[snippets]]
   description = "Vault TLS create Certificate"
@@ -115,7 +150,7 @@
   output = ""
 [[snippets]]
   description = "MySQL watch users being created by Vault"
-  command = "watch '/usr/bin/mysql -u ${db_user} -h db.${dns_domain} -p${db_password} mysql -e \"select user from user;\" 2>/dev/null | grep --invert-match sys | grep -v ^user | grep -v vault-user'"
+  command = "watch '/usr/bin/mysql -u ${db_user} -h db.${dns_domain} -p${db_password} mysql -e \"select user,password from user;\" 2>/dev/null | grep --invert-match sys | grep -v ^user | grep -v vault-user'"
   tag = ["mysql"]
   output = ""
 [[snippets]]
