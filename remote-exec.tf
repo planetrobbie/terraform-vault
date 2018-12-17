@@ -35,6 +35,16 @@ data "template_file" "snippet" {
   }
 }
 
+# NGINX configuration
+data "template_file" "nginx" {
+  template = "${file("./files/nginx.tpl")}"
+
+  vars {
+    ssh_user = "${var.ssh_user}"
+    dns_domain = "${var.dns_domain}"
+  }
+}
+
 # Do out of band operation on Vault Server v1
 resource "null_resource" "remote-exec" {
   triggers {
@@ -42,7 +52,8 @@ resource "null_resource" "remote-exec" {
     version = 46,
     script = "${data.template_file.script.rendered}",
     playbook = "${data.template_file.playbook.rendered}",
-    snippets = "${data.template_file.snippet.rendered}"
+    snippets = "${data.template_file.snippet.rendered}",
+    nginx = "${data.template_file.nginx.rendered}"
   }
 
   connection {
@@ -68,6 +79,12 @@ resource "null_resource" "remote-exec" {
   provisioner "file" {
     content      = "${data.template_file.snippet.rendered}"
     destination = "/tmp/snippet.toml"
+  }
+
+ // copy our NGINX configuration over
+  provisioner "file" {
+    content      = "${data.template_file.nginx.rendered}"
+    destination = "/tmp/nginx.cfg"
   }
 
   // change permissions to executable and pipe its output execution into a new file

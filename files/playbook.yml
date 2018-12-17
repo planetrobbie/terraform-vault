@@ -24,6 +24,22 @@
       deb: /tmp/pet_0.3.2_linux_amd64.deb
       state: present
 
+  - name: copy the nginx config file and restart nginx
+      copy:
+        src: /tmp/v1.cfg
+        dest: /etc/nginx/sites-available/v1.cfg
+
+  - name: create symlink
+      file:
+        src: /etc/nginx/sites-available/v1.cfg
+        dest: /etc/nginx/sites-enabled/default
+        state: link
+
+  - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+
 - name: Evolve Vault for demo - normal user
   hosts: 127.0.0.1
   connection: local
