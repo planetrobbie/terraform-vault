@@ -1,5 +1,5 @@
 vault {
-  address = "${vault_address}:8200"
+  address = "${vault_address}"
   renew_token = true
 
   retry {

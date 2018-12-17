@@ -48,7 +48,7 @@ data "template_file" "nginx" {
   }
 }
 
-# NGINX configuration
+# Consul-template configuration for PKI as a Service demo
 data "template_file" "pki-demo" {
   template = "${file("./files/pki-demo.tpl")}"
 
@@ -56,6 +56,27 @@ data "template_file" "pki-demo" {
     vault_address = "${var.vault_addr}"
   }
 }
+
+# Consul-template
+data "template_file" "cert" {
+  template = "${file("./files/cert.tpl")}"
+
+  vars {
+    dns_domain = "${var.dns_domain}"
+    pki_role = "${replace(substr(var.dns_domain, 0, length(var.dns_domain) - 1), ".", "-")}"
+  }
+}
+
+# Consul-template
+data "template_file" "key" {
+  template = "${file("./files/key.tpl")}"
+
+  vars {
+    dns_domain = "${var.dns_domain}"
+    pki_role = "${replace(substr(var.dns_domain, 0, length(var.dns_domain) - 1), ".", "-")}"
+  }
+}
+
 
 # Do out of band operation on Vault Server v1
 resource "null_resource" "remote-exec" {
@@ -65,7 +86,9 @@ resource "null_resource" "remote-exec" {
     playbook = "${data.template_file.playbook.rendered}",
     snippets = "${data.template_file.snippet.rendered}",
     nginx = "${data.template_file.nginx.rendered}",
-    pki-demo = "${data.template_file.pki-demo.rendered}"
+    pki-demo = "${data.template_file.pki-demo.rendered}",
+    cert = "${data.template_file.cert.rendered}",
+    key = "${data.template_file.key.rendered}"
   }
 
   connection {
@@ -103,6 +126,18 @@ resource "null_resource" "remote-exec" {
   provisioner "file" {
     content      = "${data.template_file.pki-demo.rendered}"
     destination = "/tmp/pki-demo.hcl"
+  }
+
+  // copy Comnsul-template TLS cert template
+  provisioner "file" {
+    content      = "${data.template_file.cert.rendered}"
+    destination = "/tmp/cert.tpl"
+  }
+
+  // copy Comnsul-template TLS private key template
+  provisioner "file" {
+    content      = "${data.template_file.key.rendered}"
+    destination = "/tmp/key.tpl"
   }
 
   // change permissions to executable and pipe its output execution into a new file

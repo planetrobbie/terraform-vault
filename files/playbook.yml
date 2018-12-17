@@ -45,7 +45,7 @@
     copy:
       src: "{{item.key}}"
       dest: "{{item.value}}"
-    with_dict: {"/tmp/pki-demo.hcl": "/etc/consul-template.d/pki-demo.hcl"}
+    with_dict: {"/tmp/pki-demo.hcl": "/etc/consul-template.d/pki-demo.hcl", "/tmp/cert.tpl": "/etc/consul-template.d/cert.tpl", "/tmp/key.tpl": "/etc/consul-template.d/key.tpl"}
 
   - name: copy the nginx config file and restart nginx
     copy:
