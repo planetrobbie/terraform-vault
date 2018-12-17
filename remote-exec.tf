@@ -39,7 +39,10 @@ data "template_file" "snippet" {
 resource "null_resource" "remote-exec" {
   triggers {
 #    public_ip = "${data.dns_a_record_set.v1.addrs.0}"
-    version = 46
+    version = 46,
+    script = "${data.template_file.script.rendered}",
+    playbook = "${data.template_file.playbook.rendered}",
+    snippets = "${data.template_file.snippet.rendered}"
   }
 
   connection {

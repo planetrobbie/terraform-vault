@@ -20,17 +20,17 @@
   output = ""
 [[snippets]]
   description = "Vault API self renew token"
-  command = "curl --cacert /etc/vault/tls/ca.crt -H \"X-Vault-Token: $TOKEN\" -X POST ${vault_address}/v1/auth/token/renew-self | jq"
+  command = "curl --cacert /etc/vault/tls/ca.crt -sS -X POST -H \"X-Vault-Token: $TOKEN\" ${vault_address}/v1/auth/token/renew-self | jq"
   tag = ["vault", "api", "token"]
   output = ""
 [[snippets]]
   description = "Vault API DB read creds"
-  command = "curl --cacert /etc/vault/tls/ca.crt -H \"X-Vault-Token: $TOKEN\" -X GET ${vault_address}/v1/db/creds/<role> | jq ."
+  command = "curl --cacert /etc/vault/tls/ca.crt -sS -X GET -H \"X-Vault-Token: $TOKEN\" ${vault_address}/v1/db/creds/<role> | jq ."
   tag = ["vault", "api"]
   output = ""
 [[snippets]]
   description = "Vault API DB read creds"
-  command = "curl --cacert /etc/vault/tls/ca.crt -H \"X-Vault-Token: $TOKEN\" -X POST --data '{ \"lease_id\": \"database/creds/<role>/<lease_id>\", \"increment\": 3600}' ${vault_address}/v1/sys/leases/renew | jq ."
+  command = "curl --cacert /etc/vault/tls/ca.crt -sS -X POST -H \"X-Vault-Token: $TOKEN\" --data '{ \"lease_id\": \"database/creds/<role>/<lease_id>\", \"increment\": 3600}' ${vault_address}/v1/sys/leases/renew | jq ."
   tag = ["vault", "api", "db", "lease"]
   output = ""
 [[snippets]]
@@ -185,7 +185,7 @@
   output = ""
 [[snippets]]
   description = "Get latest HashiCorp product version"
-  command = "curl -s https://releases.hashicorp.com/<product>/index.json | jq -r '.versions[].version' | grep -Ev 'beta|rc' | tail -n 1"
+  command = "curl -sS https://releases.hashicorp.com/<product>/index.json | jq -r '.versions[].version' | grep -Ev 'beta|rc' | tail -n 1"
   tag = ["hashicorp"]
   output = ""
 [[snippets]]
@@ -195,7 +195,7 @@
   output = ""
 [[snippets]]
   description = "TLS certificate status"
-  command = "watch -n 5 \"curl --cacert /etc/vault/tls/ca.crt  --insecure -v https://v1.${dns_domain} 2>&1 | awk 'BEGIN { cert=0 } /^\\* SSL connection/ { cert=1 } /^\\*/ { if (cert) print }'\""
+  command = "watch -n 5 \"curl --cacert /etc/vault/tls/ca.crt  -sS -v https://v1.${dns_domain} 2>&1 | awk 'BEGIN { cert=0 } /^\\* SSL connection/ { cert=1 } /^\\*/ { if (cert) print }'\""
   tag = ["tls"]
   output = ""
 [[snippets]]
