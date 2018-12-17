@@ -8,6 +8,7 @@ data "template_file" "script" {
   vars {
     vault_address = "${var.vault_addr}"
     vault_token = "${var.vault_token}"
+    dns_domain = "${var.dns_domain}"
     pki_role = "${replace(substr(var.dns_domain, 0, length(var.dns_domain) - 1), ".", "-")}"
   }
 }
