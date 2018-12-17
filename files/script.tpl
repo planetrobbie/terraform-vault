@@ -19,7 +19,7 @@ if [ ! -d ~/pki ]; then
     echo "Provisioning PKI"
 
     # Gather everything in ~/pki
-    mkdir ~/pki; cd pki
+    mkdir ~/pki; cd ~/pki
 
     # Root CA
     vault write -format=json pki/root/generate/internal \
