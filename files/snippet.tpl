@@ -10,27 +10,27 @@
   output = ""
 [[snippets]]
   description = "Vault API"
-  command = "curl -sS -X <VERB> -H \"X-Vault-Token: $TOKEN\" ${vault_address}/v1/<PATH> | jq"
+  command = "curl --cacert /etc/vault/tls/ca.crt -sS -X <VERB> -H \"X-Vault-Token: $TOKEN\" ${vault_address}/v1/<PATH> | jq"
   tag = ["vault", "api"]
   output = ""
 [[snippets]]
   description = "Vault API with payload"
-  command = "curl -sS -X <VERB> -H \"X-Vault-Token: $TOKEN\" -d @<PAYLOAD> ${vault_address}/v1/<PATH> | jq"
+  command = "curl --cacert "/etc/vault/tls/ca.crt" -sS -X <VERB> -H \"X-Vault-Token: $TOKEN\" -d @<PAYLOAD> ${vault_address}/v1/<PATH> | jq"
   tag = ["vault", "api"]
   output = ""
 [[snippets]]
   description = "Vault API self renew token"
-  command = "curl -H \"X-Vault-Token: $TOKEN\" -X POST ${vault_address}/v1/auth/token/renew-self | jq"
+  command = "curl --cacert "/etc/vault/tls/ca.crt" -H \"X-Vault-Token: $TOKEN\" -X POST ${vault_address}/v1/auth/token/renew-self | jq"
   tag = ["vault", "api", "token"]
   output = ""
 [[snippets]]
   description = "Vault API DB read creds"
-  command = "curl -H \"X-Vault-Token: $TOKEN\" -X GET ${vault_address}/v1/db/creds/<role> | jq ."
+  command = "curl --cacert "/etc/vault/tls/ca.crt" -H \"X-Vault-Token: $TOKEN\" -X GET ${vault_address}/v1/db/creds/<role> | jq ."
   tag = ["vault", "api"]
   output = ""
 [[snippets]]
   description = "Vault API DB read creds"
-  command = "curl -H \"X-Vault-Token: $TOKEN\" -X POST --data '{ \"lease_id\": \"database/creds/my-role/<lease_id>\", \"increment\": 3600}' ${vault_address}/v1/sys/leases/renew | jq ."
+  command = "curl --cacert "/etc/vault/tls/ca.crt" -H \"X-Vault-Token: $TOKEN\" -X POST --data '{ \"lease_id\": \"database/creds/<role>/<lease_id>\", \"increment\": 3600}' ${vault_address}/v1/sys/leases/renew | jq ."
   tag = ["vault", "api", "db", "lease"]
   output = ""
 [[snippets]]
@@ -190,7 +190,7 @@
   output = ""
 [[snippets]]
   description = "TLS revoke, revocation crl list"
-  command = "watch \"curl -sS ${vault_address}/v1/pki_int/crl | openssl crl -inform DER -text -noout -\""
+  command = "watch \"curl --cacert \"/etc/vault/tls/ca.crt\" -sS ${vault_address}/v1/pki_int/crl | openssl crl -inform DER -text -noout -\""
   tag = ["tls", "crl"]
   output = ""
 [[snippets]]

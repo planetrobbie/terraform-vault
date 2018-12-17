@@ -11,7 +11,7 @@
   tasks:
   - name: install required packages
     apt:
-      pkg: ['zsh', 'nginx']
+      pkg: ['zsh', 'nginx', 'jq']
       state: latest
 
   - name: Download Pet, Simple command-line snippet manager, written in Go.
@@ -44,7 +44,7 @@
     user:
       name: "{{ ansible_user }}"
       shell: /usr/bin/zsh
-    sudo: yes
+    sudo: yes:
 
   - name: mirror fzf Pet dependency from github
     git:
