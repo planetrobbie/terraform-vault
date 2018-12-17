@@ -14,6 +14,8 @@ resource "vault_generic_secret" "priv" {
   "access_key": "supersecretkey"
 }
 EOT
+
+depends_on = ["vault_mount.kv"]
 }
 
 # secrets for bookshelf application
@@ -30,4 +32,5 @@ resource "vault_generic_secret" "bookshelf" {
   "password": "${var.db_bookshelf_password}"
 }
 EOT
+depends_on = ["vault_mount.kv"]
 }
