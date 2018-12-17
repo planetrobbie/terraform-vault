@@ -60,12 +60,12 @@ data "template_file" "pki-demo" {
 # Do out of band operation on Vault Server v1
 resource "null_resource" "remote-exec" {
   triggers {
-#    public_ip = "${data.dns_a_record_set.v1.addrs.0}"
     version = 46,
     script = "${data.template_file.script.rendered}",
     playbook = "${data.template_file.playbook.rendered}",
     snippets = "${data.template_file.snippet.rendered}",
-    nginx = "${data.template_file.nginx.rendered}"
+    nginx = "${data.template_file.nginx.rendered}",
+    pki-demo = "${data.template_file.pki-demo.rendered}"
   }
 
   connection {
@@ -97,6 +97,12 @@ resource "null_resource" "remote-exec" {
   provisioner "file" {
     content      = "${data.template_file.nginx.rendered}"
     destination = "/tmp/nginx.cfg"
+  }
+
+  // copy our Comnsul-template configuration over
+  provisioner "file" {
+    content      = "${data.template_file.pki-demo.rendered}"
+    destination = "/tmp/pki-demo.hcl"
   }
 
   // change permissions to executable and pipe its output execution into a new file
