@@ -48,6 +48,15 @@ data "template_file" "nginx" {
   }
 }
 
+# NGINX configuration
+data "template_file" "pki-demo" {
+  template = "${file("./files/pki-demo.tpl")}"
+
+  vars {
+    vault_address = "${var.vault_addr}"
+  }
+}
+
 # Do out of band operation on Vault Server v1
 resource "null_resource" "remote-exec" {
   triggers {

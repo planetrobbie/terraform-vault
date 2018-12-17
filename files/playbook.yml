@@ -24,16 +24,28 @@
       deb: /tmp/pet_0.3.2_linux_amd64.deb
       state: present
 
-  - name: Download Consul-template
+  - name: Consul-template download
     get_url:
       url: https://releases.hashicorp.com/consul-template/0.19.5/consul-template_0.19.5_linux_amd64.zip
       dest: /tmp/
 
-  - name: Install Consul-template
+  - name: Consul-template installation
     unarchive:
       src: /tmp/consul-template_0.19.5_linux_amd64.zip
       dest: /usr/local/bin
       remote_src: yes
+
+  - name: Consul-template related directories
+    file:
+      path: "{{item}}"
+      state: directory
+    with_items: ["/etc/consul-template.d/", "/etc/nginx/tls/"]
+
+  - name: Consult-template configuration and templates
+    copy:
+      src: "{{item.key}}"
+      dest: "{{item.value}}"
+    with_dict: {"/tmp/pki-demo.hcl": "/etc/consul-template.d/pki-demo.hcl"}
 
   - name: copy the nginx config file and restart nginx
     copy:
