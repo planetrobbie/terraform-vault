@@ -33,6 +33,7 @@ data "template_file" "snippet" {
     db_user = "${var.db_user}"
     db_password = "${var.db_password}"
     dns_domain = "${var.dns_domain}"
+    pki_role = "${replace(substr(var.dns_domain, 0, length(var.dns_domain) - 1), ".", "-")}"
   }
 }
 

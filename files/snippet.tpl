@@ -70,7 +70,7 @@
   output = ""
 [[snippets]]
   description = "Vault TLS create Certificate"
-  command = "vault write pki_int/issue/${dns_domain} common_name=<host>.${dns_domain} ttl=5m"
+  command = "vault write pki_int/issue/${pki_role} common_name=<host>.${dns_domain} ttl=5m"
   tag = ["vault", "tls"]
   output = ""
 [[snippets]]
@@ -85,7 +85,7 @@
   output = ""
 [[snippets]]
   description = "Vault TLS revoke all issued Certificates"
-  command = "vault lease revoke -prefix pki_int/issue/${dns_domain}"
+  command = "vault lease revoke -prefix pki_int/issue/${pki_role}"
   tag = ["vault", "tls"]
   output = ""
 [[snippets]]

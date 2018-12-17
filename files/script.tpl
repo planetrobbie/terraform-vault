@@ -13,7 +13,7 @@ export VAULT_ADDR='${vault_address}'
 export VAULT_TOKEN='${vault_token}'
 export VAULT_CACERT=/etc/vault/tls/ca.crt
 
-vault login ${vault_token}
+#vault login ${vault_token}
 
 if [ ! -d ~/pki ]; then
     echo "Provisioning PKI"
@@ -45,7 +45,7 @@ if [ ! -d ~/pki ]; then
 	vault write pki_int/intermediate/set-signed certificate=@pki_int.pem
 
 	# Create PKI Role
-	vault write pki_int/roles/${dns_domain} \
+	vault write pki_int/roles/${pki_role} \
           allow_any_name=true \
           max_ttl="20m" \
           generate_lease=true
