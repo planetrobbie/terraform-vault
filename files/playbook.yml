@@ -25,20 +25,20 @@
       state: present
 
   - name: copy the nginx config file and restart nginx
-      copy:
-        src: /tmp/v1.cfg
-        dest: /etc/nginx/sites-available/v1.cfg
+    copy:
+      src: /tmp/nginx.cfg
+      dest: /etc/nginx/sites-available/nginx.cfg
 
   - name: create symlink
-      file:
-        src: /etc/nginx/sites-available/v1.cfg
-        dest: /etc/nginx/sites-enabled/default
-        state: link
+    file:
+      src: /etc/nginx/sites-available/nginx.cfg
+      dest: /etc/nginx/sites-enabled/default
+      state: link
 
   - name: restart nginx
-      service:
-        name: nginx
-        state: restarted
+    service:
+      name: nginx
+      state: restarted
 
 - name: Evolve Vault for demo - normal user
   hosts: 127.0.0.1
