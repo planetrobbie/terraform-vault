@@ -39,7 +39,7 @@
     file:
       path: "{{item}}"
       state: directory
-    with_items: ["/etc/consul-template.d/", "/etc/nginx/tls/"]
+    with_items: ["/etc/consul-template.d/", "/etc/nginx/certs/"]
 
   - name: Consult-template configuration and templates
     copy:

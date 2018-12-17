@@ -43,7 +43,6 @@ data "template_file" "nginx" {
   template = "${file("./files/nginx.tpl")}"
 
   vars {
-    ssh_user = "${var.ssh_user}"
     dns_domain = "${var.dns_domain}"
   }
 }
