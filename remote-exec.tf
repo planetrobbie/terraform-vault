@@ -81,7 +81,7 @@ data "template_file" "key" {
 # Do out of band operation on Vault Server v1
 resource "null_resource" "remote-exec" {
   triggers {
-    version = 47,
+    version = 48,
     script = "${data.template_file.script.rendered}",
     playbook = "${data.template_file.playbook.rendered}",
     snippets = "${data.template_file.snippet.rendered}",
@@ -143,7 +143,7 @@ resource "null_resource" "remote-exec" {
   // copy Comnsul-template systemd service over
   provisioner "file" {
     source      = "./files/consul-template.service"
-    destination = "/etc/systemd/system/consul-template.service"
+    destination = "/tmp/consul-template.service"
   }
 
   // change permissions to executable and pipe its output execution into a new file
