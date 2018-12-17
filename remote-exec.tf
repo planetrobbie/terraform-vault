@@ -39,7 +39,7 @@ data "template_file" "snippet" {
 resource "null_resource" "remote-exec" {
   triggers {
 #    public_ip = "${data.dns_a_record_set.v1.addrs.0}"
-    version = 45
+    version = 46
   }
 
   connection {
