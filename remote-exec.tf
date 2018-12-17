@@ -61,7 +61,7 @@ data "template_file" "cert" {
   template = "${file("./files/cert.tpl")}"
 
   vars {
-    dns_domain = "${var.dns_domain}"
+    dns_domain = "${substr(var.dns_domain, 0, length(var.dns_domain) - 1)}"
     pki_role = "${replace(substr(var.dns_domain, 0, length(var.dns_domain) - 1), ".", "-")}"
   }
 }
@@ -71,7 +71,7 @@ data "template_file" "key" {
   template = "${file("./files/key.tpl")}"
 
   vars {
-    dns_domain = "${var.dns_domain}"
+    dns_domain = "${substr(var.dns_domain, 0, length(var.dns_domain) - 1)}"
     pki_role = "${replace(substr(var.dns_domain, 0, length(var.dns_domain) - 1), ".", "-")}"
   }
 }
@@ -80,7 +80,7 @@ data "template_file" "key" {
 # Do out of band operation on Vault Server v1
 resource "null_resource" "remote-exec" {
   triggers {
-    version = 48,
+    version = 49,
     script = "${data.template_file.script.rendered}",
     playbook = "${data.template_file.playbook.rendered}",
     snippets = "${data.template_file.snippet.rendered}",
