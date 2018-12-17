@@ -17,10 +17,10 @@
   description = "Vault API with payload"
   command = "curl -sS -X <VERB> -H \"X-Vault-Token: $TOKEN\" -d @<PAYLOAD> ${vault_address}/v1/<PATH> | jq"
   tag = ["vault", "api"]
-  output = 
+  output = ""
 [[snippets]]
   description = "Vault API self renew token"
-  command = "curl -H "X-Vault-Token: $TOKEN" -X POST ${vault_address}/v1/auth/token/renew-self | jq"
+  command = "curl -H \"X-Vault-Token: $TOKEN\" -X POST ${vault_address}/v1/auth/token/renew-self | jq"
   tag = ["vault", "api", "token"]
   output = ""
 [[snippets]]
@@ -30,7 +30,7 @@
   output = ""
 [[snippets]]
   description = "Vault API DB read creds"
-  command = "curl -H "X-Vault-Token: $TOKEN" -X POST --data '{ "lease_id": "database/creds/my-role/<lease_id>", "increment": 3600}' ${vault_address}/v1/sys/leases/renew | jq ."
+  command = "curl -H \"X-Vault-Token: $TOKEN\" -X POST --data '{ \"lease_id\": \"database/creds/my-role/<lease_id>\", \"increment\": 3600}' ${vault_address}/v1/sys/leases/renew | jq ."
   tag = ["vault", "api", "db", "lease"]
   output = ""
 [[snippets]]
