@@ -44,14 +44,14 @@ resource "google_service_account_key" "vault-iam-auth-key" {
 #}
 
 # Configure GCP AUTH with previous key
-resource "vault_generic_secret" "gcp-auth-config" {
-  path = "auth/gcp/config"
-
-  data_json = <<EOT
-{
-  "credentials": "${google_service_account_key.vault-iam-auth-key.public_key}"
-}
-EOT
-
-depends_on = ["vault_auth_backend.gcp"]
-}
+#resource "vault_generic_secret" "gcp-auth-config" {
+#  path = "auth/gcp/config"
+#
+#  data_json = <<EOT
+#{
+#  "credentials": "${google_service_account_key.vault-iam-auth-key.public_key}"
+#}
+#EOT
+#
+#depends_on = ["vault_auth_backend.gcp"]
+#}
