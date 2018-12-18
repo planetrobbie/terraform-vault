@@ -6,24 +6,31 @@ sudo apt-get install software-properties-common --yes
 sudo apt-add-repository --update ppa:ansible/ansible --yes
 sudo apt-get install ansible --yes
 sudo apt-get install mysql-client -y
+
+# Ansible Playbook
 /usr/bin/ansible-playbook playbook.yml
 
-# Vault
+# Vault environment variables
 export VAULT_ADDR='${vault_address}'
 export VAULT_TOKEN='${vault_token}'
 export VAULT_CACERT=/etc/vault/tls/ca.crt
 
 # Authenticate Vault using AppRole.
-
 if [ ! -d ~/approle ]; then
 	echo "Authenticating thru AppRole"
 
-    mkdir ~/approle; cd ~/approle
+    mkdir ~/approle
 	sudo vault write auth/approle/login role_id=${role_id} secret_id=${secret_id}
-	echo ${role_id} > ~/role_id
-	echo ${secret_id} > ~/secret_id
+	echo ${role_id} > ~/approle/role_id
+	echo ${secret_id} > ~/approle/secret_id
+
+	vault agent -config=/tmp/vault-agent.hcl
+
+	# Position the Vault token for Consul-template process which runs as root
+	sudo mv /tmp/consul-template-token /root/.vault-token
 fi
 
+# Provision Root and Intermediate Certificate Authority
 if [ ! -d ~/pki ]; then
     echo "Provisioning PKI"
 

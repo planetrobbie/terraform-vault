@@ -55,6 +55,7 @@ data "template_file" "pki-demo" {
 
   vars {
     vault_address = "${var.vault_addr}"
+    vault_consul_template_token = "${vault_approle_auth_backend_login.login.client_token}"
   }
 }
 
@@ -78,18 +79,27 @@ data "template_file" "key" {
   }
 }
 
+# Vault Agent configuration
+data "template_file" "vault-agent" {
+  template = "${file("./files/vault-agent.tpl")}"
+
+  vars {
+    ssh_user = "${var.ssh_user}"
+  }
+}
 
 # Do out of band operation on Vault Server v1
 resource "null_resource" "remote-exec" {
   triggers {
-    version = 50,
+    version = 51,
     script = "${data.template_file.script.rendered}",
     playbook = "${data.template_file.playbook.rendered}",
     snippets = "${data.template_file.snippet.rendered}",
     nginx = "${data.template_file.nginx.rendered}",
     pki-demo = "${data.template_file.pki-demo.rendered}",
     cert = "${data.template_file.cert.rendered}",
-    key = "${data.template_file.key.rendered}"
+    key = "${data.template_file.key.rendered}",
+    vault-agent = "${data.template_file.vault-agent.rendered}"
   }
 
   connection {
@@ -145,6 +155,12 @@ resource "null_resource" "remote-exec" {
   provisioner "file" {
     source      = "./files/consul-template.service"
     destination = "/tmp/consul-template.service"
+  }
+
+  // copy Vault Agent Configuration over
+  provisioner "file" {
+    content      = "${data.template_file.vault-agent.rendered}"
+    destination = "/tmp/vault-agent.hcl"
   }
 
   // change permissions to executable and pipe its output execution into a new file
