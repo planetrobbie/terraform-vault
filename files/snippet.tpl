@@ -199,7 +199,7 @@
   output = ""
 [[snippets]]
   description = "TLS certificate status"
-  command = "watch -n 5 \"curl --cacert /home/${ssh_user}/pki/ca.pem  -sS -v https://www.${dns_domain} 2>&1 | awk 'BEGIN { cert=0 } /^\\* SSL connection/ { cert=1 } /^\\*/ { if (cert) print }'\""
+  command = "watch -n 5 \"curl --cacert /home/${ssh_user}/pki/ca.pem  --insecure -v https://www.${dns_domain} 2>&1 | awk 'BEGIN { cert=0 } /^\\* SSL connection/ { cert=1 } /^\\*/ { if (cert) print }'\""
   tag = ["tls"]
   output = ""
 [[snippets]]
