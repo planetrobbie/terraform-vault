@@ -22,6 +22,13 @@ variable "vault_token" {
   description = "Vault Token"
 }
 
+### Auth
+
+variable "userpass_password" {
+  description = "vault userpass password"
+  default = "vpass"
+}
+
 ### MySQL Secret Engine
 
 variable "enable_secret_engine_db" {

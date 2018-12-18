@@ -7,7 +7,7 @@ resource "vault_generic_secret" "ops-user" {
 
   data_json = <<EOT
 {
-  "password": "ops",
+  "password": "${var.userpass_password}",
   "policies": "ops"
 }
 EOT
@@ -19,7 +19,7 @@ resource "vault_generic_secret" "dev-user" {
 
   data_json = <<EOT
 {
-  "password": "dev",
+  "password": "${var.userpass_password}",
   "policies": "dev"
 }
 EOT
@@ -31,7 +31,7 @@ resource "vault_generic_secret" "admin-user" {
 
   data_json = <<EOT
 {
-  "password": "admin",
+  "password": "${var.userpass_password}",
   "policies": "admin"
 }
 EOT
