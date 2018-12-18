@@ -44,7 +44,7 @@ resource "vault_generic_secret" "gcp-auth-config" {
 
   data_json = <<EOT
 {
-  "credentials": "${base64decode(google_service_account_key.vault-iam-auth-key.private_key)}"
+  "credentials": "${chomp(base64decode(google_service_account_key.vault-iam-auth-key.private_key))}"
 }
 EOT
 
