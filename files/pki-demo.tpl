@@ -1,6 +1,6 @@
 vault {
   address = "${vault_address}"
-  token = "${vault_consul_template_token}"
+  token = "vault_consul_template_token"
   renew_token = false
 
   retry {

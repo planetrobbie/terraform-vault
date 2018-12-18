@@ -55,7 +55,7 @@ data "template_file" "pki-demo" {
 
   vars {
     vault_address = "${var.vault_addr}"
-    vault_consul_template_token = "${vault_approle_auth_backend_login.login.client_token}"
+#    vault_consul_template_token = "${vault_approle_auth_backend_login.login.client_token}"
   }
 }
 
