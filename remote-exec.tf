@@ -85,6 +85,8 @@ data "template_file" "vault-agent" {
 
   vars {
     ssh_user = "${var.ssh_user}"
+    role_id = "${vault_approle_auth_backend_role.consul-template.role_id}"
+    secret_id = "${vault_approle_auth_backend_role_secret_id.consul-template.secret_id}"
   }
 }
 
