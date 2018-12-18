@@ -10,5 +10,5 @@ resource "vault_approle_auth_backend_role" "consul-template" {
 
 resource "vault_approle_auth_backend_role_secret_id" "consul-template" {
   backend   = "${vault_auth_backend.approle.path}"
-  role_name = "${vault_approle_auth_backend_role.consul-template.consul-template}"
+  role_name = "${vault_approle_auth_backend_role.consul-template.role_name}"
 }
