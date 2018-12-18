@@ -10,7 +10,7 @@ resource "google_service_account" "vault-iam-auth" {
 
 # Assign Required Role to Service Account
 resource "google_project_iam_member" "vault-iam-auth-token-creator-role" {
-  project = "${project_id}"
+  project = "${var.project_id}"
   role    = "roles/iam.serviceAccountTokenCreator"
   member  = "serviceAccount:${project_id}-vault-iam-auth@sb-vault.iam.gserviceaccount.com"
 }
