@@ -38,10 +38,10 @@ resource "google_service_account_key" "vault-iam-auth-key" {
 }
 
 # Grab previous key as X.509 PEM File
-data "google_service_account_key" "vault-iam-auth-key" {
-  name = "${google_service_account_key.vault-iam-auth-key.name}"
-  public_key_type = "TYPE_X509_PEM_FILE"
-}
+#data "google_service_account_key" "vault-iam-auth-key" {
+#  name = "${google_service_account_key.vault-iam-auth-key.name}"
+#  public_key_type = "TYPE_X509_PEM_FILE"
+#}
 
 # Configure GCP AUTH with previous key
 resource "vault_generic_secret" "gcp-auth-config" {
