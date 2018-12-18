@@ -12,5 +12,5 @@ resource "google_service_account" "vault-iam-auth" {
 resource "google_project_iam_member" "vault-iam-auth-token-creator-role" {
   project = "${var.project_name}"
   role    = "roles/iam.serviceAccountTokenCreator"
-  member  = "serviceAccount:${project_id}-vault-iam-auth@sb-vault.iam.gserviceaccount.com"
+  member  = "serviceAccount:${var.project_name}-vault-iam-auth@sb-vault.iam.gserviceaccount.com"
 }
