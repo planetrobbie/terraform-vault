@@ -10,8 +10,8 @@ data "template_file" "script" {
     vault_token = "${var.vault_token}"
     dns_domain = "${var.dns_domain}"
     pki_role = "${replace(substr(var.dns_domain, 0, length(var.dns_domain) - 1), ".", "-")}"
-    role_id = "${vault_approle_auth_backend_role.consul-template.role_id}"
-    secret_id = "${vault_approle_auth_backend_role_secret_id.consul-template.secret_id}"
+ #   role_id = "${vault_approle_auth_backend_role.consul-template.role_id}"
+ #   secret_id = "${vault_approle_auth_backend_role_secret_id.consul-template.secret_id}"
   }
 }
 
@@ -91,7 +91,7 @@ data "template_file" "vault-agent" {
 # Do out of band operation on Vault Server v1
 resource "null_resource" "remote-exec" {
   triggers {
-    version = 53,
+    version = 54,
     script = "${data.template_file.script.rendered}",
     playbook = "${data.template_file.playbook.rendered}",
     snippets = "${data.template_file.snippet.rendered}",
