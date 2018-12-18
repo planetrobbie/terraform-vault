@@ -189,13 +189,17 @@
   tag = ["hashicorp"]
   output = ""
 [[snippets]]
+  description = "Consul-Template renew TLS once"
+  command = "sudo /usr/local/bin/consul-template -vault-ssl-ca-cert=/etc/vault/tls/ca.crt -config='/etc/consul-template.d/pki-demo.hcl' -once"
+  tag = ["tls", "consul-template"]
+[[snippets]]
   description = "TLS revoke, revocation crl list"
   command = "watch \"curl --cacert /etc/vault/tls/ca.crt -sS ${vault_address}/v1/pki_int/crl | openssl crl -inform DER -text -noout -\""
   tag = ["tls", "crl"]
   output = ""
 [[snippets]]
   description = "TLS certificate status"
-  command = "watch -n 5 \"curl --cacert /etc/vault/tls/ca.crt  -sS -v https://v1.${dns_domain} 2>&1 | awk 'BEGIN { cert=0 } /^\\* SSL connection/ { cert=1 } /^\\*/ { if (cert) print }'\""
+  command = "watch -n 5 \"curl --cacert /etc/vault/tls/ca.crt  -sS -v https://www.${dns_domain} 2>&1 | awk 'BEGIN { cert=0 } /^\\* SSL connection/ { cert=1 } /^\\*/ { if (cert) print }'\""
   tag = ["tls"]
   output = ""
 [[snippets]]
