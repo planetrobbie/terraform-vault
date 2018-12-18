@@ -16,6 +16,6 @@ output "mysql_connection_string" {
 }
 
 output "google_priv_creds" {
-  value = "${base64decode(google_service_account_key.vault-iam-auth-key.private_key)}"
+  value = "${jsonencode(base64decode(google_service_account_key.vault-iam-auth-key.private_key))}"
 }
 
