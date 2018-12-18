@@ -39,11 +39,11 @@
   output = ""
 [[snippets]]
   description = "Vault API AppRole login"
-  command = "curl --request POST --data '{\"role_id\":\"<role_id=${role_id}>\",\"secret_id\":\"<secret_id=${secret_id}>\"}' ${vault_addr}/v1/auth/approle/login"
+  command = "curl --request POST --data '{\"role_id\":\"<role_id=${role_id}>\",\"secret_id\":\"<secret_id=${secret_id}>\"}' ${vault_address}/v1/auth/approle/login"
   tag = ["vault", "api", "auth", "approle"]
 [[snippets]]
   description = "Vault AUTH AppRole list roles"
-  command = "curl --cacert /etc/vault/tls/ca.crt -sS -X LIST -H \"X-Vault-Token: $TOKEN\" ${vault_addr}/v1/auth/approle/role | jq ."
+  command = "curl --cacert /etc/vault/tls/ca.crt -sS -X LIST -H \"X-Vault-Token: $TOKEN\" ${vault_address}/v1/auth/approle/role | jq ."
   tag = ["vault", "api", "auth", "approle"]
 [[snippets]]
   description = "Vault AUTH AppRole list secret_id accessors"
