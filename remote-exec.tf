@@ -10,8 +10,8 @@ data "template_file" "script" {
     vault_token = "${var.vault_token}"
     dns_domain = "${var.dns_domain}"
     pki_role = "${replace(substr(var.dns_domain, 0, length(var.dns_domain) - 1), ".", "-")}"
- #   role_id = "${vault_approle_auth_backend_role.consul-template.role_id}"
- #   secret_id = "${vault_approle_auth_backend_role_secret_id.consul-template.secret_id}"
+    role_id = "${vault_approle_auth_backend_role.consul-template.role_id}"
+    secret_id = "${vault_approle_auth_backend_role_secret_id.consul-template.secret_id}"
   }
 }
 
@@ -55,7 +55,7 @@ data "template_file" "pki-demo" {
 
   vars {
     vault_address = "${var.vault_addr}"
-#    vault_consul_template_token = "${vault_approle_auth_backend_login.login.client_token}"
+    vault_consul_template_token = "${vault_approle_auth_backend_login.login.client_token}"
   }
 }
 
