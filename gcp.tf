@@ -24,6 +24,7 @@ resource "google_project_iam_member" "vault-iam-auth-key-admin" {
 
 # GCP AUTH IAM Role
 resource "vault_gcp_auth_backend_role" "gcp" {
+    role                   = "iam"
     type                   = "iam"
     backend                = "${vault_auth_backend.gcp.path}"
     project_id             = "${var.project_name}"
