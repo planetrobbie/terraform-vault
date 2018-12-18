@@ -36,8 +36,12 @@
 [[snippets]]
   description = "Vault AUTH login userpass"
   command = "vault login -method=userpass username=<user> password=<password>"
-  tag = ["vault", "auth"]
+  tag = ["vault", "auth", "userpass"]
   output = ""
+[[snippets]]
+  description = "Vault AUTH login AppRole"
+  command = "vault write auth/approle/login role_id=<role_id> secret_id=<secret_id>"
+  tag = ["vault", "auth", "approle"]
 [[snippets]]
   description = "Vault KV put"
   command = "vault kv put kv/<secret>"

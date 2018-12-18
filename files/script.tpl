@@ -13,7 +13,16 @@ export VAULT_ADDR='${vault_address}'
 export VAULT_TOKEN='${vault_token}'
 export VAULT_CACERT=/etc/vault/tls/ca.crt
 
-#vault login ${vault_token}
+# Authenticate Vault using AppRole.
+
+if [ ! -d ~/approle ]; then
+	echo "Authenticating thru AppRole"
+
+    mkdir ~/approle; cd ~/approle
+	sudo vault write auth/approle/login role_id=${role_id} secret_id=${secret_id}
+	echo ${role_id} > ~/role_id
+	echo ${secret_id} > ~/secret_id
+fi
 
 if [ ! -d ~/pki ]; then
     echo "Provisioning PKI"
