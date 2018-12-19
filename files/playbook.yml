@@ -11,7 +11,7 @@
   tasks:
   - name: install required packages
     apt:
-      pkg: ['zsh', 'nginx', 'jq', 'unzip']
+      pkg: ['zsh', 'nginx', 'jq', 'unzip', 'mysql-client']
       state: latest
 
   - name: Download Pet, Simple command-line snippet manager, written in Go.

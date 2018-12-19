@@ -5,7 +5,6 @@ sudo apt-get update
 sudo apt-get install software-properties-common --yes
 sudo apt-add-repository --update ppa:ansible/ansible --yes
 sudo apt-get install ansible --yes
-sudo apt-get install mysql-client -y
 
 # Ansible Playbook
 /usr/bin/ansible-playbook playbook.yml

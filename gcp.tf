@@ -39,6 +39,16 @@ resource "google_service_account_key" "vault-iam-auth-key" {
   service_account_id = "${google_service_account.vault-iam-auth.name}"
 }
 
+# GCP AUTH GCE Role
+resource "vault_gcp_auth_backend_role" "gce" {
+    role                   = "gce"
+    type                   = "gce"
+    backend                = "${vault_auth_backend.gcp.path}"
+    project_id             = "${var.project_name}"
+    bound_zones            = "${var.region_zone}"
+    bound_labels           = "auth:yes"
+    policies               = ["dev", "ops"]
+}
 
 # Configure GCP AUTH with previous key
 # Key Insertion like below doesn't work \n cause issues.
