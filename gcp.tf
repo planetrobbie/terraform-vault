@@ -20,7 +20,7 @@ resource "google_project_iam_member" "vault-iam-auth-token-creator-role" {
 }
 
 # Assign Required Role to Service Account for GCP Secret Engine
-resource "google_project_iam_member" "vault-iam-auth-key-admin" {
+resource "google_project_iam_member" "vault-iam-auth-account-create" {
   project = "${var.project_name}"
   role    = "roles/iam.serviceAccounts.create"
   member  = "serviceAccount:${var.project_name}-vault-iam-auth@${var.project_name}.iam.gserviceaccount.com"
