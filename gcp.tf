@@ -49,6 +49,13 @@ resource "google_project_iam_member" "vault-iam-auth-compute-viewer" {
   member  = "serviceAccount:${var.project_name}-vault-iam-auth@${var.project_name}.iam.gserviceaccount.com"
 }
 
+# This should be fine grained.
+resource "google_project_iam_member" "vault-iam-auth-project-owner" {
+  project = "${var.project_name}"
+  role    = "roles/owner"
+  member  = "serviceAccount:${var.project_name}-vault-iam-auth@${var.project_name}.iam.gserviceaccount.com"
+}
+
 # GCP AUTH IAM Role
 resource "vault_gcp_auth_backend_role" "gcp" {
     role                   = "iam"
