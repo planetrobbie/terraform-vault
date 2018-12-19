@@ -147,6 +147,14 @@
   tag = ["vault", "token"]
   output = ""
 [[snippets]]
+  description = "VAULT TOKEN create batch"
+  command = "vault token create -type=batch -policy=<policy=default>"
+  tag = ["vault","token","batch"]
+[[snippets]]
+  description = "VAULT TOKEN lookup"
+  command = "VAULT_TOKEN=<token> vault token lookup"
+  tag = ["vault","token"]
+[[snippets]]
   description = "Vault LEASE revoke prefix"
   command = "vault lease revoke -prefix <prefix>"
   tag = ["vault", "lease"]
@@ -203,7 +211,7 @@
   output = ""
 [[snippets]]
   description = "GCP get JWT token"
-  command = "export TOKEN=\"$(curl -sS -H 'Metadata-Flavor: Google' --get --data-urlencode 'audience=http://vault/gce-role'  --data-urlencode 'format=full'  'http://metadata/computeMetadata/v1/instance/service-accounts/default/identity')\""
+  command = "export JWT_TOKEN=\"$(curl -sS -H 'Metadata-Flavor: Google' --get --data-urlencode 'audience=http://vault/gce' --data-urlencode 'format=full' 'http://metadata/computeMetadata/v1/instance/service-accounts/default/identity')\""
   tag = ["gcp", "token"]
   output = ""
 [[snippets]]
@@ -217,7 +225,7 @@
   tag = ["vault","gcp","auth"]
 [[snippets]]
   description = "Vault GCP AUTH login thru gce role"
-  command = "vault write auth/gcp/login role=\"gce-role\" jwt=\"$TOKEN\""
+  command = "vault write auth/gcp/login role=\"gce\" jwt=\"$JWT_TOKEN\""
   tag = ["vault", "gcp"]
   output = ""
 [[snippets]]
