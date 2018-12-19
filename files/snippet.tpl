@@ -235,11 +235,15 @@
   output = ""
 [[snippets]]
   description = "VAULT GCP SECRETS roleset create service_account_key type"
-  command = "vault write gcp/roleset/key project=\"${project_name}\" secret_type=\"service_account_key\" bindings='resource \"//cloudresourcemanager.googleapis.com/projects/${project_name}\" {roles = [\"roles/viewer\"]}'"
+  command = "vault write gcp/roleset/<roleset> project=\"${project_name}\" secret_type=\"service_account_key\" bindings='resource \"//cloudresourcemanager.googleapis.com/projects/${project_name}\" {roles = [\"roles/viewer\"]}'"
+  tag = ["vault","gcp","secrets"]
+[[snippets]]
+  description = "VAULT GCP SECRETS roleset delete service_account_key type"
+  command = "vault delete gcp/roleset/<roleset>"
   tag = ["vault","gcp","secrets"]
 [[snippets]]
   description = "Vault GCP SECRETS get key"
-  command = "vault read gcp/key/key"
+  command = "vault read gcp/key/<key=key>"
   tag = ["vault", "gcp", "secrets"]
   output = ""
 [[snippets]]

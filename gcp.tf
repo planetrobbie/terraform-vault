@@ -13,6 +13,7 @@ resource "google_service_account" "vault-iam-auth" {
 }
 
 # Assign Required Role to Service Account for GCP AUTH
+# IAM roles documented @ https://cloud.google.com/iam/docs/understanding-roles
 resource "google_project_iam_member" "vault-iam-auth-token-creator-role" {
   project = "${var.project_name}"
   role    = "roles/iam.serviceAccountTokenCreator"
@@ -23,6 +24,18 @@ resource "google_project_iam_member" "vault-iam-auth-token-creator-role" {
 resource "google_project_iam_member" "vault-iam-auth-account-create" {
   project = "${var.project_name}"
   role    = "roles/iam.serviceAccountAdmin"
+  member  = "serviceAccount:${var.project_name}-vault-iam-auth@${var.project_name}.iam.gserviceaccount.com"
+}
+
+# Assign Required Role to Service Account for GCP Secret Engine - Token - demo on storage bucket
+resource "google_project_iam_member" "vault-iam-auth-storage-admin" {
+  project = "${var.project_name}"
+  role    = "roles/storage.objectAdmin"
+  member  = "serviceAccount:${var.project_name}-vault-iam-auth@${var.project_name}.iam.gserviceaccount.com"
+}
+resource "google_project_iam_member" "vault-iam-auth-storage-legacy-bucket-reader" {
+  project = "${var.project_name}"
+  role    = "roles/storage.legacyBucketReader"
   member  = "serviceAccount:${var.project_name}-vault-iam-auth@${var.project_name}.iam.gserviceaccount.com"
 }
 
@@ -65,6 +78,13 @@ resource "vault_gcp_auth_backend_role" "gce" {
     bound_zones            = ["${var.region_zone}"]
     bound_labels           = ["auth:yes"]
     policies               = ["dev", "ops"]
+}
+
+# GCP Bucket for GCP Secret Engine demo
+resource "google_storage_bucket" "demo_bucket" {
+  name          = "${var.project_name}"
+  location      = "EU"
+  force_destroy = "true"
 }
 
 ### SECRETS
