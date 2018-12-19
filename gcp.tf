@@ -1,3 +1,5 @@
+# Documentation
+# https://www.vaultproject.io/docs/auth/gcp.html
 resource "vault_auth_backend" "gcp" {
   type = "gcp"
 }
@@ -46,7 +48,7 @@ resource "google_service_account_key" "vault-iam-auth-key" {
 
 #  data_json = <<EOT
 #{
-#  "credentials": "${jsonencode(base64decode(google_service_account_key.vault-iam-auth-key.private_key))}"
+#  "credentials": "${base64decode(google_service_account_key.vault-iam-auth-key.private_key)}"
 #}
 #EOT
 #
