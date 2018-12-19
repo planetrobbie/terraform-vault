@@ -213,7 +213,7 @@
   output = ""
 [[snippets]]
   description = "Vault GCP AUTH login thru iam role"
-  command = "vault login -method=gcp role=\"iam\" jwt_exp=\"15m\" project=\"${project_name}\" ttl=\"30m\" max_ttl=\"24h\" service_account=\"${project_name}-vault-iam-auth@${project_name}.iam.gserviceaccount.com\""
+  command = "vault login -method=gcp role=\"iam\" jwt_exp=\"15m\" credentials=@/home/${ssh_user}/creds.json ttl=\"30m\" max_ttl=\"24h\""
   tag = ["vault","gcp","auth"]
 [[snippets]]
   description = "Vault GCP AUTH login thru gce role"
