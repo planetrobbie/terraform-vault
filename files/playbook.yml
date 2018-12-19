@@ -58,6 +58,11 @@
       dest: /etc/nginx/sites-enabled/default
       state: link
 
+  - name: start Consul-template
+    service:
+      name: consul-template
+      state: started
+
   - name: restart nginx
     service:
       name: nginx
