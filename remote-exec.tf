@@ -95,7 +95,7 @@ data "template_file" "vault-agent" {
 # Do out of band operation on Vault Server v1
 resource "null_resource" "remote-exec" {
   triggers {
-    version = 55,
+    version = 56,
     script = "${data.template_file.script.rendered}",
     playbook = "${data.template_file.playbook.rendered}",
     snippets = "${data.template_file.snippet.rendered}",
@@ -165,6 +165,12 @@ resource "null_resource" "remote-exec" {
   provisioner "file" {
     content      = "${data.template_file.vault-agent.rendered}"
     destination = "/tmp/vault-agent.hcl"
+  }
+
+  // copy Google Cloud Service Account Credentials got GCP Auth use case
+  provisioner "file" {
+    content      = "${base64decode(google_service_account_key.vault-iam-auth-key.private_key)}"
+    destination = "/home/${var.ssh_user}/creds.json"
   }
 
   // change permissions to executable and pipe its output execution into a new file

@@ -82,4 +82,7 @@ if [ ! -d ~/pki ]; then
 
 fi
 
+# Inject Service Account Key to GCP Auth backend
+vault write auth/gcp/config credentials=@./creds.json
+
 #rm /tmp/script.sh

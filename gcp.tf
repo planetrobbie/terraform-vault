@@ -39,7 +39,9 @@ resource "google_service_account_key" "vault-iam-auth-key" {
 
 
 # Configure GCP AUTH with previous key
-#esource "vault_generic_secret" "gcp-auth-config" {
+# Key Insertion like below doesn't work \n cause issues.
+# so switching to CLI
+#resource "vault_generic_secret" "gcp-auth-config" {
 # path = "auth/gcp/config"
 
 #  data_json = <<EOT

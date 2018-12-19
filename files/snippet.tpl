@@ -208,9 +208,13 @@
   output = ""
 [[snippets]]
   description = "Vault GCP AUTH create role type gce"
-  command = "vault write auth/gcp/role/<role> type=\"gce\" project_id=\"${project_name}\"     policies=\"<policy>\" bound_zones=\"<bound_zone>\" ttl=\"30m\" max_ttl=\"24h\""
-  tag = ["vault", "gcp"]
+  command = "vault write auth/gcp/role/<role> type=\"gce\" project_id=\"${project_name}\" policies=\"<policy>\" bound_zones=\"<bound_zone>\" ttl=\"30m\" max_ttl=\"24h\""
+  tag = ["vault", "gcp", "auth"]
   output = ""
+[[snippets]]
+  description = "Vault GCP AUTH login thru iam role"
+  command = "vault login -method=gcp role=\"iam\" jwt_exp=\"15m\" project=\"${project_name}\" ttl=\"30m\" max_ttl=\"24h\" service_account=\"${project_name}-vault-iam-auth@${project_name}.iam.gserviceaccount.com\""
+  tag = ["vault","gcp","auth"]
 [[snippets]]
   description = "Vault GCP AUTH login thru gce role"
   command = "vault write auth/gcp/login role=\"gce-role\" jwt=\"$TOKEN\""
