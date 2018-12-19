@@ -1,3 +1,5 @@
+
+### AUTH
 # Documentation
 # https://www.vaultproject.io/docs/auth/gcp.html
 resource "vault_auth_backend" "gcp" {
@@ -56,6 +58,16 @@ resource "vault_gcp_auth_backend_role" "gce" {
     bound_zones            = ["${var.region_zone}"]
     bound_labels           = ["auth:yes"]
     policies               = ["dev", "ops"]
+}
+
+### SECRETS
+# Documentation
+# https://www.vaultproject.io/docs/secrets/gcp.html
+
+resource "vault_mount" "gcp" {
+  path        = "gcp"
+  type        = "gcp"
+  description = "This is a Google Cloud Platform secret engine"
 }
 
 # Configure GCP AUTH with previous key
