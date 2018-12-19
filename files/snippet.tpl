@@ -90,7 +90,7 @@
   output = ""
 [[snippets]]
   description = "Vault DB create role"
-  command = "vault write database/roles/readonly db_name=mysql creation_statements=\"CREATE USER '{{name}}'@'%' IDENTIFIED BY '{{password}}';GRANT ALL PRIVILEGES ON *.* . * TO '{{name}}'@'%';\" default_ttl=\"1m\" max_ttl=\"24h\""
+  command = "vault write db/roles/all db_name=mysql creation_statements=\"CREATE USER '{{name}}'@'%' IDENTIFIED BY '{{password}}';GRANT ALL PRIVILEGES ON *.* TO '{{name}}'@'%';\" default_ttl=\"1m\" max_ttl=\"24h\""
   tag = ["vault", "mysql", "db"]
 [[snippets]]
   description = "Vault DB read creds"

@@ -60,7 +60,7 @@ resource "vault_database_secret_backend_connection" "mysql" {
   count = "${var.enable_secret_engine_db}"
   backend       = "${vault_mount.database.path}"
   name          = "mysql"
-  allowed_roles = ["ops", "dev"]
+  allowed_roles = ["ops", "dev", "all"]
   verify_connection = false
 
   mysql {
@@ -85,7 +85,7 @@ resource "vault_database_secret_backend_role" "dev" {
   backend             = "${vault_mount.database.path}"
   name                = "dev"
   db_name             = "${vault_database_secret_backend_connection.mysql.name}"
-  creation_statements = "CREATE USER '{{name}}'@'%' IDENTIFIED BY '{{password}}';GRANT ALL PRIVILEGES ON *.* . * TO '{{name}}'@'%';"
+  creation_statements = "CREATE USER '{{name}}'@'%' IDENTIFIED BY '{{password}}';GRANT ALL PRIVILEGES ON *.* TO '{{name}}'@'%';"
   default_ttl         = "${var.db_default_ttl}"
   max_ttl             = "${var.db_max_ttl}"
 }
