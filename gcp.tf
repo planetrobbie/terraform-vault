@@ -24,6 +24,14 @@ resource "google_project_iam_member" "vault-iam-auth-key-admin" {
   member  = "serviceAccount:${var.project_name}-vault-iam-auth@${var.project_name}.iam.gserviceaccount.com"
 }
 
+# Assign Required Role to Service Account
+# Compute roles documented @ https://cloud.google.com/compute/docs/access/iam
+resource "google_project_iam_member" "vault-iam-auth-compute-viewer" {
+  project = "${var.project_name}"
+  role    = "roles/compute.viewer"
+  member  = "serviceAccount:${var.project_name}-vault-iam-auth@${var.project_name}.iam.gserviceaccount.com"
+}
+
 # GCP AUTH IAM Role
 resource "vault_gcp_auth_backend_role" "gcp" {
     role                   = "iam"
