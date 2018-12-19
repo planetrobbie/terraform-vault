@@ -265,7 +265,7 @@
   output = ""
 [[snippets]]
   description = "GCP demo OAuth works"
-  command = "curl -X POST --data-binary @<file=playbook.yml> -H "Authorization: Bearer XXTOKENXX\" -H \"Content-Type: text/html\" \"https://www.googleapis.com/upload/storage/v1/b/${project_name}/o?uploadType=media&name=<file=playbook.yml>\""
+  command = "curl -X POST --data-binary @<file=playbook.yml> -H \"Authorization: Bearer XXTOKENXX\" -H \"Content-Type: text/html\" \"https://www.googleapis.com/upload/storage/v1/b/${project_name}/o?uploadType=media&name=<file=playbook.yml>\""
   tag = ["oauth"]
 [[snippets]]
   description = "HashiCorp GET latest product version"
