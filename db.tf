@@ -60,7 +60,7 @@ resource "vault_database_secret_backend_connection" "mysql" {
   count = "${var.enable_secret_engine_db}"
   backend       = "${vault_mount.database.path}"
   name          = "mysql"
-  allowed_roles = ["ops", "dev"]
+  allowed_roles = ["ops", "dev", "all"]
   verify_connection = false
 
   mysql {
