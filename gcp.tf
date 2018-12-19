@@ -6,7 +6,7 @@ resource "vault_auth_backend" "gcp" {
   type = "gcp"
 }
 
-# Create a Service Account specifically for this IAM GCP Auth use case
+# Create a Service Account for GCP Auth and Secret Engine use cases
 resource "google_service_account" "vault-iam-auth" {
   account_id   = "${var.project_name}-vault-iam-auth"
   display_name = "${var.project_name} Vault IAM Auth Account"
@@ -22,7 +22,7 @@ resource "google_project_iam_member" "vault-iam-auth-token-creator-role" {
 # Assign Required Role to Service Account for GCP Secret Engine
 resource "google_project_iam_member" "vault-iam-auth-account-create" {
   project = "${var.project_name}"
-  role    = "roles/iam.serviceAccounts.create"
+  role    = "roles/iam.serviceAccountsAdmin"
   member  = "serviceAccount:${var.project_name}-vault-iam-auth@${var.project_name}.iam.gserviceaccount.com"
 }
 
