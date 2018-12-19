@@ -181,4 +181,6 @@ resource "null_resource" "remote-exec" {
       "/tmp/script.sh > /tmp/script",
     ]
   }
+
+  depends_on = ["google_sql_database_instance.master", "vault_auth_backend.approle", "vault_mount.pki", "vault_mount.gcp", "vault_mount.kv", "vault_auth_backend.userpass", "vault_auth_backend.gcp"]
 }
