@@ -85,7 +85,7 @@ resource "vault_database_secret_backend_role" "dev" {
   backend             = "${vault_mount.database.path}"
   name                = "dev"
   db_name             = "${vault_database_secret_backend_connection.mysql.name}"
-  creation_statements = "CREATE USER '{{name}}'@'%' IDENTIFIED BY '{{password}}';GRANT ALL PRIVILEGES ON ${var.db_name} . * TO '{{name}}'@'%';"
+  creation_statements = "CREATE USER '{{name}}'@'%' IDENTIFIED BY '{{password}}';GRANT ALL PRIVILEGES ON *.* . * TO '{{name}}'@'%';"
   default_ttl         = "${var.db_default_ttl}"
   max_ttl             = "${var.db_max_ttl}"
 }

@@ -89,24 +89,28 @@
   tag = ["vault", "kv"]
   output = ""
 [[snippets]]
+  description = "Vault DB create role"
+  command = "vault write database/roles/readonly db_name=mysql creation_statements=\"CREATE USER '{{name}}'@'%' IDENTIFIED BY '{{password}}';GRANT ALL PRIVILEGES ON *.* . * TO '{{name}}'@'%';\" default_ttl=\"1m\" max_ttl=\"24h\""
+  tag = ["vault", "mysql", "db"]
+[[snippets]]
   description = "Vault DB read creds"
   command = "vault read db/creds/<role>"
-  tag = ["vault", "mysql"]
+  tag = ["vault", "mysql", "db"]
   output = ""
 [[snippets]]
   description = "Vault DB show lease list"
   command = "vault list /sys/leases/lookup/db/creds/<role>/"
-  tag = ["vault", "mysql", "lease"]
+  tag = ["vault", "mysql", "lease", "db"]
   output = ""
 [[snippets]]
   description = "Vault DB revoke a specific lease from role"
   command = "vault lease revoke db/creds/<role>/<lease_id>"
-  tag = ["mysql","lease"]
+  tag = ["mysql","lease", "db"]
   output = ""
 [[snippets]]
   description = "Vault DB revoke lease from role by prefix"
   command = "vault lease revoke -prefix db/creds/<role=ops>"
-  tag = ["mysql","lease"]
+  tag = ["mysql","lease", "db"]
   output = ""
 [[snippets]]
   description = "Vault TLS create Certificate"

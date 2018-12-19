@@ -62,6 +62,7 @@
     service:
       name: nginx
       state: restarted
+    ignore_errors: True
 
 - name: Evolve Vault for demo - normal user
   hosts: 127.0.0.1
