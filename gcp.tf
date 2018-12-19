@@ -45,8 +45,8 @@ resource "vault_gcp_auth_backend_role" "gce" {
     type                   = "gce"
     backend                = "${vault_auth_backend.gcp.path}"
     project_id             = "${var.project_name}"
-    bound_zones            = "${var.region_zone}"
-    bound_labels           = "auth:yes"
+    bound_zones            = ["${var.region_zone}"]
+    bound_labels           = ["auth:yes"]
     policies               = ["dev", "ops"]
 }
 
