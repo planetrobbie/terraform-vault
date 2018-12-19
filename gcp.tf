@@ -12,21 +12,28 @@ resource "google_service_account" "vault-iam-auth" {
   display_name = "${var.project_name} Vault IAM Auth Account"
 }
 
-# Assign Required Role to Service Account
+# Assign Required Role to Service Account for GCP AUTH
 resource "google_project_iam_member" "vault-iam-auth-token-creator-role" {
   project = "${var.project_name}"
   role    = "roles/iam.serviceAccountTokenCreator"
   member  = "serviceAccount:${var.project_name}-vault-iam-auth@${var.project_name}.iam.gserviceaccount.com"
 }
 
-# Assign Required Role to Service Account
+# Assign Required Role to Service Account for GCP Secret Engine
+resource "google_project_iam_member" "vault-iam-auth-key-admin" {
+  project = "${var.project_name}"
+  role    = "roles/iam.serviceAccounts.create"
+  member  = "serviceAccount:${var.project_name}-vault-iam-auth@${var.project_name}.iam.gserviceaccount.com"
+}
+
+# Assign Required Role to Service Account for GCP AUTH
 resource "google_project_iam_member" "vault-iam-auth-key-admin" {
   project = "${var.project_name}"
   role    = "roles/iam.serviceAccountKeyAdmin"
   member  = "serviceAccount:${var.project_name}-vault-iam-auth@${var.project_name}.iam.gserviceaccount.com"
 }
 
-# Assign Required Role to Service Account
+# Assign Required Role to Service Account for GCP AUTH - GCE
 # Compute roles documented @ https://cloud.google.com/compute/docs/access/iam
 resource "google_project_iam_member" "vault-iam-auth-compute-viewer" {
   project = "${var.project_name}"
