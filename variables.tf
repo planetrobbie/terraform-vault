@@ -53,7 +53,6 @@ variable "db_user" {
 
 variable "db_password" {
   description = "MySQL Database Password"
-  default = "vpass"
 }
 
 variable "db_default_ttl" {
