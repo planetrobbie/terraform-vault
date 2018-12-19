@@ -33,9 +33,9 @@ resource "google_project_iam_member" "vault-iam-auth-storage-admin" {
   role    = "roles/storage.objectAdmin"
   member  = "serviceAccount:${var.project_name}-vault-iam-auth@${var.project_name}.iam.gserviceaccount.com"
 }
-resource "google_project_iam_member" "vault-iam-auth-storage-legacy-object-owner" {
+resource "google_project_iam_member" "vault-iam-auth-storage-legacy-bucket-owner" {
   project = "${var.project_name}"
-  role    = "roles/storage.legacyObjectOwner"
+  role    = "roles/storage.legacyBucketOwner"
   member  = "serviceAccount:${var.project_name}-vault-iam-auth@${var.project_name}.iam.gserviceaccount.com"
 }
 
