@@ -84,4 +84,7 @@ fi
 # Inject Service Account Key to GCP Auth backend
 vault write auth/gcp/config credentials=@./creds.json
 
+# Inject Service Account Key to GCP Secret Engine
+vault write gcp/config credentials=@./creds.json
+
 #rm /tmp/script.sh

@@ -63,6 +63,7 @@ resource "vault_gcp_auth_backend_role" "gce" {
 ### SECRETS
 # Documentation
 # https://www.vaultproject.io/docs/secrets/gcp.html
+# Unfortunately as of Dec, 2018 no support for GCP Secret Engine apart from below.
 
 resource "vault_mount" "gcp" {
   path        = "gcp"
