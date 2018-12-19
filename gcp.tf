@@ -30,7 +30,7 @@ resource "google_project_iam_member" "vault-iam-auth-account-create" {
 # Assign Required Role to Service Account for GCP Secret Engine - Token - demo on storage bucket
 resource "google_project_iam_member" "vault-iam-auth-storage-admin" {
   project = "${var.project_name}"
-  role    = "roles/storage.objectAdmin"
+  role    = "roles/storage.admin"
   member  = "serviceAccount:${var.project_name}-vault-iam-auth@${var.project_name}.iam.gserviceaccount.com"
 }
 
