@@ -8,6 +8,7 @@ data "template_file" "script" {
   vars {
     vault_address = "${var.vault_addr}"
     vault_token = "${var.vault_token}"
+    project_name = "${var.project_name}"
     dns_domain = "${var.dns_domain}"
     pki_role = "${replace(substr(var.dns_domain, 0, length(var.dns_domain) - 1), ".", "-")}"
     role_id = "${vault_approle_auth_backend_role.consul-template.role_id}"

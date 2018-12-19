@@ -81,10 +81,19 @@ if [ ! -d ~/pki ]; then
 
 fi
 
-# Inject Service Account Key to GCP Auth backend
-vault write auth/gcp/config credentials=@./creds.json
+# Configure GCP AUTH and Secret Engine
+if [ ! -f ~/gcp ]; then
 
-# Inject Service Account Key to GCP Secret Engine
-vault write gcp/config credentials=@./creds.json
+	# Inject Service Account Key to GCP Auth backend
+	vault write auth/gcp/config credentials=@./creds.json
+
+	# Inject Service Account Key to GCP Secret Engine
+	vault write gcp/config credentials=@./creds.json
+
+	# Configure GCP SECRET KEY GENERATION - roles/viewer
+	vault write gcp/roleset/key project="${project_name}" secret_type="service_account_key" bindings='resource "//cloudresourcemanager.googleapis.com/projects/${project_name}" { roles = ["roles/viewer"]}'
+
+	touch ~/gcp
+fi
 
 #rm /tmp/script.sh

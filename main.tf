@@ -36,5 +36,6 @@ provider "dns" {
 #    "storage-component.googleapis.com",
 #    "sqladmin.googleapis.com",
 #    "sql-component.googleapis.com",
+#    "cloudresourcemanager.googleapis.com"
 #  ]
 #}

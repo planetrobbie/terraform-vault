@@ -222,26 +222,25 @@
 [[snippets]]
   description = "Vault GCP AUTH login thru iam role"
   command = "vault login -method=gcp role=\"iam\" jwt_exp=\"15m\" credentials=@/home/${ssh_user}/creds.json"
-  tag = ["vault","gcp","auth"]
+  tag = ["vault","gcp","auth", "login"]
 [[snippets]]
   description = "Vault GCP AUTH login thru gce role"
   command = "vault write auth/gcp/login role=\"gce\" jwt=\"$JWT_TOKEN\""
   tag = ["vault", "gcp"]
   output = ""
 [[snippets]]
-  description = "Vault GCP read role"
+  description = "Vault GCP AUTH read role"
   command = "vault read auth/gcp/role/<role>"
   tag = ["vault", "gcp"]
   output = ""
 [[snippets]]
-  description = "Vault GCP get key"
-  command = "vault read gcp/key/<role>"
-  tag = ["vault", "gcp"]
-  output = ""
+  description = "VAULT GCP SECRETS roleset create service_account_key type"
+  command = "vault write gcp/roleset/key project=\"${project_name}\" secret_type=\"service_account_key\" bindings='resource \"//cloudresourcemanager.googleapis.com/projects/${project_name}\" {roles = [\"roles/viewer\"]}'"
+  tag = ["vault","gcp","secrets"]
 [[snippets]]
-  description = "Vault GCP login - XXX remove credentials after allowing API access from Instance"
-  command = "vault login -method=gcp role=\"iam-role\" jwt_exp=\"15m\"     credentials=@/home/${ssh_user}/vault-kms.json  project=\"${project_name}\" ttl=\"30m\" max_ttl=\"24h\" service_account=\"vault-kms@${project_name}.iam.gserviceaccount.com\""
-  tag = ["vault", "gcp"]
+  description = "Vault GCP SECRETS get key"
+  command = "vault read gcp/key/key"
+  tag = ["vault", "gcp", "secrets"]
   output = ""
 [[snippets]]
   description = "HashiCorp GET latest product version"
@@ -267,3 +266,7 @@
   command = "netstat -tlnp"
   tag = ["linux"]
   output = ""
+[[snippets]]
+  description = "Linux base64 decode"
+  command = "echo '<string>' | base64 --decode"
+  tag = ["linux"]
