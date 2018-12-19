@@ -90,8 +90,11 @@ if [ ! -f ~/gcp ]; then
 	# Inject Service Account Key to GCP Secret Engine
 	vault write gcp/config credentials=@./creds.json
 
-	# Configure GCP SECRET KEY GENERATION - roles/viewer
-	vault write gcp/roleset/key project="${project_name}" secret_type="service_account_key" bindings='resource "//cloudresourcemanager.googleapis.com/projects/${project_name}" { roles = ["roles/viewer"]}'
+	# Configure GCP SECRET Key Generation - roles/viewer
+	vault write gcp/roleset/key project="${project_name}" secret_type="service_account_key" bindings='resource "//cloudresourcemanager.googleapis.com/projects/${project_name}" {roles = ["roles/viewer"]}'
+
+	# Configure GCP SECRET OAuth Token Generation - StorageAdmin
+	vault write gcp/roleset/token project="${project_name}" secret_type="access_token" token_scopes="https://www.googleapis.com/auth/cloud-platform" bindings='resource "buckets/${project_name}" { roles = ["roles/storage.objectAdmin", "roles/storage.legacyBucketReader"] }'
 
 	touch ~/gcp
 fi

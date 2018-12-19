@@ -215,6 +215,10 @@
   tag = ["gcp", "token"]
   output = ""
 [[snippets]]
+  description = "GCP demo token usage"
+  command = ""
+  tag = ["gcp","API"]
+[[snippets]]
   description = "Vault GCP AUTH create role type gce"
   command = "vault write auth/gcp/role/<role> type=\"gce\" project_id=\"${project_name}\" policies=\"<policy>\" bound_zones=\"<bound_zone>\" ttl=\"30m\" max_ttl=\"24h\""
   tag = ["vault", "gcp", "auth"]
@@ -235,17 +239,30 @@
   output = ""
 [[snippets]]
   description = "VAULT GCP SECRETS roleset create service_account_key type"
-  command = "vault write gcp/roleset/<roleset> project=\"${project_name}\" secret_type=\"service_account_key\" bindings='resource \"//cloudresourcemanager.googleapis.com/projects/${project_name}\" {roles = [\"roles/viewer\"]}'"
+  command = "vault write gcp/roleset/sak-<roleset> project=\"${project_name}\" secret_type=\"service_account_key\" bindings='resource \"//cloudresourcemanager.googleapis.com/projects/${project_name}\" {roles = [\"roles/viewer\"]}'"
+  tag = ["vault","gcp","secrets"]
+[[snippets]]
+  description = "VAULT GCP SECRETS roleset create token type"
+  command = "vault write gcp/roleset/token-<roleset> project=\"${project_name}\" secret_type=\"access_token\" token_scopes=\"https://www.googleapis.com/auth/cloud-platform\" bindings='resource \"buckets/${project_name}\" { roles = [\"roles/storage.objectAdmin\", \"roles/storage.legacyBucketReader\"] }'"
   tag = ["vault","gcp","secrets"]
 [[snippets]]
   description = "VAULT GCP SECRETS roleset delete service_account_key type"
   command = "vault delete gcp/roleset/<roleset>"
   tag = ["vault","gcp","secrets"]
 [[snippets]]
-  description = "Vault GCP SECRETS get key"
-  command = "vault read gcp/key/<key=key>"
+  description = "Vault GCP SECRETS get service account key"
+  command = "vault read gcp/key/<roleset=key>"
   tag = ["vault", "gcp", "secrets"]
   output = ""
+[[snippets]]
+  description = "Vault GCP SECRETS get oauth token"
+  command = "vault read gcp/token/<roleset=token>"
+  tag = ["vault", "gcp", "secrets"]
+  output = ""
+[[snippets]]
+  description = "GCP demo OAuth works"
+  command = "curl -X POST --data-binary @<file=playbook.yml> ​-H \"Authorization: Bearer XXTOKENXX\" -H \"Content-Type: text/html\" \"https://www.googleapis.com/upload/storage/v1/b/${project_name}/o?uploadType=media&name=<file=playbook.yml>\""
+  tag = ["oauth"]
 [[snippets]]
   description = "HashiCorp GET latest product version"
   command = "curl -sS https://releases.hashicorp.com/<product>/index.json | jq -r '.versions[].version' | grep -Ev 'beta|rc' | tail -n 1"
