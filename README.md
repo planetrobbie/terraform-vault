@@ -181,9 +181,9 @@ You should have the `playbook.yml` file uploaded to your Google Project bucket.
 
 ## Commands Snippets
 
-To help you demo a lot more use cases, many command are available thru [Pet](https://github.com/knqyf263/pet) a Simple command-line snippet manager, written in Go.
+To help you demo a lot more use cases, and to avoid typing all these commands, we've made all of them available thru [Pet](https://github.com/knqyf263/pet) a Simple command-line snippet manager, written in Go.
 
-To access the list of snippets and search within them just use `CTRL+s`.
+To access the list of snippets and search within them just use `CTRL+s` from `v1.<DOMAIN_NAME>`.
 
 # Terraform Vault Provider improvement
 
