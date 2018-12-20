@@ -2,7 +2,9 @@
 
 # Snippets built by this repository
 
-- userpass auth backend
+## Auth backends
+
+- [Username & Password](https://www.vaultproject.io/docs/auth/userpass.html) auth backend
     + user admin associated with admin policy
         * vault superuser
     + user ops associated with ops policy
@@ -13,23 +15,29 @@
         * can consume static & dynamic secrets
         * apart from kv/priv
         * can get read/write access to a specific db
-    
-- Database Secret Engine
-    + Cloud SQL MySQL Manage Services provisioned on GCP
+- [Google Cloud Platform (GCP)](https://www.vaultproject.io/docs/auth/gcp.html) Auth backend
+    + using both IAM and GCE roles.
+- [AppRole](https://www.vaultproject.io/docs/auth/approle.html) Auth Backend
+
+## Secret Engines
+
+- [Database](https://www.vaultproject.io/docs/secrets/databases/mysql-maria.html) Secret Engine
+    + Cloud SQL Manage Services, MySQL Instance provisioned on GCP
     + Secret Backend mounted
     + ops and dev roles created to do read/write or read only operations on MySQL database.
 
-- Google Cloud Platform (GCP) Auth backend
-    + using both IAM and GCE roles.
-
-- GCP Secret Engine
+- [GCP Secrets Engine](https://www.vaultproject.io/docs/secrets/gcp/index.html)
     + Service Account key generation (limited to 10 per account)
     + OAuth token generation
 
-- PKI Secret Engine
+- [PKI](https://www.vaultproject.io/docs/secrets/pki/index.html) Secrets Engine
     + certificate auto renewal with [Vault agent](https://www.vaultproject.io/docs/agent/) and [Consul-template](https://github.com/hashicorp/consul-template) for NGINX 
 
 # Teraform Enteprise Workspace setup
+
+You can provision easily all the use cases up above on top of your Vault/Consul cluster deployed automatically itself using [terraform-gcp-hashistack](https://github.com/planetrobbie/terraform-gcp-hashistack) repository with Terraform.
+
+Create a Workspace linked to a fork of this repository with the following specifications.
 
 ## Variables
 
@@ -69,6 +77,10 @@ Before Applying this repo make sure you update `files/ca.crt` to your own Certif
 If you can't do that or if your certificate is self signed add the following Environment variable instead
 
         VAULT_SKIP_VERIFY: true
+
+## Provision
+
+You can now plan/apply your workspace, once it's done test the different use cases following our demoflow detailed below.
 
 # Demo Flow
 
@@ -141,6 +153,31 @@ Remove the `auth:yes` label, run the authentication again, to show it fails with
     Code: 400. Errors:
 
     * instance missing bound label "auth:yes"
+
+# GCP Secret Engine
+
+## Service Account
+
+Generate Service account key
+
+    vault read gcp/key/key
+
+Use base64 to decode your key
+
+    echo 'PUT YOUR KEY HERE' | base64 --decode
+
+# Instance auth 
+
+Generate OAuth GCP token
+    
+    vault read gcp/token/token
+
+A storage bucket has been specifically created to demo the validity of your generated token. Try to upload a file to your bucket using the generated token
+
+    cd ~
+    curl -X POST --data-binary @playbook.yml -H "Authorization: Bearer <PUT_TOKEN_HERE>" -H "Content-Type: text/html" "https://www.googleapis.com/upload/storage/v1/b/<PROJECT_NAME>/o?uploadType=media&name=playbook.yml"
+
+You should have the `playbook.yml` file uploaded to your Google Project bucket.
 
 # Commands Snippets
 
