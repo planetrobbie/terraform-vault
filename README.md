@@ -103,9 +103,9 @@ Or generate read/write Credentials for dev people
 
 You can watch user count in your MySQL DB:
 
-        watch 'mysql -u vault-user -p<db_password> -D mysql -h db.<DOMAIN_NAME> -e "select user from user;"'
+        watch 'mysql -u vault-user -p<DB_PASSWORD> -D mysql -h db.<DOMAIN_NAME> -e "select user from user;"'
 
-# PKI - Consul-template - Vault Agent.
+## PKI - Consul-template - Vault Agent.
 
 Before you run the demo, make sure ou have to inject you CA CERT to your demo machine. Grab it with
 
@@ -127,15 +127,15 @@ You can also simply connect using your browser
 
     https://www.<DNS_DOMAIN>
 
-# GCP Auth
+## GCP Auth
 
-## IAM
+### IAM
 
     to authenticate thru IAM Service Account
 
     vault login -method=gcp role="iam" jwt_exp="15m" credentials=@/home/<SSH_USER>/creds.json
 
-## GCE
+### GCE
 
 After generating a token from within a GCP Instance like `v1`, your first vault server, which is in the correct zone `europe-west1-c` with the correct lable `auth:yes` generate a JWT Token like this
 
@@ -154,9 +154,9 @@ Remove the `auth:yes` label, run the authentication again, to show it fails with
 
     * instance missing bound label "auth:yes"
 
-# GCP Secret Engine
+## GCP Secret Engine
 
-## Service Account
+### Service Account
 
 Generate Service account key
 
@@ -166,7 +166,7 @@ Use base64 to decode your key
 
     echo 'PUT YOUR KEY HERE' | base64 --decode
 
-# Instance auth 
+## Instance auth 
 
 Generate OAuth GCP token
     
@@ -179,7 +179,7 @@ A storage bucket has been specifically created to demo the validity of your gene
 
 You should have the `playbook.yml` file uploaded to your Google Project bucket.
 
-# Commands Snippets
+## Commands Snippets
 
 To help you demo a lot more use cases, many command are available thru [Pet](https://github.com/knqyf263/pet) a Simple command-line snippet manager, written in Go.
 
