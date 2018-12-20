@@ -1,6 +1,6 @@
-# Demonstrate Terraform Vault provider
+# Vault Demo as a Service built using [Vault Terraform provider](https://www.terraform.io/docs/providers/vault/)
 
-# Demo Snippets built by this repository
+# Snippets built by this repository
 
 - userpass auth backend
     + user admin associated with admin policy
@@ -15,17 +15,19 @@
         * can get read/write access to a specific db
     
 - Database Secret Engine
-    + Cloud SQL MySQL Instance provisioned on GCP
+    + Cloud SQL MySQL Manage Services provisioned on GCP
     + Secret Backend mounted
-    + 
+    + ops and dev roles created to do read/write or read only operations on MySQL database.
 
-resource "google_project" "project" {
-  name = "${var.project_name}"
-  project_id = "${random_id.id.hex}"
-  billing_account = "${var.billing_account}"
-  org_id = "${var.org_id}"
-}
-    + creating MySQL managed service on GCP
+- Google Cloud Platform (GCP) Auth backend
+    + using both IAM and GCE roles.
+
+- GCP Secret Engine
+    + Service Account key generation (limited to 10 per account)
+    + OAuth token generation
+
+- PKI Secret Engine
+    + certificate auto renewal with [Vault agent](https://www.vaultproject.io/docs/agent/) and [Consul-template](https://github.com/hashicorp/consul-template) for NGINX 
 
 # Teraform Enteprise Workspace setup
 
@@ -45,7 +47,6 @@ You need the following variable to be set, it's just an example, update it accor
         userpass_password: <VAULT_USERPASS_AUTH_PASSWORD_FOR_ALL_USERS>
         db_password: <DB_INSTANCE_PASSWORD>
         db_bookshelf_password: <BOOKSHELF_SENSITIVE_PWD>
-
 
 Note: Make sure you end your `dns_domain` by a dot at the end !
 
@@ -69,19 +70,24 @@ If you can't do that or if your certificate is self signed add the following Env
 
         VAULT_SKIP_VERIFY: true
 
-# Outputs
-
 # Demo Flow
 
-# Database
+## Database
 
-Generate read only Credentials for ops people
+First login to your Vault cluster from your first vault server node
+    
+        ssh -i ~/.ssh/id_rsa sebastien@v1.<YOUR_DOMAIN>
+        vault login -method=userpass username=admin
+
+Use the password configured in your Terraform Workspace variable `userpass_password`
+
+You can now generate read only MySQL credentials for ops people
 
         vault read db/creds/ops
 
-Generate read/write Credentials for dev people
+Or generate read/write Credentials for dev people
 
-        
+        vault read db/creds/dev
 
 You can watch user count in your MySQL DB:
 
@@ -89,13 +95,64 @@ You can watch user count in your MySQL DB:
 
 # PKI - Consul-template - Vault Agent.
 
+Before you run the demo, make sure ou have to inject you CA CERT to your demo machine. Grab it with
+
+    curl -s https://vault.<DNS_DOMAIN>/v1/pki/ca/pem > pki_ca.pem
+
+Now you can renew NGINX Certificate once with
+
+    sudo /usr/local/bin/consul-template -vault-ssl-ca-cert=/etc/vault/tls/ca.crt -config='/etc/consul-template.d/pki-demo.hcl' -once
+
+To Constantly renew start consul-template service
+
+    sudo systemctl start consul-template
+
+Show web server runnning expired and updated certificate
+
+    watch -n 5 "curl --cacert /home/sebastien/pki/ca.pem  --insecure -v https://www.prod.yet.org 2>&1 | awk 'BEGIN { cert=0 } /^\* SSL connection/ { cert=1 } /^\*/ { if (cert) print }'"
+
+You can also simply connect using your browser
+
+    https://www.<YOUR_DNS_DOMAIN>
+
 # GCP Auth
 
 ## IAM
+
+    to authenticate thru IAM Service Account
+
+    vault login -method=gcp role="iam" jwt_exp="15m" credentials=@/home/<SSH_USER>/creds.json
+
 ## GCE
 
+After generating a token from within a GCP Instance like `v1`, your first vault server, which is in the correct zone `europe-west1-c` with the correct lable `auth:yes` generate a JWT Token like this
+
+    export JWT_TOKEN="$(curl -sS -H 'Metadata-Flavor: Google' --get --data-urlencode 'audience=http://vault/gce' --data-urlencode 'format=full' 'http://metadata/computeMetadata/v1/instance/service-accounts/default/identity')"
+
+Now you can authenticate to Vault using this token
+
+    vault write auth/gcp/login role="gce" jwt="$JWT_TOKEN"
+
+Remove the `auth:yes` label, run the authentication again, to show it fails with the message
+
+    Error writing data to auth/gcp/login: Error making API request.
+
+    URL: PUT https://v1.prod.yet.org:8200/v1/auth/gcp/login
+    Code: 400. Errors:
+
+    * instance missing bound label "auth:yes"
+
+# Commands Snippets
+
+To help you demo a lot more use cases, many command are available thru [Pet](https://github.com/knqyf263/pet) a Simple command-line snippet manager, written in Go.
+
+To access the list of snippets and search within them just use `CTRL+s`.
 
 # Terraform Vault Provider improvement
 
+HashiCorp is currently working on improving support on some auth and secret engines. Things that I'd like to see supported in the next releases are
+
 - User/Userpass creation
 - Transit key creation
+- Google Secret Engine
+- PKI Secret Engine
