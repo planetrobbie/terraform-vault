@@ -88,7 +88,7 @@ You can now plan/apply your workspace, once it's done test the different use cas
 
 First login to your Vault cluster from your first vault server node
     
-        ssh -i ~/.ssh/id_rsa sebastien@v1.<YOUR_DOMAIN>
+        ssh -i ~/.ssh/id_rsa <SSH_USER>@v1.<YOUR_DOMAIN>
         vault login -method=userpass username=admin
 
 Use the password configured in your Terraform Workspace variable `userpass_password`
@@ -103,7 +103,7 @@ Or generate read/write Credentials for dev people
 
 You can watch user count in your MySQL DB:
 
-        watch 'mysql -u vault-user -pvpass -D mysql -h 35.233.43.216 -e "select user from user;"'
+        watch 'mysql -u vault-user -p<db_password> -D mysql -h db.<DOMAIN_NAME> -e "select user from user;"'
 
 # PKI - Consul-template - Vault Agent.
 
@@ -121,11 +121,11 @@ To Constantly renew start consul-template service
 
 Show web server runnning expired and updated certificate
 
-    watch -n 5 "curl --cacert /home/sebastien/pki/ca.pem  --insecure -v https://www.prod.yet.org 2>&1 | awk 'BEGIN { cert=0 } /^\* SSL connection/ { cert=1 } /^\*/ { if (cert) print }'"
+    watch -n 5 "curl --cacert /home/<SSH_USER>/pki/ca.pem  --insecure -v https://www.<DOMAIN_NAME> 2>&1 | awk 'BEGIN { cert=0 } /^\* SSL connection/ { cert=1 } /^\*/ { if (cert) print }'"
 
 You can also simply connect using your browser
 
-    https://www.<YOUR_DNS_DOMAIN>
+    https://www.<DNS_DOMAIN>
 
 # GCP Auth
 
@@ -149,7 +149,7 @@ Remove the `auth:yes` label, run the authentication again, to show it fails with
 
     Error writing data to auth/gcp/login: Error making API request.
 
-    URL: PUT https://v1.prod.yet.org:8200/v1/auth/gcp/login
+    URL: PUT https://v1.<DOMAIN_NAME>:8200/v1/auth/gcp/login
     Code: 400. Errors:
 
     * instance missing bound label "auth:yes"
