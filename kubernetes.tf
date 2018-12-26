@@ -11,7 +11,7 @@ module "gke" {
 module "k8s" {
   source   = "./k8s"
   enabled  = "${var.enable_auth_k8s}"
-  k8s_host     = "${module.gke.host}"
+  k8s_host     = "${module.gke.host[0]}"
   k8s_username = "${var.k8s_username}"
   k8s_password = "${var.k8s_password}"
 
