@@ -101,3 +101,21 @@ path "auth/token/renew-self" {
 }
 EOF
 }
+
+
+# This creates a policy for k8s pods
+resource "vault_policy" "k8s-acl" {
+  count = "${var.enable_auth_k8s}"
+  name = "k8s-acl"
+
+  policy = <<EOF
+path "kv/*" {
+  capabilities = ["create", "read", "update", "delete", "list"]
+}
+path "db/creds/dev" {
+  capabilities = ["read"]
+}
+path "pki_int/issue/*" {
+  capabilities = ["create", "update"]
+}
+EOF

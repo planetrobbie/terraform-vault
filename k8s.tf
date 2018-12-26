@@ -1,3 +1,4 @@
+# GKE Cluster
 resource "google_container_cluster" "primary" {
   count = "${var.enable_auth_k8s}"
   name               = "${var.cluster_name}"
@@ -18,6 +19,7 @@ resource "google_container_cluster" "primary" {
   }
 }
 
+# GKE Node Pool
 resource "google_container_node_pool" "nodepool" {
   count = "${var.enable_auth_k8s}"
   name               = "${var.cluster_name}nodepool"
@@ -40,4 +42,10 @@ resource "google_container_node_pool" "nodepool" {
       "https://www.googleapis.com/auth/monitoring",
     ]
   }
+}
+
+# https://www.vaultproject.io/docs/auth/gcp.html
+resource "vault_auth_backend" "k8s" {
+  count = "${var.enable_auth_k8s}"
+  type = "kubernetes"
 }
