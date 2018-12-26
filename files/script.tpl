@@ -100,8 +100,34 @@ if [ ! -f ~/gcp ]; then
 fi
 
 # Configure k8s AUTH
-if [ ! -f ~/k8s ] && [ ${enable_auth_k8s} ]; then
+if [ ! -d ~/k8s ] && [ ${enable_auth_k8s} ]; then
 	
+	echo "Provisioning K8S"
+
+    # ~/k8s contains required bits
+    mkdir ~/k8s; cd ~/k8s
+
+    # Grab Client Certificate
+	echo '${k8s_client_crt}' | base64 --decode > ./k8s_client.crt
+
+	# Grab Client Key
+	echo '${k8s_client_key}' | base64 --decode > ./k8s_client.key
+
+	# Grab Cluster CA Certificate
+	echo '${k8s_cluster_crt}' | base64 --decode > ./k8s_cluster_ca.key
+
+	# Configure Cluster
+	kubectl config set-cluster demo-k8s-cluster --server=https://${k8s_host} --certificate-authority=./k8s_ca.crt --client-certificate=./k8s_client.crt
+
+    # Configure Context
+	kubectl config set-context demo-k8s --cluster=demo-k8s-cluster --namespace=default --user=admin
+
+	# Set current Context
+	kubectl config use-context demo-k8s
+
+	# Configure Credentials
+	kubectl config set-credentials admin --client-certificate=./k8s_client.crt --client-key=./k8s_client.key
+
 	touch ~/k8s
 fi
 

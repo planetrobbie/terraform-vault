@@ -6,14 +6,18 @@ data "template_file" "script" {
   template = "${file("./files/script.tpl")}"
 
   vars {
-    vault_address = "${var.vault_addr}"
-    vault_token = "${var.vault_token}"
-    project_name = "${var.project_name}"
-    dns_domain = "${var.dns_domain}"
-    pki_role = "${replace(substr(var.dns_domain, 0, length(var.dns_domain) - 1), ".", "-")}"
-    role_id = "${vault_approle_auth_backend_role.consul-template.role_id}"
-    secret_id = "${vault_approle_auth_backend_role_secret_id.consul-template.secret_id}"
-    enable_auth_k8s ="${var.enable_auth_k8s}"
+    vault_address   = "${var.vault_addr}"
+    vault_token     = "${var.vault_token}"
+    project_name    = "${var.project_name}"
+    dns_domain      = "${var.dns_domain}"
+    pki_role        = "${replace(substr(var.dns_domain, 0, length(var.dns_domain) - 1), ".", "-")}"
+    role_id         = "${vault_approle_auth_backend_role.consul-template.role_id}"
+    secret_id       = "${vault_approle_auth_backend_role_secret_id.consul-template.secret_id}"
+    enable_auth_k8s = "${var.enable_auth_k8s}"
+    k8s_host        = "${module.gke.host}"
+    k8s_client_crt  = "${module.gke.client_certificate}"
+    k8s_client_key  = "${module.gke.client_key}"
+    k8s_cluster_crt = "${module.gke.cluster_ca_certificate}"
   }
 }
 
