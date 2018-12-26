@@ -14,7 +14,7 @@ data "template_file" "script" {
     role_id         = "${vault_approle_auth_backend_role.consul-template.role_id}"
     secret_id       = "${vault_approle_auth_backend_role_secret_id.consul-template.secret_id}"
     enable_auth_k8s = "${var.enable_auth_k8s}"
-    k8s_host        = "${module.gke.host.0}"
+    k8s_host        = "${module.gke.host[0]}"
     k8s_client_crt  = "${module.gke.client_certificate}"
     k8s_client_key  = "${module.gke.client_key}"
     k8s_cluster_crt = "${module.gke.cluster_ca_certificate}"
