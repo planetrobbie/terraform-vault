@@ -13,3 +13,9 @@ resource "vault_auth_backend" "k8s" {
   count = "${var.enabled}"
   type = "kubernetes"
 }
+
+resource "kubernetes_service_account" "vault-auth" {
+  metadata {
+    name = "vault-auth"
+  }
+}
