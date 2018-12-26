@@ -68,6 +68,15 @@ variable "max_node_count" {
   default = "4"
 }
 
+variable "username" {
+  default = "admin"
+}
+variable "password" {}
+variable "host" {}
+variable "client_certificate" {}
+variable "client_key" {}
+variable "cluster_ca_certificate" {}
+
 ### MySQL Secret Engine
 
 variable "enable_secret_engine_db" {
