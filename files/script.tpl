@@ -117,7 +117,7 @@ if [ ! -d ~/k8s ] && [ ${enable_auth_k8s} ]; then
 	echo '${k8s_cluster_crt}' | base64 --decode > ./k8s_cluster_ca.key
 
 	# Configure Cluster
-	kubectl config set-cluster demo-k8s-cluster --server=https://${k8s_host} --certificate-authority=./k8s_ca.crt --client-certificate=./k8s_client.crt
+	kubectl config set-cluster demo-k8s-cluster --server=https://${k8s_host} --certificate-authority=./k8s_cluster_ca.crt --client-certificate=./k8s_client.crt
 
     # Configure Context
 	kubectl config set-context demo-k8s --cluster=demo-k8s-cluster --namespace=default --user=admin
@@ -127,6 +127,9 @@ if [ ! -d ~/k8s ] && [ ${enable_auth_k8s} ]; then
 
 	# Configure Credentials
 	kubectl config set-credentials admin --client-certificate=./k8s_client.crt --client-key=./k8s_client.key
+
+	# Protect sensitive information
+	chmod 600 *
 
 	touch ~/k8s
 fi
