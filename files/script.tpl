@@ -99,4 +99,10 @@ if [ ! -f ~/gcp ]; then
 	touch ~/gcp
 fi
 
+# Configure k8s AUTH
+if [ ! -f ~/k8s ] && [ ${enable_auth_k8s} ]; then
+	
+	touch ~/k8s
+fi
+
 #rm /tmp/script.sh
