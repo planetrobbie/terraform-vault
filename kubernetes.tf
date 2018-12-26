@@ -18,4 +18,6 @@ module "k8s" {
   k8s_client_certificate     = "${module.gke.client_certificate}"
   k8s_client_key             = "${module.gke.client_key}"
   k8s_cluster_ca_certificate = "${module.gke.cluster_ca_certificate}"
+
+  vault_addr                 = "${var.vault_addr}"
 }
