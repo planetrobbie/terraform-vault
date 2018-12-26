@@ -82,7 +82,15 @@ if [ ! -d ~/pki ]; then
 fi
 
 # Configure GCP AUTH and Secret Engine
-if [ ! -f ~/gcp ]; then
+if [ ! -d ~/gcp ]; then
+
+	echo "Provisioning GCP related stuff"
+
+    # ~/gcp contains required bits
+    mkdir ~/gcp; cd ~/gcp
+
+    # Grab GCP JSON credentials
+    echo '${gcp_json_key}' | base64 --decode > ./creds.json
 
 	# Inject Service Account Key to GCP Auth backend
 	vault write auth/gcp/config credentials=@./creds.json
@@ -96,7 +104,6 @@ if [ ! -f ~/gcp ]; then
 	# Configure GCP SECRET OAuth Token Generation - StorageAdmin
 	vault write gcp/roleset/token project="${project_name}" secret_type="access_token" token_scopes="https://www.googleapis.com/auth/cloud-platform" bindings='resource "buckets/${project_name}" { roles = ["roles/storage.objectAdmin", "roles/storage.legacyBucketReader"] }'
 
-	touch ~/gcp
 fi
 
 # Configure k8s Use Case
