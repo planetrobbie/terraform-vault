@@ -13,6 +13,7 @@ data "template_file" "script" {
     pki_role        = "${replace(substr(var.dns_domain, 0, length(var.dns_domain) - 1), ".", "-")}"
     role_id         = "${vault_approle_auth_backend_role.consul-template.role_id}"
     secret_id       = "${vault_approle_auth_backend_role_secret_id.consul-template.secret_id}"
+    gcp_json_key    = "${google_service_account_key.vault-iam-auth-key.private_key}"
     enable_auth_k8s = "${var.enable_auth_k8s}"
     k8s_host        = "${module.gke.host[0]}"
     k8s_client_crt  = "${module.gke.client_certificate}"
@@ -171,12 +172,6 @@ resource "null_resource" "remote-exec" {
   provisioner "file" {
     content      = "${data.template_file.vault-agent.rendered}"
     destination = "/tmp/vault-agent.hcl"
-  }
-
-  // copy Google Cloud Service Account Credentials got GCP Auth use case
-  provisioner "file" {
-    content      = "${base64decode(google_service_account_key.vault-iam-auth-key.private_key)}"
-    destination = "/home/${var.ssh_user}/creds.json"
   }
 
   // change permissions to executable and pipe its output execution into a new file
