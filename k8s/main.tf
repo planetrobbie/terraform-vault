@@ -19,3 +19,14 @@ resource "kubernetes_service_account" "vault-auth" {
     name = "vault-auth"
   }
 }
+
+# Config map to store Vault address
+resource "kubernetes_config_map" "vault-address" {
+  metadata {
+    name = "vault"
+  }
+
+  data {
+    vault_addr = "${var.vault_addr}"
+  }
+}
