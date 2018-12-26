@@ -17,6 +17,6 @@ output "cluster_ca_certificate" {
 }
 
 output "host" {
-  value     = "${google_container_cluster.primary.endpoint}"
+  value     = "${google_container_cluster.primary.*.endpoint}"
   sensitive = true
 }
