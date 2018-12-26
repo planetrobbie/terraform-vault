@@ -55,6 +55,7 @@ You need the following variable to be set, it's just an example, update it accor
         userpass_password: <VAULT_USERPASS_AUTH_PASSWORD_FOR_ALL_USERS>
         db_password: <DB_INSTANCE_PASSWORD>
         db_bookshelf_password: <BOOKSHELF_SENSITIVE_PWD>
+        k8s_password: <K8S_CLUSTER_PASSWORD>
 
 Note: Make sure you end your `dns_domain` by a dot at the end !
 

@@ -1,18 +1,21 @@
 module "gke" {
-  source   = "./gke"
-  project  = "${var.project_name}"
-  region   = "${var.region}"
-  username = "${var.username}"
-  password = "${var.password}"
+  source  = "./gke"
+  enabled = "${var.enable_auth_k8s}"
+
+  project_name  = "${var.project_name}"
+  region        = "${var.region}"
+  k8s_username      = "${var.k8s_username}"
+  k8s_password      = "${var.k8s_password}"
 }
 
 module "k8s" {
   source   = "./k8s"
-  host     = "${module.gke.host}"
-  username = "${var.username}"
-  password = "${var.password}"
+  enabled  = "${var.enable_auth_k8s}"
+  k8s_host     = "${module.gke.host}"
+  k8s_username = "${var.k8s_username}"
+  k8s_password = "${var.k8s_password}"
 
-  client_certificate     = "${module.gke.client_certificate}"
-  client_key             = "${module.gke.client_key}"
-  cluster_ca_certificate = "${module.gke.cluster_ca_certificate}"
+  k8s_client_certificate     = "${module.gke.client_certificate}"
+  k8s_client_key             = "${module.gke.client_key}"
+  k8s_cluster_ca_certificate = "${module.gke.cluster_ca_certificate}"
 }

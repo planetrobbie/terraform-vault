@@ -1,6 +1,6 @@
 # GKE Cluster
 resource "google_container_cluster" "primary" {
-  count = "${var.enable_auth_k8s}"
+  count = "${var.enabled}"
   name               = "${var.cluster_name}"
   # If we want a regional cluster, should we be looking at https://cloud.google.com/kubernetes-engine/docs/concepts/regional-clusters#regional
   #  region = "${var.region}"
@@ -19,14 +19,14 @@ resource "google_container_cluster" "primary" {
   }
 
   master_auth {
-    username = "${var.username}"
-    password = "${var.password}"
+    username = "${var.k8s_username}"
+    password = "${var.k8s_password}"
   }
 }
 
 # GKE Node Pool
 resource "google_container_node_pool" "nodepool" {
-  count = "${var.enable_auth_k8s}"
+  count = "${var.enabled}"
   name               = "${var.cluster_name}nodepool"
   zone               = "${var.main_zone}"
   cluster            = "${google_container_cluster.primary.name}"

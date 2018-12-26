@@ -36,46 +36,10 @@ variable "enable_auth_k8s" {
   default = true
 }
 
-variable "cluster_name" {
-  description = "name of your GKE cluster"
-  default = "demo-k8s-cluster"
-}
-
-variable "main_zone" {
-  default = "europe-west1-c"
-}
-
-variable "additional_zones" {
-  description = "k8s nodes spread out to these additional zones"
-  default = [
-    "europe-west1-b",
-    "europe-west1-d",
-  ]
-}
-
-variable "node_count" {
-  description = "Number of nodes per NodePool"
-  default = "1"
-}
-
-variable "min_node_count" {
-  description = "Minimum number of nodes in the NodePool, used for autoscaling. Must be >=1 and <= max_node_count"
-  default = "1"
-}
-
-variable "max_node_count" {
-  description = "Maximum number of nodes in the NodePool, used for autoscaling. Must be >= min_node_count"
-  default = "4"
-}
-
-variable "username" {
+variable "k8s_username" {
   default = "admin"
 }
-variable "password" {}
-variable "host" {}
-variable "client_certificate" {}
-variable "client_key" {}
-variable "cluster_ca_certificate" {}
+variable "k8s_password" {}
 
 ### MySQL Secret Engine
 
