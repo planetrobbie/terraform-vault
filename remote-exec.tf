@@ -3,7 +3,7 @@
 
 # Bare minimum to run before Ansible can take over
 data "template_file" "script" {
-  template = "${file("./files/script.tpl")}"
+  template = "${file("./files/script.sh")}"
 
   vars {
     vault_address   = "${var.vault_addr}"
@@ -182,5 +182,5 @@ resource "null_resource" "remote-exec" {
     ]
   }
 
-  depends_on = ["google_sql_database_instance.master", "vault_auth_backend.approle", "vault_mount.pki", "vault_mount.gcp", "vault_mount.kv", "vault_auth_backend.userpass", "vault_auth_backend.gcp"]
+  depends_on = ["google_sql_database_instance.master", "vault_auth_backend.approle", "vault_mount.pki", "vault_mount.gcp", "vault_mount.kv", "vault_auth_backend.userpass", "vault_auth_backend.gcp", "kubernetes_service_account.vault-auth"]
 }

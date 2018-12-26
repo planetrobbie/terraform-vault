@@ -138,6 +138,24 @@ if [ ! -d ~/k8s ] && [ ${enable_auth_k8s} ]; then
 	# Protect sensitive information
 	chmod 600 *
 
+	# Configure ClusterRoleBinding
+	kubectl apply -f - <<EOH
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: role-tokenreview-binding
+  namespace: default
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:auth-delegator
+subjects:
+- kind: ServiceAccount
+  name: vault-auth
+  namespace: default
+EOH
+
 	touch ~/k8s
 fi
 
