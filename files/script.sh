@@ -155,6 +155,15 @@ subjects:
   name: vault-auth
   namespace: default
 EOH
+	
+	# Get the name of the secret corresponding to the service account
+	SECRET_NAME="$(kubectl get serviceaccount vault-auth -o go-template='{{ (index .secrets 0).name }}')"
+
+  	# Get the actual token reviewer account
+	TR_ACCOUNT_TOKEN="$(kubectl get secret $SECRET_NAME -o go-template='{{ .data.token }}' | base64 --decode)"
+
+	# Configure Vault to talk to our Kubernetes host with the cluster's CA and the token reviewer JWT token
+	vault write auth/kubernetes/config kubernetes_host="https://${k8s_host}" kubernetes_ca_cert=@./k8s_cluster_ca.crt token_reviewer_jwt="$TR_ACCOUNT_TOKEN"
 
 	touch ~/k8s
 fi
