@@ -69,6 +69,26 @@
       state: restarted
     ignore_errors: True
 
+  - name: Download kubernetes-client archive
+    get_url:
+      url: "https://dl.k8s.io/v1.13.0/kubernetes-client-linux-amd64.tar.gz"
+      checksum: "sha512:61a6cd3b1fb34507e0b762a45da09d88e34921985970a2ba594e0e5af737d94c966434b4e9f8e84fb73a0aeb5fa3e557344cd2eb902bf73c67d4b4bff33c6831"
+      dest: "/tmp"
+
+  - name: Unarchive kubernetes-client
+    unarchive:
+      src: "/tmp/kubernetes-client-linux-amd64.tar.gz"
+      dest: "/tmp"
+
+  - name: Copy kubectl binary to destination directory
+    copy:
+      src: "/tmp/kubernetes/client/bin/kubectl"
+      dest: "/usr/local/bin/kubectl"
+      mode: 0755
+      owner: root
+      group: root
+      remote_src: true
+
 - name: Evolve Vault for demo - normal user
   hosts: 127.0.0.1
   connection: local
