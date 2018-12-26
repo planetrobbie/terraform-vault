@@ -104,9 +104,9 @@ EOF
 
 
 # This creates a policy for k8s pods
-resource "vault_policy" "k8s-acl" {
+resource "vault_policy" "k8s" {
   count = "${var.enable_auth_k8s}"
-  name = "k8s-acl"
+  name = "k8s"
 
   policy = <<EOF
 path "kv/*" {
