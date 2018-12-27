@@ -15,6 +15,7 @@ resource "vault_auth_backend" "k8s" {
 }
 
 resource "kubernetes_service_account" "vault-auth" {
+  count = "${var.enabled}"
   metadata {
     name = "vault-auth"
   }
@@ -22,6 +23,7 @@ resource "kubernetes_service_account" "vault-auth" {
 
 # Config map to store Vault address
 resource "kubernetes_config_map" "vault-address" {
+  count  = "${var.enabled}"
   metadata {
     name = "vault"
   }
@@ -29,4 +31,14 @@ resource "kubernetes_config_map" "vault-address" {
   data {
     vault_addr = "${var.vault_addr}"
   }
+}
+
+resource "vault_kubernetes_auth_backend_role" "k8s-role" {
+  count                            = "${var.enabled}"
+  backend                          = "${vault_auth_backend.k8s.path}"
+  role_name                        = "k8s-role"
+  bound_service_account_names      = ["default"]
+  bound_service_account_namespaces = ["default"]
+  ttl                              = 15m
+  policies                         = ["default", "k8s"]
 }
