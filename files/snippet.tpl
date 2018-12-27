@@ -304,6 +304,10 @@
   command = "kubectl exec -it <pod> -- /bin/sh"
   tag = ["k8s"]
 [[snippets]]
+  description = "K8S enter vault pod"
+  command = "kubectl exec -it $(kubectl get pod -l "app=vault" -o name | sed 's/pod\///') -- /bin/sh"
+  tag = ["k8s"]
+[[snippets]]
   description = "K8S get JWT token"
   command = "JWT=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
   tag = ["k8s","token"]
@@ -311,3 +315,7 @@
   description = "GIT trigger"
   command = "git commit --allow-empty -am 'trigger build' && git push -f google master"
   tag = ["git"]
+[[snippets]]
+  description = "GCP make Container Registry images public"
+  command = "gsutil iam ch allUsers:objectViewer gs://artifacts.${project_name}.appspot.com/"
+  tag = ["k8s","registry"]

@@ -15,9 +15,10 @@
         * can consume static & dynamic secrets
         * apart from kv/priv
         * can get read/write access to a specific db
-- [Google Cloud Platform (GCP)](https://www.vaultproject.io/docs/auth/gcp.html) Auth backend
+- [Google Cloud Platform (GCP)](https://www.vaultproject.io/docs/auth/gcp.html) Auth method
     + using both IAM and GCE roles.
-- [AppRole](https://www.vaultproject.io/docs/auth/approle.html) Auth Backend
+- [AppRole](https://www.vaultproject.io/docs/auth/approle.html) Auth method
+- [Kubernetes](https://www.vaultproject.io/docs/auth/kubernetes.html) Auth method
 
 ## Secret Engines
 
@@ -155,6 +156,25 @@ Remove the `auth:yes` label, run the authentication again, to show it fails with
 
     * instance missing bound label "auth:yes"
 
+## Kubernetes Auth
+
+This code install and configure `kubectl` for the deployed Google Cloud Kubernetes Cluster (GKE). You can check it is working properly by running
+
+    kubectl cluster-info
+
+We've also prepared all the required components, service account, Cluster role binding, config maps for Vault Kubernetes Auth method to work without any more effort on your side.
+
+You can check all has been correctly configured like this
+
+    kubectl get serviceaccount | grep vault-auth
+    kubectl get clusterrolebinding | grep tokenreview
+    kubectl get configmap vault -o yaml
+    vault read auth/kubernetes/config
+
+It also fetch source and build an official Vault docker container. Make sure the underlying storage bucket is open to public consumption with
+
+    gsutil iam ch allUsers:objectViewer gs://artifacts.<PROJECT_NAME>.appspot.com/
+
 ## GCP Secret Engine
 
 ### Service Account
@@ -180,11 +200,13 @@ A storage bucket has been specifically created to demo the validity of your gene
 
 You should have the `playbook.yml` file uploaded to your Google Project bucket.
 
+# Additional details
+
 ## Commands Snippets
 
 To help you demo a lot more use cases, and to avoid typing all these commands, we've made all of them available thru [Pet](https://github.com/knqyf263/pet) a Simple command-line snippet manager, written in Go.
 
-To access the list of snippets and search within them just use `CTRL+s` from `v1.<DOMAIN_NAME>`.
+To access the list of snippets and search within them just use `CTRL-s` from `v1.<DOMAIN_NAME>`.
 
 # Terraform Vault Provider improvement
 

@@ -175,6 +175,9 @@ EOH
 	git remote add google https://source.developers.google.com/p/${project_name}/r/docker-vault
 	git push google master
 
+	# Install Vault Deployment YAML file
+	mv /tmp/dep-vault.yaml ~/k8s/
+
 fi
 
 #rm /tmp/script.sh

@@ -99,6 +99,15 @@ data "template_file" "vault-agent" {
   }
 }
 
+# Vault Kubernetes Deployment
+data "template_file" "deployment-vault" {
+  template = "${file("./files/k8s_dep-vault.yaml")}"
+
+  vars {
+    project_name = "${var.project_name}"
+  }
+}
+
 # Do out of band operation on Vault Server v1
 resource "null_resource" "remote-exec" {
   triggers {
@@ -172,6 +181,12 @@ resource "null_resource" "remote-exec" {
   provisioner "file" {
     content      = "${data.template_file.vault-agent.rendered}"
     destination = "/tmp/vault-agent.hcl"
+  }
+
+  // copy Vault Agent Configuration over
+  provisioner "file" {
+    content      = "${data.template_file.deployment-vault.rendered}"
+    destination = "/tmp/dep-vault.yaml"
   }
 
   // change permissions to executable and pipe its output execution into a new file

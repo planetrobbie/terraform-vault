@@ -1,0 +1,29 @@
+---
+apiVersion: "extensions/v1beta1"
+kind: "Deployment"
+metadata:
+  name: "vault"
+  namespace: "default"
+  labels:
+    app: "vault"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "vault"
+  template:
+    metadata:
+      labels:
+        app: "vault"
+    spec:
+      containers:
+      - name: "vault-demo"
+        image: "gcr.io/${var.project_name}/docker-vault:latest"
+        env:
+        - name: VAULT_SKIP_VERIFY
+          value: "true"
+        - name: VAULT_ADDR
+          valueFrom:
+            configMapKeyRef:
+              name: vault
+              key: vault_addr
