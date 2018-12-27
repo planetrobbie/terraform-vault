@@ -39,6 +39,6 @@ resource "vault_kubernetes_auth_backend_role" "k8s-role" {
   role_name                        = "k8s-role"
   bound_service_account_names      = ["default"]
   bound_service_account_namespaces = ["default"]
-  ttl                              = 15m
+  ttl                              = "15m"
   policies                         = ["default", "k8s"]
 }
