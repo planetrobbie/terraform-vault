@@ -1,4 +1,18 @@
-# Vault Demo as a Service built using [Vault Terraform provider](https://www.terraform.io/docs/providers/vault/)
+# Vault Demo as a Service (DaaS)
+
+# built with
+
+- [Vault](https://www.vaultproject.io/)
+- [Terraform](https://www.terraform.io/)
+- [terraform-gcp-hashistack repository](https://github.com/planetrobbie/terraform-gcp-hashistack)
+- [Vault Terraform provider](https://www.terraform.io/docs/providers/vault/)
+- [Google Cloud Terraform provider](https://www.terraform.io/docs/providers/google/index.html)
+- [Kubernetes Terraform Provider](https://www.terraform.io/docs/providers/kubernetes/)
+- [DNS Terraform Provider](https://www.terraform.io/docs/providers/dns/)
+- [Google Cloud Kubernetes Engine](https://cloud.google.com/kubernetes-engine/docs/)
+- [Google Cloud SQL](https://cloud.google.com/sql/docs/)
+- [Google Cloud Build](https://cloud.google.com/cloud-build/)
+- [Google Cloud Container Registry](https://cloud.google.com/container-registry/)
 
 # Snippets built by this repository
 
