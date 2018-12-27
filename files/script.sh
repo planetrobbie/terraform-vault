@@ -172,7 +172,7 @@ EOH
 	# Clone an push upstream Official Vault Docker image
 	cd ~/code/vault/
 	git config --global credential.'https://source.developers.google.com'.helper gcloud.sh
-	git remote add google https://source.developers.google.com/p/sb-vault/r/docket-vault
+	git remote add google https://source.developers.google.com/p/sb-vault/r/docker-vault
 	git push google master
 
 fi
