@@ -309,7 +309,7 @@
   tag = ["k8s"]
 [[snippets]]
   description = "K8S enter vault pod"
-  command = "kubectl exec -it $(kubectl get pod -l "app=vault" -o name | sed 's/pod\///') -- /bin/sh"
+  command = "kubectl exec -it $(kubectl get pod -l \"app=vault\" -o jsonpath='{.items[0].metadata.name}') -- /bin/sh"
   tag = ["k8s"]
 [[snippets]]
   description = "K8S get JWT token"
