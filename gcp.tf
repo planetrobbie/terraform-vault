@@ -101,7 +101,8 @@ resource "vault_mount" "gcp" {
 }
 
 # Clone repository
-resource "google_sourcerepo_repository" "terraform-vault" {
-  name = "terraform-vault"
+resource "google_sourcerepo_repository" "docker-vault" {
+  enabled  = "${var.enable_auth_k8s}"
+  name = "docker-vault"
   project = "${var.project_name}"
 }

@@ -169,7 +169,12 @@ EOH
 	# Configure Vault to talk to our Kubernetes host with the cluster's CA and the token reviewer JWT token
 	vault write auth/kubernetes/config kubernetes_host="https://${k8s_host}" kubernetes_ca_cert=@./k8s_cluster_ca.crt token_reviewer_jwt="$TR_ACCOUNT_TOKEN"
 
-	touch ~/k8s
+	# Clone an push upstream Official Vault Docker image
+	cd ~/code/vault/
+	git config --global credential.'https://source.developers.google.com'.helper gcloud.sh
+	git remote add google https://source.developers.google.com/p/sb-vault/r/docket-vault
+	git push google master
+
 fi
 
 #rm /tmp/script.sh
