@@ -104,5 +104,4 @@ resource "vault_mount" "gcp" {
 resource "google_sourcerepo_repository" "terraform-vault" {
   name = "terraform-vault"
   project = "${var.project_name}"
-  url = "https://github.com/planetrobbie/terraform-vault.git"
 }
