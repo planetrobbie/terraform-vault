@@ -242,6 +242,10 @@
   tag = ["vault", "gcp"]
   output = ""
 [[snippets]]
+  description = "VAULT K8S AUTH login"
+  command = "vault write -tls-skip-verify auth/kubernetes/login role=k8s-role jwt=$JWT"
+  tag = ["vault", "auth", "k8s"]
+[[snippets]]
   description = "VAULT GCP SECRETS roleset create service_account_key type"
   command = "vault write gcp/roleset/sak-<roleset> project=\"${project_name}\" secret_type=\"service_account_key\" bindings='resource \"//cloudresourcemanager.googleapis.com/projects/${project_name}\" {roles = [\"roles/viewer\"]}'"
   tag = ["vault","gcp","secrets"]
@@ -295,3 +299,15 @@
   description = "Linux base64 decode"
   command = "echo '<string>' | base64 --decode"
   tag = ["linux"]
+[[snippets]]
+  description = "K8S enter pod"
+  command = "kubectl exec -it <pod> -- /bin/sh"
+  tag = ["k8s"]
+[[snippets]]
+  description = "K8S get JWT token"
+  command = "JWT=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
+  tag = ["k8s","token"]
+[[snippets]]
+  description = "GIT trigger"
+  command = "git commit --allow-empty -am 'trigger build' && git push"
+  tag = ["git"]

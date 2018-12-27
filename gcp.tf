@@ -120,7 +120,7 @@ resource "google_cloudbuild_trigger" "build_trigger" {
     images = ["gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA"]
     step {
       name = "gcr.io/cloud-builders/docker"
-      args = "build -t gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA 0.X"
+      args = "build -t gcr.io/$PROJECT_ID/$REPO_NAME:latest 0.X"
     }
   }
 }
