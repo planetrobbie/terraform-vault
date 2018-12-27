@@ -300,6 +300,10 @@
   command = "echo '<string>' | base64 --decode"
   tag = ["linux"]
 [[snippets]]
+  description = "K8S create deployment"
+  command = "kubectl apply -f <yaml=~/k8s/dep-vault.yaml>"
+  tag = ["k8s"]
+[[snippets]]
   description = "K8S enter pod"
   command = "kubectl exec -it <pod> -- /bin/sh"
   tag = ["k8s"]
