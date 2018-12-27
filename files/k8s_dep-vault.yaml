@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: "vault-demo"
-        image: "gcr.io/${var.project_name}/docker-vault:latest"
+        image: "gcr.io/${project_name}/docker-vault:latest"
         env:
         - name: VAULT_SKIP_VERIFY
           value: "true"
