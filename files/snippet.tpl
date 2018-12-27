@@ -309,5 +309,5 @@
   tag = ["k8s","token"]
 [[snippets]]
   description = "GIT trigger"
-  command = "git commit --allow-empty -am 'trigger build' && git push"
+  command = "git commit --allow-empty -am 'trigger build' && git push -f google master"
   tag = ["git"]
