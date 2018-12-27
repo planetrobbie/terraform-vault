@@ -33,6 +33,7 @@ resource "kubernetes_config_map" "vault-address" {
   }
 }
 
+# Create Kubernetes Role
 resource "vault_kubernetes_auth_backend_role" "k8s-role" {
   count                            = "${var.enabled}"
   backend                          = "${vault_auth_backend.k8s.path}"

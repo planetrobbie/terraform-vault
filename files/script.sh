@@ -92,6 +92,10 @@ if [ ! -d ~/gcp ]; then
     # Grab GCP JSON credentials
     echo '${gcp_json_key}' | base64 --decode > ./creds.json
 
+    # Configure gcloud SDK
+    gcloud auth activate-service-account --key-file ./creds.json
+    gcloud config set core/project ${project_name}
+
 	# Inject Service Account Key to GCP Auth backend
 	vault write auth/gcp/config credentials=@./creds.json
 
