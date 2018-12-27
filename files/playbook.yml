@@ -157,3 +157,8 @@
     with_items:
       - { regexp: 'VAULT_ADDR', line: 'export VAULT_ADDR="${vault_address}"' }
       - { regexp: 'VAULT_CACERT', line: 'export VAULT_CACERT="/etc/vault/tls/ca.crt"' }
+
+  - name: Clone Official Vault image repository
+    git:
+      repo: https://github.com/hashicorp/docker-vault.git
+      dest: "{{ ansible_env.HOME }}/code/vault"
