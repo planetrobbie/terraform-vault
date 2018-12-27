@@ -2,8 +2,8 @@
 
 # built with
 
-- [Vault](https://www.vaultproject.io/)
-- [Terraform](https://www.terraform.io/)
+- [HashiCorp Vault](https://www.vaultproject.io/)
+- [HashiCorp Terraform](https://www.terraform.io/)
 - [terraform-gcp-hashistack repository](https://github.com/planetrobbie/terraform-gcp-hashistack)
 - [Vault Terraform provider](https://www.terraform.io/docs/providers/vault/)
 - [Google Cloud Terraform provider](https://www.terraform.io/docs/providers/google/index.html)
