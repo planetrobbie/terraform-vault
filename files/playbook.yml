@@ -122,6 +122,12 @@
       shell: /usr/bin/zsh
     sudo: yes
 
+  - name: Setup autocompletion for gcloud
+    lineinfile:
+      path: "{{ ansible_env.HOME }}/.zshrc"
+      regexp: "completion.zsh.inc"
+      line: source /usr/share/google-cloud-sdk/completion.zsh.inc
+
   - name: mirror fzf Pet dependency from github
     git:
       repo: 'https://github.com/junegunn/fzf.git'
