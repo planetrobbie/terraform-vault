@@ -117,10 +117,10 @@ resource "google_cloudbuild_trigger" "build_trigger" {
     repo_name   = "docker-vault"
   }
   build {
-    images = ["gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA"]
+    images = ["gcr.io/$PROJECT_ID/$REPO_NAME:latest"]
     step {
       name = "gcr.io/cloud-builders/docker"
-      args = "build -t gcr.io/$PROJECT_ID/$REPO_NAME:latest 0.X"
+      args = "build -t gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA 0.X"
     }
   }
 }
