@@ -9,9 +9,19 @@
   become: true
   become_user: root
   tasks:
+  - name: Adds gcloud key
+    apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+
+  - name: Adds gcloud repos
+    apt_repository:
+    repo: "deb http://packages.cloud.google.com/apt cloud-sdk-{{ ansible_distribution_release }} main"
+    update_cache: yes
+
   - name: install required packages
     apt:
-      pkg: ['zsh', 'nginx', 'jq', 'unzip', 'mysql-client']
+      pkg: ['zsh', 'nginx', 'jq', 'unzip', 'mysql-client', 'google-cloud-sdk', 'python-pip', 'python-setuptools', 'python-openssl', 'python-crcmod']
       state: latest
 
   - name: Download Pet, Simple command-line snippet manager, written in Go.
@@ -89,6 +99,7 @@
       group: root
       remote_src: true
 
+# Following tasks run as ssh_user instead of root
 - name: Evolve Vault for demo - normal user
   hosts: 127.0.0.1
   connection: local
