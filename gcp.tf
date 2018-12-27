@@ -100,17 +100,9 @@ resource "vault_mount" "gcp" {
   description = "This is a Google Cloud Platform secret engine"
 }
 
-# Configure GCP AUTH with previous key
-# Key Insertion like below doesn't work \n cause issues.
-# so switching to CLI
-#resource "vault_generic_secret" "gcp-auth-config" {
-# path = "auth/gcp/config"
-
-#  data_json = <<EOT
-#{
-#  "credentials": "${base64decode(google_service_account_key.vault-iam-auth-key.private_key)}"
-#}
-#EOT
-#
-#depends_on = ["vault_auth_backend.gcp"]
-#}
+# Clone repository
+resource "google_sourcerepo_repository" "terraform-vault" {
+  name = "terraform-vault"
+  project = "${var.project_name}"
+  url = "https://github.com/planetrobbie/terraform-vault.git"
+}
