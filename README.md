@@ -13,6 +13,7 @@
 - [Google Cloud SQL](https://cloud.google.com/sql/docs/)
 - [Google Cloud Build](https://cloud.google.com/cloud-build/)
 - [Google Cloud Container Registry](https://cloud.google.com/container-registry/)
+- [Google Cloud Storage](https://cloud.google.com/storage/)
 
 # Snippets built by this repository
 

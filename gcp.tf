@@ -100,10 +100,17 @@ resource "vault_mount" "gcp" {
   description = "This is a Google Cloud Platform secret engine"
 }
 
-# Clone repository
+# Clone Vault official docker image repository
 resource "google_sourcerepo_repository" "docker-vault" {
   count   = "${var.enable_auth_k8s}"
   name    = "docker-vault"
+  project = "${var.project_name}"
+}
+
+# Clone Bookshel application repository
+resource "google_sourcerepo_repository" "bookshelf" {
+  count   = "${var.enable_auth_k8s}"
+  name    = "bookshelf"
   project = "${var.project_name}"
 }
 
