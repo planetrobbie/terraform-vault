@@ -163,7 +163,7 @@
       repo: https://github.com/hashicorp/docker-vault.git
       dest: "{{ ansible_env.HOME }}/code/vault"
 
-  - name: Clone Official Vault image repository
+  - name: Clone Bookshelf application
     git:
       repo: https://github.com/planetrobbie/bookshelf.git
       dest: "{{ ansible_env.HOME }}/code/bookshelf"
