@@ -169,7 +169,7 @@ EOH
 	# Configure Vault to talk to our Kubernetes host with the cluster's CA and the token reviewer JWT token
 	vault write auth/kubernetes/config kubernetes_host="https://${k8s_host}" kubernetes_ca_cert=@./k8s_cluster_ca.crt token_reviewer_jwt="$TR_ACCOUNT_TOKEN"
 
-	# Push upstream Official Vault Docker image
+	# Push upstream Official Vault Docker image to Google Source Repositories
 	cd ~/code/vault/
 	git config --global credential.'https://source.developers.google.com'.helper gcloud.sh
 	git remote add google https://source.developers.google.com/p/${project_name}/r/docker-vault
@@ -178,7 +178,7 @@ EOH
 	# Install Vault Deployment YAML file
 	mv /tmp/dep-vault.yaml ~/k8s/
 
-	# Push upstream Official Vault Docker image
+	# Push Bookshelf to Google Source Repositories
 	cd ~/code/bookshelf/
 	git config --global credential.'https://source.developers.google.com'.helper gcloud.sh
 	git remote add google https://source.developers.google.com/p/${project_name}/r/bookshelf
