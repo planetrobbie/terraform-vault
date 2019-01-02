@@ -89,6 +89,20 @@ resource "google_storage_bucket" "demo_bucket" {
   force_destroy = "true"
 }
 
+# GCP Bucket for Bookshelf image storage
+resource "google_storage_bucket" "bookshelf_bucket" {
+  name          = "bookshelf-k8s-demo"
+  location      = "EU"
+  force_destroy = "true"
+}
+
+# Open up image storage to public read
+resource "google_storage_bucket_acl" "image-store-acl" {
+  bucket = "${google_storage_bucket.bookshelf_bucket.name}"
+
+  default_acl = "publicread"
+}
+
 ### SECRETS
 # Documentation
 # https://www.vaultproject.io/docs/secrets/gcp.html
