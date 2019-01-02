@@ -184,6 +184,9 @@ EOH
 	git remote add google https://source.developers.google.com/p/${project_name}/r/bookshelf
 	git push google master
 
+	# Install Bookshelf YAML Manifest file
+	mv /tmp/bookshelf-frontend.yaml ~/k8s/
+
 fi
 
 #rm /tmp/script.sh

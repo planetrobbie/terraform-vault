@@ -108,6 +108,15 @@ data "template_file" "deployment-vault" {
   }
 }
 
+# Vault Kubernetes Deployment
+data "template_file" "manifest-bookshelf" {
+  template = "${file("./files/k8s_bookshelf-frontend.yaml")}"
+
+  vars {
+    project_name = "${var.project_name}"
+  }
+}
+
 # Do out of band operation on Vault Server v1
 resource "null_resource" "remote-exec" {
   triggers {
@@ -183,10 +192,16 @@ resource "null_resource" "remote-exec" {
     destination = "/tmp/vault-agent.hcl"
   }
 
-  // copy Vault Agent Configuration over
+  // copy Vault deployment manifest over
   provisioner "file" {
     content      = "${data.template_file.deployment-vault.rendered}"
     destination = "/tmp/dep-vault.yaml"
+  }
+
+  // copy Bookshelf deployment manifest over
+  provisioner "file" {
+    content      = "${data.template_file.manifest-bookshelf.rendered}"
+    destination = "/tmp/bookshelf-frontend.yaml"
   }
 
   // change permissions to executable and pipe its output execution into a new file
