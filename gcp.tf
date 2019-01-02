@@ -145,7 +145,7 @@ resource "google_cloudbuild_trigger" "build_trigger_bookshelf" {
     images = ["gcr.io/$PROJECT_ID/$REPO_NAME:latest"]
     step {
       name = "gcr.io/cloud-builders/docker"
-      args = "build -t gcr.io/$PROJECT_ID/$REPO_NAME:latest"
+      args = "build -t gcr.io/$PROJECT_ID/$REPO_NAME:latest container-engine"
     }
   }
 }
