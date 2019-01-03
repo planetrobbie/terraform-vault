@@ -121,6 +121,15 @@ data "template_file" "manifest-bookshelf" {
   }
 }
 
+data "template_file" "bookshelf-config" {
+  template = "${file("./files/config.py")}"
+
+  vars {
+    vault_address   = "${var.vault_addr}"
+  }
+}
+
+
 # Do out of band operation on Vault Server v1
 resource "null_resource" "remote-exec" {
   triggers {
@@ -206,6 +215,12 @@ resource "null_resource" "remote-exec" {
   provisioner "file" {
     content      = "${data.template_file.manifest-bookshelf.rendered}"
     destination = "/tmp/bookshelf-frontend.yaml"
+  }
+
+  // copy Bookshelf deployment manifest over
+  provisioner "file" {
+    content      = "${data.template_file.bookshelf-config.rendered}"
+    destination = "/tmp/config.py"
   }
 
   // change permissions to executable and pipe its output execution into a new file

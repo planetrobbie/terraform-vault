@@ -178,10 +178,15 @@ EOH
 	# Install Vault Deployment YAML file
 	mv /tmp/dep-vault.yaml ~/k8s/
 
-	# Push Bookshelf to Google Source Repositories
+	# Update and Push Bookshelf to Google Source Repositories
 	cd ~/code/bookshelf/
+	git config --global user.name "Demo as a Service"
+	git config --global user.email das@domain.com
 	git config --global credential.'https://source.developers.google.com'.helper gcloud.sh
 	git remote add google https://source.developers.google.com/p/${project_name}/r/bookshelf
+	mv /tmp/config.py ./container-engine/
+	git add ./container-engine/config.py
+	git commit -m "update config.py with Vault API Address"
 	git push google master
 
 	# Install Bookshelf YAML Manifest file
