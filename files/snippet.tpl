@@ -300,17 +300,25 @@
   command = "echo '<string>' | base64 --decode"
   tag = ["linux"]
 [[snippets]]
-  description = "K8S create deployment"
+  description = "K8S create resource"
   command = "kubectl apply -f <yaml=~/k8s/dep-vault.yaml>"
-  tag = ["k8s"]
+  tag = ["k8s", "kubectl"]
+[[snippets]]
+  description = "K8S delete resource"
+  command = "kubectl delete -f <yaml=~/k8s/dep-vault.yaml>"
+  tag = ["k8s", "kubectl"]
+[[snippets]]
+  description = "K8S get service"
+  command = "kubectl get svc <service=bookshelf-frontend>"
+  tag = ["k8s", "kubectl"]
 [[snippets]]
   description = "K8S enter pod"
   command = "kubectl exec -it <pod> -- /bin/sh"
-  tag = ["k8s"]
+  tag = ["k8s", "kubectl"]
 [[snippets]]
   description = "K8S enter vault pod"
   command = "kubectl exec -it $(kubectl get pod -l \"app=vault\" -o jsonpath='{.items[0].metadata.name}') -- /bin/sh"
-  tag = ["k8s"]
+  tag = ["k8s", "kubectl"]
 [[snippets]]
   description = "K8S get JWT token"
   command = "JWT=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
