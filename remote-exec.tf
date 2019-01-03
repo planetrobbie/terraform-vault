@@ -19,6 +19,10 @@ data "template_file" "script" {
     k8s_client_crt  = "${module.gke.client_certificate}"
     k8s_client_key  = "${module.gke.client_key}"
     k8s_cluster_crt = "${module.gke.cluster_ca_certificate}"
+    db_host         = "${google_sql_database_instance.master.ip_address.0.ip_address}"
+    db_name         = "${var.db_name}"
+    db_user         = "${var.db_user}"
+    db_password     = "${var.db_password}"
   }
 }
 

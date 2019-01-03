@@ -187,6 +187,8 @@ EOH
 	# Install Bookshelf YAML Manifest file
 	mv /tmp/bookshelf-frontend.yaml ~/k8s/
 
+	# Provision Google Cloud SQL books table
+	mysql -u${db_user} -p${db_password} -h ${db_host} -e "CREATE TABLE livres ( id integer not null auto_increment, title varchar(255), author varchar(255), publishedDate varchar(255), imageUrl varchar(255), description varchar(255), createdBy varchar(255), createdById varchar(255), primary key (id) );" ${db_name}
 fi
 
 #rm /tmp/script.sh
