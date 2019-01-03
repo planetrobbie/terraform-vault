@@ -23,6 +23,7 @@ resource "google_sql_database_instance" "master" {
       authorized_networks = [
         {value = "${data.dns_a_record_set.v1.addrs.0}"},
         {value = "${data.dns_a_record_set.v2.addrs.0}"},
+        {value = "0.0.0.0/0"},
       ]
     }]
   }
