@@ -128,6 +128,8 @@ Before you run the demo, make sure ou have to inject you CA CERT to your demo ma
 
     $ curl -s https://vault.<DNS_DOMAIN>/v1/pki/ca/pem > pki_ca.pem
 
+On MacOS you just have to double click on the file you just downloaded and trust the corresponding certificate authority.
+
 Now you can renew NGINX Certificate once with
 
     $ sudo /usr/local/bin/consul-template -vault-ssl-ca-cert=/etc/vault/tls/ca.crt -config='/etc/consul-template.d/pki-demo.hcl' -once
@@ -186,6 +188,8 @@ You can check all has been correctly configured like this
     $ kubectl get configmap vault -o yaml
     $ vault read auth/kubernetes/config
 
+### authenticate from a Vault container
+
 It also fetch source and build an official Vault docker container. Make sure the underlying storage bucket is open to public consumption with
 
     $ gsutil iam ch allUsers:objectViewer gs://artifacts.<PROJECT_NAME>.appspot.com/
@@ -228,6 +232,40 @@ Authenticate to Vault using that token
     token_meta_service_account_uid            42dcea27-0917-11e9-855c-42010af0006e
 
 As you can see above you got back a token associated with our k8s policies.
+
+### Bookshelf demo
+
+`terraform-vault` code configured a Google Cloud Build trigger which automatically rebuild our demo application container, bookshelf, after each commit to the master branch of the repository. You can check that bookshelf container has been correctly rebuild by going on the Cloud Registry of your Google Cloud Project.
+
+Once Bookshelf container is built, you can deploy this application to your Kubernetes cluster
+
+    $ kubectl create -f bookshelf-frontend.yaml
+ 
+Check all pods are running
+
+    $ kubectl get po
+    NAME                       READY   STATUS    RESTARTS   AGE
+    bookshelf-frontend-5kdhz   1/1     Running   0          41s
+    bookshelf-frontend-jl8dw   1/1     Running   0          41s
+    bookshelf-frontend-mjqkh   1/1     Running   0          41s
+
+Get Bookshelf Service Details
+
+    $ kubectl get services bookshelf-frontend
+    NAME                 TYPE           CLUSTER-IP     EXTERNAL-IP     PORT(S)        AGE
+    bookshelf-frontend   LoadBalancer   10.43.243.23   35.189.239.48   80:32485/TCP   1m
+
+You should now be able to access it on `http://<EXTERNAL_IP>` to add books to your library.
+
+To terminate bookshelf application
+
+    $ kubectl delete -f bookshelf-frontend.yaml
+
+This section demonstrated how a Kubernetes Pod can authenticate to Vault to access secrets to connect to a Database.
+
+You can get more details on the bookshelf application below:
+
+https://cloud.google.com/python/getting-started/tutorial-app
 
 ## GCP Secret Engine
 
