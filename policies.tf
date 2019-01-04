@@ -118,5 +118,11 @@ path "db/creds/dev" {
 path "pki_int/issue/*" {
   capabilities = ["create", "update"]
 }
+path "sys/leases/renew" {
+  capabilities = ["create"]
+}
+path "sys/leases/revoke" {
+  capabilities = ["update"]
+}
 EOF
 }
