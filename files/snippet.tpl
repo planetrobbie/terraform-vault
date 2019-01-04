@@ -34,8 +34,13 @@
   output = ""
 [[snippets]]
   description = "Vault API DB increment ttl"
-  command = "curl --cacert /etc/vault/tls/ca.crt -sS -X POST -H \"X-Vault-Token: $TOKEN\" --data '{ \"lease_id\": \"database/creds/<role>/<lease_id>\", \"increment\": 3600}' ${vault_address}/v1/sys/leases/renew | jq ."
+  command = "curl --cacert /etc/vault/tls/ca.crt -sS -X POST -H \"X-Vault-Token: $TOKEN\" --data '{ \"lease_id\": \"db/creds/<role>/<lease_id>\", \"increment\": 3600}' ${vault_address}/v1/sys/leases/renew | jq ."
   tag = ["vault", "api", "db", "lease"]
+  output = ""
+[[snippets]]
+  description = "Vault API Read Lease"
+  command = "curl --cacert /etc/vault/tls/ca.crt -sS -X POST -H \"X-Vault-Token: $TOKEN\" --data '{ \"lease_id\": \"db/creds/<role=dev>/<lease_id>\"}' ${vault_address}/v1/sys/leases/lookup | jq ."
+  tag = ["vault", "api", "lease"]
   output = ""
 [[snippets]]
   description = "Vault API AppRole login"
