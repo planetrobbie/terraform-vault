@@ -1,0 +1,6 @@
+.terraform
+*.tfstate
+*.tfstate.backup
+*.swp
+epoch*
+TODO.md
