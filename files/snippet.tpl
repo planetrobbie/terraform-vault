@@ -324,6 +324,10 @@
   command = "JWT=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
   tag = ["k8s","token"]
 [[snippets]]
+  description = "K8S create and enter vault pod"
+  command = "kubectl run vault-shell --rm -i --tty --env=\"VAULT_ADDR=${vault_address}\" --image gcr.io/${project_name}/docker-vault:latest -- /bin/sh"
+  tag = ["k8s", "vault", "kubectl"]
+[[snippets]]
   description = "GIT trigger"
   command = "git commit --allow-empty -am 'trigger build' && git push -f google master"
   tag = ["git"]
