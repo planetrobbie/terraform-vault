@@ -187,7 +187,7 @@ EOH
 	mv /tmp/config.py ./container-engine/
 	git add ./container-engine/config.py
 	git commit -m "update config.py with Vault API Address"
-	git push google master
+	git push google master -f
 
 	# Install Bookshelf YAML Manifest file
 	mv /tmp/bookshelf-frontend.yaml ~/k8s/
