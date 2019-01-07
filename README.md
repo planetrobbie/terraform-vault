@@ -95,13 +95,13 @@ If you can't do that or if your certificate is self signed add the following Env
 
     VAULT_SKIP_VERIFY: true
 
-## Provision
+## Provision Demo as Service environment.
 
-You can now plan/apply your workspace, once it's done test the different use cases following our demoflow detailed below.
+You can now plan/apply your workspace, once it's done test the different use cases following our demo flow detailed below.
 
 # Demo Flow
 
-## Database
+## Database Secret Engine
 
 First login to your Vault cluster from your first vault server node
     
@@ -188,7 +188,7 @@ You can check all has been correctly configured like this
     $ kubectl get configmap vault -o yaml
     $ vault read auth/kubernetes/config
 
-### authenticate from a Vault container
+### Authenticate from a Vault container
 
 It also fetch source and build an official Vault docker container. Make sure the underlying storage bucket is open to public consumption with
 
@@ -233,13 +233,13 @@ Authenticate to Vault using that token
 
 As you can see above you got back a token associated with our k8s policies.
 
-### Bookshelf demo
+### Bookshelf - Dynamic Database Credentials demo
 
 `terraform-vault` code configured a Google Cloud Build trigger which automatically rebuild our demo application container, bookshelf, after each commit to the master branch of the repository. You can check that bookshelf container has been correctly rebuild by going on the Cloud Registry of your Google Cloud Project.
 
 Once Bookshelf container is built, you can deploy this application to your Kubernetes cluster
 
-    $ kubectl create -f bookshelf-frontend.yaml
+    $ kubectl apply -f ~/k8s/bookshelf-frontend.yaml
  
 Check all pods are running
 
@@ -266,6 +266,49 @@ This section demonstrated how a Kubernetes Pod can authenticate to Vault to acce
 You can get more details on the bookshelf application below:
 
 https://cloud.google.com/python/getting-started/tutorial-app
+
+Our application is connecting to a Google Cloud SQL instance using a dynamic credential from Vault DB Secret Engine. A Side car target Vault API to make sure bookshelf DB credentials stays valid throughout the lifecycle of it.
+
+You can verify the current lease ID TTL by entering one of the container listed above
+
+    $ kubectl exec -it bookshelf-frontend-5kdhz -- /bin/sh
+
+Get the `lease_id`
+
+    # cat /etc/vault-assets/lease_id
+    db/creds/dev/5WoOKWxwc3SLKoUEkgOswHhc
+
+Exit the container to get target Vault API to gather details about it
+
+    $ export TOKEN=`cat ~/.vault-token`    
+    $ curl --cacert /etc/vault/tls/ca.crt -sS -X POST -H "X-Vault-Token: $TOKEN" --data '{ "lease_id": "db/creds/dev/5WoOKWxwc3SLKoUEkgOswHhc"}' https://<VAULT_ADDRESS:PORT>/v1/sys/leases/lookup | jq .
+    {
+      "request_id": "60703585-7bef-8089-f693-25d4cf1834e7",
+      "lease_id": "",
+      "renewable": false,
+      "lease_duration": 0,
+      "data": {
+        "expire_time": "2019-01-07T16:00:08.852131177Z",
+        "id": "db/creds/dev/5WoOKWxwc3SLKoUEkgOswHhc",
+        "issue_time": "2019-01-07T15:00:08.087493659Z",
+        "last_renewal": "2019-01-07T15:00:08.85213134Z",
+        "renewable": true,
+        "ttl": 730
+      },
+      "wrap_info": null,
+      "warnings": null,
+      "auth": null
+    }
+
+As soon as the application is going away, the corresponding DB credentials will be revoked. Let's check that
+
+    $ kubectl delete -f ~/k8s/bookshelf-frontend.yaml
+    $ curl --cacert /etc/vault/tls/ca.crt -sS -X POST -H "X-Vault-Token: $TOKEN" --data '{ "lease_id": "db/creds/dev/5WoOKWxwc3SLKoUEkgOswHhc"}' https://<VAULT_ADDRESS:PORT>/v1/sys/leases/lookup | jq .
+    {
+      "errors": [
+        "invalid lease"
+      ]
+    }
 
 ## GCP Secret Engine
 
