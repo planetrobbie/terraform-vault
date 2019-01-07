@@ -63,7 +63,7 @@ spec:
             VAULT_LEASE_ID=$(cat /etc/vault-assets/lease_id);
             while true; do
               curl -sS -k -X PUT -H "X-Vault-Token: $X_VAULT_TOKEN" --data '{"lease_id": "'"$VAULT_LEASE_ID"'", "increment": 3600}' ${vault_address}/v1/sys/leases/renew;
-              sleep 3600;
+              sleep 3480;
             done
         lifecycle:
           preStop:

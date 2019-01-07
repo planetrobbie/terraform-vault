@@ -269,13 +269,9 @@ https://cloud.google.com/python/getting-started/tutorial-app
 
 Our application is connecting to a Google Cloud SQL instance using a dynamic credential from Vault DB Secret Engine. A Side car target Vault API to make sure bookshelf DB credentials stays valid throughout the lifecycle of it.
 
-You can verify the current lease ID TTL by entering one of the container listed above
+You can verify the current lease ID TTL by entering one of the container listed above and grabbing the `lease_id`
 
-    $ kubectl exec -it bookshelf-frontend-5kdhz -- /bin/sh
-
-Get the `lease_id`
-
-    # cat /etc/vault-assets/lease_id
+    $ kubectl exec -it bookshelf-frontend-5kdhz -- cat /etc/vault-assets/lease_id
     db/creds/dev/5WoOKWxwc3SLKoUEkgOswHhc
 
 Exit the container to get target Vault API to gather details about it

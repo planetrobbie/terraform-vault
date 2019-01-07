@@ -333,6 +333,10 @@
   command = "kubectl run vault-shell --rm -i --tty --env=\"VAULT_ADDR=${vault_address}\" --image gcr.io/${project_name}/docker-vault:latest -- /bin/sh"
   tag = ["k8s", "vault", "kubectl"]
 [[snippets]]
+  description = "K8S get bookshelf lease id"
+  command = "kubectl exec -it bookshelf-frontend-<id> -- cat /etc/vault-assets/lease_id"
+  tag = ["kubectl","lease"]
+[[snippets]]
   description = "GIT trigger"
   command = "git commit --allow-empty -am 'trigger build' && git push -f google master"
   tag = ["git"]
