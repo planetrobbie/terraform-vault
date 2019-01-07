@@ -44,7 +44,7 @@
   output = ""
 [[snippets]]
   description = "Vault API AppRole login"
-  command = "curl --cacert /etc/vault/tls/ca.crt -sS -X POST --data '{\"role_id\":\"<role_id=${role_id}>\",\"secret_id\":\"<secret_id=${secret_id}>\"}' ${vault_address}/v1/auth/approle/login"
+  command = "curl --cacert /etc/vault/tls/ca.crt -sS -X POST --data '{\"role_id\":\"<role_id=${role_id}>\",\"secret_id\":\"<secret_id=${secret_id}>\"}' ${vault_address}/v1/auth/approle/login | jq ."
   tag = ["vault", "api", "auth", "approle"]
 [[snippets]]
   description = "Vault AUTH AppRole list roles"
