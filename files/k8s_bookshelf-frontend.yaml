@@ -54,7 +54,7 @@ spec:
           - name: vault-assets
             mountPath: /etc/vault-assets
       - name: renewer-sidecar
-        image: hub.docker.io/giantswarm/tiny-tools
+        image: giantswarm/tiny-tools
         command:
           - "sh"
           - "-c"
