@@ -118,6 +118,7 @@ data "template_file" "manifest-bookshelf" {
 
   vars {
     project_name = "${var.project_name}"
+    vault_address = "${var.vault_addr}"
   }
 }
 
