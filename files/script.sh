@@ -20,8 +20,8 @@ if [ ! -d ~/approle ]; then
 
     mkdir ~/approle
 	sudo vault write auth/approle/login role_id=${role_id} secret_id=${secret_id}
-	echo role_id > ~/approle/${role_id}
-	echo secret_id > ~/approle/${secret_id}
+	echo ${role_id} > ~/approle/role_id
+	echo ${secret_id} > ~/approle/secret_id
 
 	vault agent -config=/tmp/vault-agent.hcl
 
