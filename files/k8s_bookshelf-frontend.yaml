@@ -50,7 +50,12 @@ spec:
         # The bookshelf process listens on port 8080 for web traffic by default.
         ports:
         - containerPort: 8080
-
+        volumeMounts:
+          - name: vault-assets
+            mountPath: /etc/vault-assets
+      volumes:
+        - name: vault-assets
+          emptyDir: {}
 ---
 
 # The bookshelf service provides a load-balancing proxy over the bookshelf app
