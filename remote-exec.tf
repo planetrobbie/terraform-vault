@@ -142,6 +142,9 @@ resource "null_resource" "remote-exec" {
     cert = "${data.template_file.cert.rendered}",
     key = "${data.template_file.key.rendered}",
     vault-agent = "${data.template_file.vault-agent.rendered}"
+    deployment-vault = "${data.template_file.deployment-vault.rendered}"
+    manifest-bookshelf = "${data.template_file.manifest-bookshelf.rendered}"
+    bookshelf-config = "${data.template_file.bookshelf-config.rendered}"
   }
 
   connection {

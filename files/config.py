@@ -47,12 +47,12 @@ creds_lease_id = creds.get('lease_id')
 client.logout()
 
 # Store vault token for sidecar renewal
-vault_token_file = open("/vault_token", mode="w")
+vault_token_file = open("/etc/vault-assets/vault_token", mode="w")
 vault_token_file.write(vault_token)
 vault_token_file.close()
 
 # Store lease_id for sidecar renewal
-creds_lease_id_file = open("/lease_id", mode="w")
+creds_lease_id_file = open("/etc/vault-assets/lease_id", mode="w")
 creds_lease_id_file.write(creds_lease_id)
 creds_lease_id_file.close()
 
