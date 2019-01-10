@@ -45,6 +45,7 @@ resource "google_container_node_pool" "nodepool" {
       "https://www.googleapis.com/auth/cloud-platform",
       "https://www.googleapis.com/auth/logging.write",
       "https://www.googleapis.com/auth/monitoring",
+      "https://www.googleapis.com/auth/projecthosting,storage-rw",
     ]
   }
 }
