@@ -346,5 +346,5 @@
   tag = ["k8s","registry"]
 [[snippets]]
   description = "Vault API Lease force revoke"
-  command = "curl --cacert /etc/vault/tls/ca.crt -sS -X POST -H "X-Vault-Token: $TOKEN" ${vault_address}/v1/sys/leases/revoke-force/gcp | jq ."
+  command = "curl --cacert /etc/vault/tls/ca.crt -sS -X POST -H \"X-Vault-Token: $TOKEN\" ${vault_address}/v1/sys/leases/revoke-force/gcp | jq ."
   tag = ["vault","api","lease"]
