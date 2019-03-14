@@ -7,7 +7,7 @@ resource "google_container_cluster" "primary" {
   zone               = "${var.main_zone}"
   additional_zones   = "${var.additional_zones}"
   # Node count for every region
-  initial_node_count = 0
+  initial_node_count = 1
   project            = "${var.project_name}"
   remove_default_node_pool = true
   enable_legacy_abac = true
