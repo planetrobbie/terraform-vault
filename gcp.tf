@@ -121,7 +121,7 @@ resource "google_sourcerepo_repository" "docker-vault" {
   project = "${var.project_name}"
 }
 
-# Clone Bookshel application repository
+# Clone Bookshelf application repository
 resource "google_sourcerepo_repository" "bookshelf" {
   count   = "${var.enable_auth_k8s}"
   name    = "bookshelf"
