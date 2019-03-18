@@ -11,7 +11,8 @@ resource "vault_generic_secret" "ops-user" {
   "policies": "ops"
 }
 EOT
-depends_on = ["vault_auth_backend.userpass"]
+
+  depends_on = ["vault_auth_backend.userpass"]
 }
 
 resource "vault_generic_secret" "dev-user" {
@@ -23,7 +24,8 @@ resource "vault_generic_secret" "dev-user" {
   "policies": "dev"
 }
 EOT
-depends_on = ["vault_auth_backend.userpass"]
+
+  depends_on = ["vault_auth_backend.userpass"]
 }
 
 resource "vault_generic_secret" "admin-user" {
@@ -35,5 +37,6 @@ resource "vault_generic_secret" "admin-user" {
   "policies": "admin"
 }
 EOT
-depends_on = ["vault_auth_backend.userpass"]
+
+  depends_on = ["vault_auth_backend.userpass"]
 }

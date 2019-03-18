@@ -11,11 +11,12 @@ provider "kubernetes" {
 # https://www.vaultproject.io/docs/auth/gcp.html
 resource "vault_auth_backend" "k8s" {
   count = "${var.enabled}"
-  type = "kubernetes"
+  type  = "kubernetes"
 }
 
 resource "kubernetes_service_account" "vault-auth" {
   count = "${var.enabled}"
+
   metadata {
     name = "vault-auth"
   }
@@ -23,7 +24,8 @@ resource "kubernetes_service_account" "vault-auth" {
 
 # Config map to store Vault address
 resource "kubernetes_config_map" "vault-address" {
-  count  = "${var.enabled}"
+  count = "${var.enabled}"
+
   metadata {
     name = "vault"
   }

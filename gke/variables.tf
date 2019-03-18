@@ -14,6 +14,7 @@ variable "main_zone" {
 
 variable "additional_zones" {
   description = "k8s nodes spread out to these additional zones"
+
   default = [
     "europe-west1-b",
     "europe-west1-d",
@@ -22,22 +23,22 @@ variable "additional_zones" {
 
 variable "node_count" {
   description = "Number of nodes per NodePool"
-  default = "1"
+  default     = "1"
 }
 
 variable "min_node_count" {
   description = "Minimum number of nodes in the NodePool, used for autoscaling. Must be >=1 and <= max_node_count"
-  default = "1"
+  default     = "1"
 }
 
 variable "max_node_count" {
   description = "Maximum number of nodes in the NodePool, used for autoscaling. Must be >= min_node_count"
-  default = "4"
+  default     = "4"
 }
 
 variable "cluster_name" {
   description = "name of your GKE cluster"
-  default = "demo-k8s-cluster"
+  default     = "demo-k8s-cluster"
 }
 
 variable "k8s_username" {

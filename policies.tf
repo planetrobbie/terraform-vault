@@ -102,11 +102,10 @@ path "auth/token/renew-self" {
 EOF
 }
 
-
 # This creates a policy for k8s pods
 resource "vault_policy" "k8s" {
   count = "${var.enable_auth_k8s}"
-  name = "k8s"
+  name  = "k8s"
 
   policy = <<EOF
 path "kv/*" {

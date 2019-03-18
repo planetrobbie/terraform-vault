@@ -1,5 +1,5 @@
 resource "vault_mount" "transit" {
-  count = "${var.enable_secret_engine_transit}"
+  count       = "${var.enable_secret_engine_transit}"
   path        = "transit"
   type        = "transit"
   description = "Encryption as a Service engine"
@@ -14,6 +14,7 @@ resource "vault_mount" "transit" {
 #}
 #EOT
 #}
+
 
 # possible payloads, but currently provider doesn't support key manangement.
 #  "type": "aes256-gcm96",
@@ -38,3 +39,4 @@ resource "vault_mount" "transit" {
 #}
 #EOT
 #}
+

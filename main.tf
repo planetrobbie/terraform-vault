@@ -11,17 +11,16 @@ terraform {
 
 provider "vault" {
   address = "${var.vault_addr}"
-  token = "${var.vault_token}"
+  token   = "${var.vault_token}"
 }
 
 provider "google" {
-  region      = "${var.region}"
-  project     = "${var.project_name}"
-  version     = "1.20.0"
+  region  = "${var.region}"
+  project = "${var.project_name}"
+  version = "1.20.0"
 }
 
-provider "dns" {
-}
+provider "dns" {}
 
 # COMMENTED OUT - as of TF 0.11.10 and Google provider 1.19.1 services are enabled asynchrously which cause issues
 # TF wait wait while API are correctly enabled = bad detection it seems !!!
@@ -51,3 +50,4 @@ provider "dns" {
 #    "cloudresourcemanager.googleapis.com"
 #  ]
 #}
+
