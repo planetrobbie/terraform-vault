@@ -4,3 +4,5 @@
 *.swp
 epoch*
 TODO.md
+token.sh
+pki_ca.pem

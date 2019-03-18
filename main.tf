@@ -1,3 +1,14 @@
+terraform {
+  backend "remote" {
+    hostname     = "replicated.yet.org"
+    organization = "yet"
+
+    workspaces {
+      name = "terraform-vault"
+    }
+  }
+}
+
 provider "vault" {
   address = "${var.vault_addr}"
   token = "${var.vault_token}"

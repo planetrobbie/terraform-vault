@@ -165,8 +165,8 @@ resource "google_cloudbuild_trigger" "build_trigger_bookshelf" {
 }
 
 # Persistent disk for Jenkins Home Folder
-resource "google_compute_disk" "jenkins-home" {
-  name  = "jenkins-home"
-  size  = 10
-  zone  = "${var.region_zone}"
-}
+#resource "google_compute_disk" "jenkins-home" {
+#  name  = "jenkins-home"
+#  size  = 10
+#  zone  = "${var.region_zone}"
+#}
