@@ -1,3 +1,4 @@
+
 ### AUTH
 # Documentation
 # https://www.vaultproject.io/docs/auth/gcp.html
@@ -57,12 +58,12 @@ resource "google_project_iam_member" "vault-iam-auth-project-owner" {
 
 # GCP AUTH IAM Role
 resource "vault_gcp_auth_backend_role" "gcp" {
-  role                   = "iam"
-  type                   = "iam"
-  backend                = "${vault_auth_backend.gcp.path}"
-  project_id             = "${var.project_name}"
-  bound_service_accounts = ["${var.project_name}-vault-iam-auth@${var.project_name}.iam.gserviceaccount.com"]
-  policies               = ["dev", "ops"]
+    role                   = "iam"
+    type                   = "iam"
+    backend                = "${vault_auth_backend.gcp.path}"
+    project_id             = "${var.project_name}"
+    bound_service_accounts = ["${var.project_name}-vault-iam-auth@${var.project_name}.iam.gserviceaccount.com"]
+    policies               = ["dev", "ops"]
 }
 
 # Create a JSON Key for Vault IAM AUTH Service Account
@@ -72,13 +73,13 @@ resource "google_service_account_key" "vault-iam-auth-key" {
 
 # GCP AUTH GCE Role
 resource "vault_gcp_auth_backend_role" "gce" {
-  role         = "gce"
-  type         = "gce"
-  backend      = "${vault_auth_backend.gcp.path}"
-  project_id   = "${var.project_name}"
-  bound_zones  = ["${var.region_zone}"]
-  bound_labels = ["auth:yes"]
-  policies     = ["dev", "ops"]
+    role                   = "gce"
+    type                   = "gce"
+    backend                = "${vault_auth_backend.gcp.path}"
+    project_id             = "${var.project_name}"
+    bound_zones            = ["${var.region_zone}"]
+    bound_labels           = ["auth:yes"]
+    policies               = ["dev", "ops"]
 }
 
 # GCP Bucket for GCP Secret Engine demo
@@ -129,18 +130,15 @@ resource "google_sourcerepo_repository" "bookshelf" {
 
 # Setup a trigger to build automatically Vault Docker image upon each commit on master.
 resource "google_cloudbuild_trigger" "build_trigger" {
-  count   = "${var.enable_auth_k8s}"
-  project = "${var.project_name}"
-
+  count = "${var.enable_auth_k8s}"
+  project  = "${var.project_name}"
   trigger_template {
     branch_name = "master"
     project     = "${var.project_name}"
     repo_name   = "docker-vault"
   }
-
   build {
     images = ["gcr.io/$PROJECT_ID/$REPO_NAME:latest"]
-
     step {
       name = "gcr.io/cloud-builders/docker"
       args = "build -t gcr.io/$PROJECT_ID/$REPO_NAME:latest 0.X"
@@ -150,18 +148,15 @@ resource "google_cloudbuild_trigger" "build_trigger" {
 
 # Setup a trigger to build automatically Vault Docker image upon each commit on master.
 resource "google_cloudbuild_trigger" "build_trigger_bookshelf" {
-  count   = "${var.enable_auth_k8s}"
-  project = "${var.project_name}"
-
+  count = "${var.enable_auth_k8s}"
+  project  = "${var.project_name}"
   trigger_template {
     branch_name = "master"
     project     = "${var.project_name}"
     repo_name   = "bookshelf"
   }
-
   build {
     images = ["gcr.io/$PROJECT_ID/$REPO_NAME:latest"]
-
     step {
       name = "gcr.io/cloud-builders/docker"
       args = "build -t gcr.io/$PROJECT_ID/$REPO_NAME:latest container-engine"
@@ -175,4 +170,3 @@ resource "google_cloudbuild_trigger" "build_trigger_bookshelf" {
 #  size  = 10
 #  zone  = "${var.region_zone}"
 #}
-

@@ -348,3 +348,19 @@
   description = "Vault API Lease force revoke"
   command = "curl --cacert /etc/vault/tls/ca.crt -sS -X POST -H \"X-Vault-Token: $TOKEN\" ${vault_address}/v1/sys/leases/revoke-force/gcp | jq ."
   tag = ["vault","api","lease"]
+[[snippets]]
+  description = "VAULT TLS AUTH config"
+  command = "vault write auth/cert/certs/test display_name=test policies=dev certificate=@ca.pem ttl=3600"
+  tag = ["vault","tls","auth", "config"]
+[[snippets]]
+  description = "VAULT TLS AUTH get token"
+  command = "vault login -method=cert -ca-cert=ca.pem -client-cert=cert.pem -client-key=key.pem name=test"
+  tag = ["vault","tls","auth", "token"]
+[[snippets]]
+  description = "VAULT 1.1 Counter"
+  command = "vault read -format=json sys/internal/counters/requests"
+  tag = ["vault","licensing", "1.1"]
+[[snippets]]
+  description = "VAULT 1.1 curl flag"
+  command = "-output-curl-string"
+  tag = ["vault","flag", "1.1"]
