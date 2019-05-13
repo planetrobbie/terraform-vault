@@ -337,7 +337,7 @@
   tag = ["vault","transit","encrypt"]
 [[snippets]]
   description = "VAULT TRANSIT decrypt"
-  command = "vault write transit/decrypt/my-key ciphertext=<cipher> | base64 --decode"
+  command = "vault write transit/decrypt/my-key ciphertext=<cipher> | jq .data.plaintext"
   tag = ["vault","transit","decrypt"]
 [[snippets]]
   description = "VAULT TRANSIT rotate key - can still decrypt old stuff"
@@ -353,7 +353,7 @@
   tag = ["vault","api","transit","key"]
 [[snippets]]
   description = "VAULT TRANSIT API update key config"
-  command = "curl --cacert /etc/vault/tls/ca.crt -sS -X POST -H \"X-Vault-Token: $TOKEN\" -d '{\"deletion_allowed\": \"true\", \"allow_plaintext_backup\": \"true\", \"exportable\": \"true\"}' ${vault_address}/transit/keys/my-key/config | jq"
+  command = "curl --cacert /etc/vault/tls/ca.crt -sS -X POST -H \"X-Vault-Token: $TOKEN\" -d '{\"deletion_allowed\": \"true\", \"allow_plaintext_backup\": \"true\", \"exportable\": \"true\"}' ${vault_address}/v1/transit/keys/my-key/config | jq"
   tag = ["vault","api","transit","key", "config"]
 [[snippets]]
   description = "VAULT TRANSIT API read key"
@@ -377,7 +377,7 @@
   tag = ["vault","api","transit","key","backup"]
 [[snippets]]
   description = "VAULT TRANSIT API encrypt"
-  command = "curl --cacert /etc/vault/tls/ca.crt -sS -X POST -H \"X-Vault-Token: $TOKEN\" -d '{\"plaintext\": \"<base64=dGhlIHF1aWNrIGJyb3duIGZveA==>\"}' ${vault_address}/v1/transit/encrypt/my-key | jq"
+  command = "curl --cacert /etc/vault/tls/ca.crt -sS -X POST -H \"X-Vault-Token: $TOKEN\" -d '{\"plaintext\": \"<base64=c2ViYnJhdW4K>\"}' ${vault_address}/v1/transit/encrypt/my-key | jq"
   tag = ["vault","api","transit","encrypt"]
 [[snippets]]
   description = "VAULT TRANSIT API decrypt"
@@ -385,9 +385,17 @@
   tag = ["vault","api","transit","encrypt"]
 [[snippets]]
   description = "VAULT TRANSIT API generate data key"
-  command = "curl --cacert /etc/vault/tls/ca.crt -sS -X POST -H \"X-Vault-Token: $TOKEN\" -d '{\"context\": \"<context=Ab3==>\"}' ${vault_address}/v1/transit/datakey/wrapped/my-key | jq"
+  command = "curl --cacert /etc/vault/tls/ca.crt -sS -X POST -H \"X-Vault-Token: $TOKEN\" -d '{\"context\": \"<context=c2ViYnJhdW4K>\"}' ${vault_address}/v1/transit/datakey/wrapped/my-key | jq"
   tag = ["vault","api","transit","datakey"]
 [[snippets]]
   description = "VAULT TRANSIT API generate random bytes"
-  command = "curl --cacert /etc/vault/tls/ca.crt -sS -X POST -H \"X-Vault-Token: $TOKEN\" -d '{\"format\": \"<format=hex|base64>\"}' ${vault_address}/v1/transit/random/164 | jq"
+  command = "curl --cacert /etc/vault/tls/ca.crt -sS -X POST -H \"X-Vault-Token: $TOKEN\" -d '{\"format\": \"<format=hex>\"}' ${vault_address}/v1/transit/random/164 | jq"
   tag = ["vault","api","transit","datakey"]
+[[snippets]]
+  description = "VAULT AUTH USERPASS create user"
+  command = "vault write -namespace=\"<namespace>\" auth/userpass/users/<username=guest> password=<password> policies=<policies>"
+  tag = ["vault","auth","userpass"]
+[[snippets]]
+  description = "VAULT API POLICY create"
+  command = "curl --cacert /etc/vault/tls/ca.crt -d @policy.json -sS -X PUT  -H \"X-Vault-Token: $TOKEN\" ${vault_address}/v1/sys/policy/policy_api | jq"
+  tag = ["vault","api","policies"]
