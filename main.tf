@@ -10,6 +10,7 @@ terraform {
 }
 
 provider "vault" {
+  version = "~> 1.9.0"
   address = "${var.vault_addr}"
   token   = "${var.vault_token}"
 }
