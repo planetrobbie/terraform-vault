@@ -185,7 +185,7 @@
   tag = ["mysql"]
 [[snippets]]
   description = "MySQL WATCH users being created by Vault"
-  command = "watch '/usr/bin/mysql -u ${db_user} -h db.${dns_domain} -p${db_password} mysql -e \"select user,password from user;\" 2>/dev/null | grep --invert-match sys | grep -v ^user | grep -v vault-user'"
+  command = "watch '/usr/bin/mysql -u ${db_user} -h db.${dns_domain} -p${db_password} mysql -e \"select user from user;\" 2>/dev/null | grep --invert-match sys | grep -v ^user | grep -v vault-user'"
   tag = ["mysql"]
 [[snippets]]
   description = "GCP get JWT token"
