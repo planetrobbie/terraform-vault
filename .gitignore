@@ -1,6 +1,6 @@
 .terraform
 terraform.tfvars
-*.tfstate
+*.tfstate*
 *.tfstate.backup
 *.swp
 epoch*
