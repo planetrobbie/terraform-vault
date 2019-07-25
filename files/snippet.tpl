@@ -399,3 +399,18 @@
   description = "VAULT API POLICY create"
   command = "curl --cacert /etc/vault/tls/ca.crt -d @policy.json -sS -X PUT  -H \"X-Vault-Token: $TOKEN\" ${vault_address}/v1/sys/policy/policy_api | jq"
   tag = ["vault","api","policies"]
+[[snippets]]
+  description = "VAULT K8S CSI Driver demo launch"
+  command = "kubectl apply -f ~/k8s/pod-nginx.yaml; kubectl apply -f ~/k8s/pvc-vault-csi-static.yaml; kubectl apply -f ~/k8s/pv-vault-csi.yaml"
+[[snippets]]
+  description = "VAULT K8S CSI Driver demo check"
+  command = "kubectl exec -it nginx -- cat /mnt/vault/apikey"
+  tag = ["k8s","csi"]
+[[snippets]]
+  description = "VAULT K8S CSI Driver demo troubleshoot"
+  command = "kubectl logs -f csi-secrets-store-<id=t576h> secrets-store"
+  tag = ["k8s","csi"]
+[[snippets]]
+  description = "VAULT K8S CSI Driver demo cleanup"
+  command = "kubectl delete -f ~/k8s/pod-nginx.yaml; kubectl delete -f ~/k8s/pvc-vault-csi-static.yaml; kubectl delete -f ~/k8s/pv-vault-csi.yaml"
+  tag = ["k8s","csi"]
