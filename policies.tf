@@ -111,6 +111,9 @@ resource "vault_policy" "k8s" {
 path "kv/*" {
   capabilities = ["create", "read", "update", "delete", "list"]
 }
+path "secret/*" {
+  capabilities = ["read","list"]
+}
 path "db/creds/dev" {
   capabilities = ["read"]
 }
