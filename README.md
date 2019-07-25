@@ -306,6 +306,95 @@ As soon as the application is going away, the corresponding DB credentials will 
       ]
     }
 
+## CSI driver demo
+
+At the last KubeCon event in Barcelona HashiCorp announced support for a [Container Storage Interface driver](https://github.com/deislabs/secrets-store-csi-driver/tree/master/pkg/providers/vault#prerequisites) that allows containers to mount secret as volumes. This section illustrate this new functionnality.
+
+First you have to deploy the drivere on your Kubernetes 1.13+ (required to support CSI drivers) cluster
+
+    git clone https://github.com/deislabs/secrets-store-csi-driver.git
+    cd secrets-store-csi-driver.git
+    kubectl apply -f deploy/crd-csi-driver-registry.yaml
+    kubectl apply -f deploy/rbac-csi-driver-registrar.yaml
+    kubectl apply -f deploy/rbac-csi-attacher.yaml
+    kubectl apply -f deploy/csi-secrets-store-attacher.yaml
+    kubectl apply -f pkg/providers/vault/examples/secrets-store-csi-driver.yaml
+
+Check that everything is running smoothly
+
+    watch kubectl get po
+
+You can now run our example nginx pod with the required Persistent Volume and Volume Claim
+
+    kubectl apply -f ~/k8s/pv-vault-csi.yaml; kubectl apply -f ~/k8s/pvc-vault-csi-static.yaml; kubectl apply -f ~/k8s/pod-nginx.yaml
+
+Secret should now be mounted within our nginx pod below `/mnt/vault`
+
+    kubectl exec -it nginx -- cat /mnt/vault/apikey
+
+If that's not the case you can troubleshoot it by first identifying the nodes where nginx pod is running
+
+    kubectl get pods -o wide
+    csi-secrets-store-attacher-0 1/1 Running 0 3h19m 10.40.1.2 gke-demo-k8s-cluster-demo-k8s-cluster-d6d9a3b5-df96 <none> <none>
+    csi-secrets-store-bl6rz 2/2 Running 0 3h19m 10.132.0.19 gke-demo-k8s-cluster-demo-k8s-cluster-a2e42959-07zv <none> <none>
+    csi-secrets-store-k4p2m 2/2 Running 0 3h19m 10.132.0.17 gke-demo-k8s-cluster-demo-k8s-cluster-d6ab08a8-c6zv <none> <none>
+    csi-secrets-store-t576h 2/2 Running 0 3h19m 10.132.0.20 gke-demo-k8s-cluster-demo-k8s-cluster-d6d9a3b5-df96 <none> <none>
+    nginx 1/1 Running 0 16m 10.40.1.25 gke-demo-k8s-cluster-demo-k8s-cluster-d6d9a3b5-df96 <none> <none>
+
+On my case it's running on `gke-demo-k8s-cluster-demo-k8s-cluster-d6d9a3b5-df96` so I can look at the corresponding pod logs, which is the csi driver daemon set running on this node.
+
+    kubectl logs -f csi-secrets-store-t576h secrets-store
+
+You should see something like that
+
+    I0725 12:36:41.673174       1 provider.go:64] NewProvider
+    I0725 12:36:41.680714       1 provider.go:283] vault: roleName k8s-csi
+    I0725 12:36:41.680725       1 provider.go:289] vault: vault address     https://vault.prod.yet.org
+    objectsStrings: [array:
+      - |
+        objectPath: "/apikey"
+        objectName: "value"
+        objectVersion: ""
+    ]
+    objects: [[objectPath: "/apikey"
+    objectName: "value"
+    objectVersion: ""
+    ]]unmarshal object: [objectPath: "/apikey"
+    objectName: "value"
+    objectVersion: ""
+    ]
+    I0725 12:36:41.682431       1 provider.go:70] vault: reading jwt token.....
+    I0725 12:36:41.682492       1 provider.go:113] vault: performing vault  login.....
+    I0725 12:36:41.682633       1 provider.go:123] vault: vault address:    https://vault.prod.yet.org/v1/auth/kubernetes/login
+    I0725 12:36:41.762511       1 provider.go:158] vault: getting secrets from  vault.....
+    I0725 12:36:41.779062       1 provider.go:349] secrets-store csi driver wrote / apikey at /var/lib/kubelet/pods/d3479025-aed8-11e9-a1d5-42010a8400f2/volumes/    kubernetes.io~csi/pv-vault/mount
+    I0725 12:36:41.779142       1 nodeserver.go:112] after  MountSecretsStoreObjectContent, notMnt: false
+    I0725 12:36:41.779152       1 utils.go:102] GRPC response:
+
+It helps identifying the problem which prevent the driver to mount the secret, it could be related to the policy which doesn't allow access, or the k8s role which is not correctly configured, etc.
+
+By the way the k8s role should look like that
+
+    vault read auth/kubernetes/role/k8s-csi
+    Key                                 Value
+    ---                                 -----
+    bound_cidrs                         []
+    bound_service_account_names         [csi-driver-registrar]
+    bound_service_account_namespaces    [default]
+    max_ttl                             0s
+    num_uses                            0
+    period                              0s
+    policies                            [default k8s]
+    ttl                                 8h
+
+Also as of July 2019, this driver only support a version 2 kv secret engine mounted as `secret`.
+
+This driver also support inline volume mount to avoid having to create persistent volume and persistent volume claim. But it requires Kubernetes 1.15+ which isn't yet available on GCP. So this demo doesn't demonstrate that part yet.
+
+Lastly to cleanup this demo section you can run
+
+    kubectl delete -f ~/k8s/pod-nginx.yaml; kubectl delete -f ~/k8s/pvc-vault-csi-static.yaml; kubectl delete -f ~/k8s/pv-vault-csi.yaml
+
 ## GCP Secret Engine
 
 ### Service Account
@@ -341,7 +430,7 @@ To access the list of snippets and search within them just use `CTRL-s` from `v1
 
 # Terraform Vault Provider improvement
 
-HashiCorp is currently working on improving support on some auth and secret engines. Things that I'd like to see supported in the next releases are
+HashiCorp worked on improving support on some auth and secret engines with Terraform Vault provider v2. I still need to update this demo to leverage the new features of this new provider ! For example I'd like to manage the following resources using this provider instead of Vault CLI:
 
 - User/Userpass creation
 - Transit key creation
