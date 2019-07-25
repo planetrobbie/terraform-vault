@@ -133,7 +133,7 @@ data "template_file" "bookshelf-config" {
 # Do out of band operation on Vault Server v1
 resource "null_resource" "remote-exec" {
   triggers {
-    version            = 74
+    version            = 75
     script             = "${data.template_file.script.rendered}"
     playbook           = "${data.template_file.playbook.rendered}"
     snippets           = "${data.template_file.snippet.rendered}"
@@ -196,7 +196,7 @@ resource "null_resource" "remote-exec" {
     destination = "/tmp/key.tpl"
   }
 
-  // copy Comnsul-template systemd service over
+  // copy Consul-template systemd service over
   provisioner "file" {
     source      = "./files/consul-template.service"
     destination = "/tmp/consul-template.service"
@@ -218,6 +218,24 @@ resource "null_resource" "remote-exec" {
   provisioner "file" {
     content     = "${data.template_file.manifest-bookshelf.rendered}"
     destination = "/tmp/bookshelf-frontend.yaml"
+  }
+
+  // copy CSI Persistent Volume manifest over
+  provisioner "file" {
+    content     = "./files/k8s_pv-vault-csi.yaml"
+    destination = "/tmp/k8s_pv-vault-csi.yaml"
+  }
+
+  // copy CSI Persistent Volume Claim manifest over
+  provisioner "file" {
+    content     = "./files/k8s_pvc-vault-csi-static.yaml"
+    destination = "/tmp/k8s_pvc-vault-csi-static.yaml"
+  }
+
+  // copy NGINX pod manifest over
+  provisioner "file" {
+    content     = "./files/k8s_pod-nginx.yaml"
+    destination = "/tmp/k8s_pod-nginx.yaml"
   }
 
   // copy Bookshelf deployment manifest over
