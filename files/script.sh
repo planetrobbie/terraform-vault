@@ -196,4 +196,10 @@ EOH
 	mysql -u${db_user} -p${db_password} -h ${db_host} -e "CREATE TABLE books ( id integer not null auto_increment, title varchar(255), author varchar(255), publishedDate varchar(255), imageUrl varchar(255), description varchar(255), createdBy varchar(255), createdById varchar(255), primary key (id) );" bookshelf
 fi
 
+# Setup Ansible hashi demo
+if [ ! -d ~/ansible ]; then
+	mkdir ~/ansible
+	mv /tmp/read_secret.yaml ~/ansible
+fi
+
 #rm /tmp/script.sh

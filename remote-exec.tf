@@ -244,6 +244,12 @@ resource "null_resource" "remote-exec" {
     destination = "/tmp/config.py"
   }
 
+  // copy Ansible hashi demo playbook over
+  provisioner "file" {
+    content     = "./files/read_secret.yaml"
+    destination = "/tmp/read_secret.yaml"
+  }
+
   // change permissions to executable and pipe its output execution into a new file
   provisioner "remote-exec" {
     inline = [
