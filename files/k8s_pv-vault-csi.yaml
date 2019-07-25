@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-vault
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadOnlyMany
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: secrets-store.csi.k8s.com
+    readOnly: true
+    volumeHandle: kv
+    volumeAttributes:
+      providerName: "vault"
+      roleName: "k8s-csi" # Vault role name to perform vault login.
+      vaultAddress: "https://vault.prod.yet.org" # Vault API address.
+      vaultSkipTLSVerify: "true"
+      objects:  |
+        array:
+          - |
+            objectPath: "/apikey"
+            objectName: "value"
+            objectVersion: ""
