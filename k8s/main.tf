@@ -35,12 +35,23 @@ resource "kubernetes_config_map" "vault-address" {
   }
 }
 
-# Create Kubernetes Role
+# Create Kubernetes Role for Bookshelf
 resource "vault_kubernetes_auth_backend_role" "k8s-role" {
   count                            = "${var.enabled}"
   backend                          = "${vault_auth_backend.k8s.path}"
   role_name                        = "k8s-role"
   bound_service_account_names      = ["default"]
+  bound_service_account_namespaces = ["default"]
+  ttl                              = "3600"
+  policies                         = ["default", "k8s"]
+}
+
+# Create Kubernetes Role for CSI driver demo
+resource "vault_kubernetes_auth_backend_role" "k8s-csi" {
+  count                            = "${var.enabled}"
+  backend                          = "${vault_auth_backend.k8s.path}"
+  role_name                        = "k8s-csi"
+  bound_service_account_names      = ["csi-driver-registrar"]
   bound_service_account_namespaces = ["default"]
   ttl                              = "3600"
   policies                         = ["default", "k8s"]
