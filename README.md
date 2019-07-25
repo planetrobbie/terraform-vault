@@ -310,7 +310,7 @@ As soon as the application is going away, the corresponding DB credentials will 
 
 At the last KubeCon event in Barcelona HashiCorp announced support for a [Container Storage Interface driver](https://github.com/deislabs/secrets-store-csi-driver/tree/master/pkg/providers/vault#prerequisites) that allows containers to mount secret as volumes. This section illustrate this new functionnality.
 
-First you have to deploy the drivere on your Kubernetes 1.13+ (required to support CSI drivers) cluster
+First you have to deploy the driver on your Kubernetes 1.13+ cluster (required to support CSI drivers).
 
     git clone https://github.com/deislabs/secrets-store-csi-driver.git
     cd secrets-store-csi-driver.git
@@ -324,7 +324,7 @@ Check that everything is running smoothly
 
     watch kubectl get po
 
-You can now run our example nginx pod with the required Persistent Volume and Volume Claim
+You can now run our example nginx pod with the required Persistent Volume and Volume Claim as follows
 
     kubectl apply -f ~/k8s/pv-vault-csi.yaml; kubectl apply -f ~/k8s/pvc-vault-csi-static.yaml; kubectl apply -f ~/k8s/pod-nginx.yaml
 
