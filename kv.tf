@@ -35,3 +35,13 @@ EOT
 
   depends_on = ["vault_mount.kv"]
 }
+
+resource "vault_generic_secret" "csi-demo" {
+  path = "secret/apikey"
+
+  data_json = <<EOT
+{
+  "value": "bnrZzQ7aWHQJvuuxPKYA5/RKlFasQnpEmM2TG1TNnxUU"
+}
+EOT
+}
