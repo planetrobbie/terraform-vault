@@ -18,7 +18,7 @@ provider "vault" {
 provider "google" {
   region  = "${var.region}"
   project = "${var.project_name}"
-  version = "1.20.0"
+#  version = "1.20.0"
 }
 
 provider "dns" {}

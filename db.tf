@@ -20,6 +20,7 @@ resource "google_sql_database_instance" "master" {
     tier = "db-f1-micro"
 
     ip_configuration = [{
+      ipv4_enabled = "true"
       authorized_networks = [
         {
           value = "${data.dns_a_record_set.v1.addrs.0}"

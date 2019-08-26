@@ -131,17 +131,15 @@ resource "google_sourcerepo_repository" "bookshelf" {
 # Setup a trigger to build automatically Vault Docker image upon each commit on master.
 resource "google_cloudbuild_trigger" "build_trigger" {
   count = "${var.enable_auth_k8s}"
-  project  = "${var.project_name}"
   trigger_template {
     branch_name = "master"
-    project     = "${var.project_name}"
     repo_name   = "docker-vault"
   }
   build {
     images = ["gcr.io/$PROJECT_ID/$REPO_NAME:latest"]
     step {
       name = "gcr.io/cloud-builders/docker"
-      args = "build -t gcr.io/$PROJECT_ID/$REPO_NAME:latest 0.X"
+      args = ["build", "-t", "gcr.io/$PROJECT_ID/$REPO_NAME:latest 0.X"]
     }
   }
 }
@@ -149,17 +147,15 @@ resource "google_cloudbuild_trigger" "build_trigger" {
 # Setup a trigger to build automatically Vault Docker image upon each commit on master.
 resource "google_cloudbuild_trigger" "build_trigger_bookshelf" {
   count = "${var.enable_auth_k8s}"
-  project  = "${var.project_name}"
   trigger_template {
     branch_name = "master"
-    project     = "${var.project_name}"
     repo_name   = "bookshelf"
   }
   build {
     images = ["gcr.io/$PROJECT_ID/$REPO_NAME:latest"]
     step {
       name = "gcr.io/cloud-builders/docker"
-      args = "build -t gcr.io/$PROJECT_ID/$REPO_NAME:latest container-engine"
+      args = ["build", "-t", "gcr.io/$PROJECT_ID/$REPO_NAME:latest container-engine"]
     }
   }
 }
