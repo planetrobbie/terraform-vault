@@ -26,7 +26,7 @@ kind: ReplicationController
 metadata:
   name: bookshelf-frontend
 spec:
-  replicas: 3
+  replicas: 2
   template:
     metadata:
       labels:
