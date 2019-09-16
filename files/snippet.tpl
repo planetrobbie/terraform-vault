@@ -249,7 +249,7 @@
   tag = ["tls", "consul-template"]
 [[snippets]]
   description = "TLS revoke, revocation crl list"
-  command = "watch \"curl --cacert /etc/vault/tls/ca.crt -sS ${vault_address}/v1/pki_int/crl | openssl crl -inform DER -text -noout -\""
+  command = "curl -sS --output - --cacert /etc/vault/tls/ca.crt ${vault_address}/v1/pki_int/crl | openssl crl -inform DER -text"
   tag = ["tls", "crl"]
 [[snippets]]
   description = "TLS NGINX certificate status"
@@ -414,3 +414,11 @@
   description = "VAULT K8S CSI Driver demo cleanup"
   command = "kubectl delete -f ~/k8s/pod-nginx.yaml; kubectl delete -f ~/k8s/pvc-vault-csi-static.yaml; kubectl delete -f ~/k8s/pv-vault-csi.yaml"
   tag = ["k8s","csi"]
+[[snippets]]
+  description = "TLS Decode"
+  command = "openssl x509 -in <cert=~/pki/pki_int.pem> -text -noout"
+  tag = ["tls","openssl"]
+[[snippets]]
+  description = "CONSUL active vault"
+  command = "dig @127.0.0.1 -p 8600 active.vault.service.consul"
+  tag = ["consul","active"]
