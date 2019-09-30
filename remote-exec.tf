@@ -44,6 +44,7 @@ data "template_file" "snippet" {
     vault_address = "${var.vault_addr}"
     project_name  = "${var.project_name}"
     ssh_user      = "${var.ssh_user}"
+    db_host       = "${google_sql_database_instance.master.ip_address.0.ip_address}"
     db_user       = "${var.db_user}"
     db_password   = "${var.db_password}"
     dns_domain    = "${substr(var.dns_domain, 0, length(var.dns_domain) - 1)}"

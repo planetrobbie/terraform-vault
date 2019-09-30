@@ -83,6 +83,10 @@
   command = "vault kv get kv/<secret>"
   tag = ["vault", "kv"]
 [[snippets]]
+  description = "VAULT DB configure"
+  command = "vault write db/config/mysql plugin_name=mysql-database-plugin allowed_roles=ops,dev,all,db-prod verify_connection=false connection_url=\"{{username}}:{{password}}@tcp(${db_host}:3306)/\" username=\"${db_user}\" password=\"<password>\""
+  tag = ["vault","db"]
+[[snippets]]
   description = "Vault DB create role"
   command = "vault write db/roles/all db_name=mysql creation_statements=\"CREATE USER '{{name}}'@'%' IDENTIFIED BY '{{password}}';GRANT ALL PRIVILEGES ON *.* TO '{{name}}'@'%';\" default_ttl=\"1m\" max_ttl=\"24h\""
   tag = ["vault", "mysql", "db"]
