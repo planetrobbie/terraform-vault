@@ -422,3 +422,7 @@
   description = "CONSUL active vault"
   command = "dig @127.0.0.1 -p 8600 active.vault.service.consul"
   tag = ["consul","active"]
+[[snippets]]
+  description = "Ansible playbook"
+  command = "ansible-playbook ~/ansible/read_secret.yaml"
+  tag = ["ansible","playbook"]
