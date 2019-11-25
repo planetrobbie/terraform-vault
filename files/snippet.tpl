@@ -196,10 +196,6 @@
   command = "export JWT_TOKEN=\"$(curl -sS -H 'Metadata-Flavor: Google' --get --data-urlencode 'audience=http://vault/gce' --data-urlencode 'format=full' 'http://metadata/computeMetadata/v1/instance/service-accounts/default/identity')\""
   tag = ["gcp", "token"]
 [[snippets]]
-  description = "GCP demo token usage"
-  command = ""
-  tag = ["gcp","API"]
-[[snippets]]
   description = "Vault GCP AUTH create role type gce"
   command = "vault write auth/gcp/role/<role> type=\"gce\" project_id=\"${project_name}\" policies=\"<policy>\" bound_zones=\"<bound_zone>\" ttl=\"30m\" max_ttl=\"24h\""
   tag = ["vault", "gcp", "auth"]
@@ -430,3 +426,7 @@
   description = "Ansible playbook"
   command = "ansible-playbook ~/ansible/read_secret.yaml"
   tag = ["ansible","playbook"]
+[[snippets]]
+  description = "VAULT GCP Login thru gce role"
+  command = "curl --request POST --data \"{\\\"role\\\":\\\"gce\\\", \\\"jwt\\\": \\\"$JWT_TOKEN\\\"}\" ${vault_address}/v1/auth/gcp/login | jq"
+  tag = ["vault","gcp","auth", "api"]
