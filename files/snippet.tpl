@@ -430,3 +430,11 @@
   description = "VAULT GCP Login thru gce role"
   command = "curl --request POST --data \"{\\\"role\\\":\\\"gce\\\", \\\"jwt\\\": \\\"$JWT_TOKEN\\\"}\" ${vault_address}/v1/auth/gcp/login | jq"
   tag = ["vault","gcp","auth", "api"]
+[[snippets]]
+  description = "VAULT SYS count entities"
+  command = "vault read sys/internal/counters/entities"
+  tag = ["vault","count","entities"]
+[[snippets]]
+  description = "VAULT SYS count tokens"
+  command = "vault read sys/internal/counters/tokens"
+  tag = ["vault","count","tokens"]
